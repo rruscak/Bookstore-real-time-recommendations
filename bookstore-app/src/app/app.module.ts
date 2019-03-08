@@ -1,34 +1,55 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatButtonModule, MatMenuModule, MatIconModule, MatCardModule } from '@angular/material';
-import { MatToolbarModule, MatSidenavModule, MatListModule } from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatExpansionModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatSidenavModule,
+  MatToolbarModule
+} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
+import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { PostListComponent } from './posts/post-list/post-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainNavComponent
+    MainNavComponent,
+    PostCreateComponent,
+    PostListComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     // TODO: remove (example)
     FlexLayoutModule,
     BrowserAnimationsModule,
+    LayoutModule,
+    HttpClientModule,
+    // Mat Modules
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
     MatCardModule,
     MatToolbarModule,
-    LayoutModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatInputModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
