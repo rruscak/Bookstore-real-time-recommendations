@@ -25,18 +25,12 @@ let getAll = function (session) {
   return session
     .run(query)
     .then((result) => {
-      // console.log(result);
-      // result.map(r => console.log(r));
       return manyPosts(result);
     });
 };
 
 let manyPosts = (result) => {
-  // console.log(result.records[0]);
-  return result.records.map(r => new Post(r._fields[0]));
-  // return {
-  //   posts: result.records.map(r => new Post(r._fields[0]))
-  // };
+  return result.records.map(r => new Post(r.get('posts')));
 };
 
 module.exports = {
