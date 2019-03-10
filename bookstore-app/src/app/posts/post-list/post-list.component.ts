@@ -9,11 +9,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit, OnDestroy {
-  // posts = [
-  //   {title: 'First Post', content: 'This is the first Post\'s content'},
-  //   {title: 'Second Post', content: 'This is the second Post\'s content'},
-  //   {title: 'Third Post', content: 'This is the third Post\'s content'}
-  // ];
+  isLoading = false;
   posts: Post[] = [];
   private postsSubs: Subscription;
 
@@ -21,9 +17,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.postsService.getPosts();
     this.postsSubs = this.postsService.getPostUpdateListener()
       .subscribe((posts: Post[]) => {
+        this.isLoading = false;
         this.posts = posts;
       });
   }
@@ -31,5 +29,9 @@ export class PostListComponent implements OnInit, OnDestroy {
   // it is important to unsubscribe when component is destroyed, to prevent memory leaks
   ngOnDestroy(): void {
     this.postsSubs.unsubscribe();
+  }
+
+  onDelete(id: number) {
+    this.postsService.deletePost(id);
   }
 }

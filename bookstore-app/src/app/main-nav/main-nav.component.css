@@ -24,6 +24,11 @@
   flex: 1 1 auto;
 }
 
+.home-header {
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+}
 /*
 @media (min-width: 600px) {
   .sidenav {

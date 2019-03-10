@@ -1,5 +1,4 @@
 // neo4j cypher helper module
-// import * as _ from "lodash";
 const _ = require('lodash');
 
 let neo4j = require('neo4j-driver').v1;
@@ -27,6 +26,41 @@ exports.dbWhere = (name, keys) => {
   }
 };
 
-let whereTemplate = (name, key, paramKey) => {
+exports.getID = _node => _node.identity.inSafeRange() ? _node.identity.toNumber() : _node.identity.toString();
+
+exports.toNumber = integerVal => integerVal.inSafeRange() ? integerVal.toNumber() : integerVal.toString();
+
+const whereTemplate = (name, key, paramKey) => {
   return name + '.' + key + '={' + (paramKey || key) + '}';
 };
+
+
+// // const session = driver.getSession();
+// const tx = session.beginTransaction();
+// tx.run(
+//   "CREATE (user:User { name: {name} }) RETURN user",
+//   {name: "Alex"})
+//   .then(res => {
+//     // Dalšie query s tx...
+//   })
+//   .then((result) => {
+//     // OK, tranzakcia bude commitnuta...
+//   })
+//   .catch(e => {
+//     // Tranzakica bude vrátená späť, spracovanie chyby...
+//   });
+//
+//
+// const session = driver.getSession();
+// session.run("MATCH (user:User) RETURN user.name AS name")
+//   .subscribe({
+//     onNext: (record) => {
+//       console.log(record.get('name')); // Skonzumuje objekt
+//     },
+//     onCompleted: () => {
+//       session.close();    // Zatvorí session ked stream je kompletný
+//     },
+//     onError: (error) => {
+//       console.log(error); // Spracovanie chyby
+//     }
+//   });

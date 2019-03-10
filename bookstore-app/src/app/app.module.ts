@@ -12,6 +12,7 @@ import {
   MatInputModule,
   MatListModule,
   MatMenuModule,
+  MatProgressSpinnerModule,
   MatSidenavModule,
   MatToolbarModule
 } from '@angular/material';
@@ -21,6 +22,7 @@ import { MainNavComponent } from './main-nav/main-nav.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { PostListComponent } from './posts/post-list/post-list.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { PostListComponent } from './posts/post-list/post-list.component';
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     FormsModule,
     // TODO: remove (example)
     FlexLayoutModule,
@@ -46,7 +49,8 @@ import { PostListComponent } from './posts/post-list/post-list.component';
     MatSidenavModule,
     MatListModule,
     MatInputModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
