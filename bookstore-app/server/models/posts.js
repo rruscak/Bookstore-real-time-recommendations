@@ -5,7 +5,8 @@ const create = (session, post) => {
   let query = [
     'MERGE(post:Post{ \
       title:{titleParam}, \
-      content:{contentParam} \
+      content:{contentParam}, \
+      imagePath:{imagePath} \
       })',
     'RETURN ID(post) AS postId'
   ].join('\n');
@@ -13,16 +14,18 @@ const create = (session, post) => {
   return session
     .run(query, {
       titleParam: post.title,
-      contentParam: post.content
+      contentParam: post.content,
+      imagePath: post.imagePath
     })
     .then(result => result.records[0].get("postId"));
 };
 
 const update = (session, post) => {
+  console.log("!!! " + post.id + " " + post.title + " " + post.content + " " + post.imagePath);
   let query = [
     'MATCH (post:Post)',
     'WHERE ID(post) = toInteger($id)',
-    'SET post.title = $title, post.content = $content',
+    'SET post.title = $title, post.content = $content, post.imagePath = $imagePath',
     'RETURN ID(post) AS postId'
   ].join('\n');
 
@@ -30,7 +33,8 @@ const update = (session, post) => {
     .run(query, {
       id: post.id,
       title: post.title,
-      content: post.content
+      content: post.content,
+      imagePath: post.imagePath
     })
     .then(result => result.records[0].get("postId"))
 };

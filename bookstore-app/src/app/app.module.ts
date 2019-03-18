@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,7 +14,8 @@ import {
   MatMenuModule,
   MatProgressSpinnerModule,
   MatSidenavModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatDialogModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -23,18 +24,23 @@ import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { AppRoutingModule } from './app-routing.module';
+import { UserCreateComponent } from './user/user-create.component';
+import { PostFormComponent } from './posts/post-dialog/post-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainNavComponent,
     PostCreateComponent,
-    PostListComponent
+    PostListComponent,
+    UserCreateComponent,
+    PostFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     // TODO: remove (example)
     FlexLayoutModule,
     BrowserAnimationsModule,
@@ -50,7 +56,8 @@ import { AppRoutingModule } from './app-routing.module';
     MatListModule,
     MatInputModule,
     MatExpansionModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

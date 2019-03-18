@@ -34,12 +34,20 @@ export class PostsService {
   //   return {...this.posts.find(p => p.id.toString() === id)};
   // }
 
-  addPost(title: string, content: string) {
-    const post: Post = {id: null, title, content};
-    this.http.post<{ id: number }>('http://localhost:3000/api/posts', post)
+  addPost(title: string, content: string, image: File) {
+    const postData = new FormData();
+    postData.append('title', title);
+    postData.append('content', content);
+    postData.append('image', image, title);
+
+    this.http.post<{ id: number; imagePath: string }>('http://localhost:3000/api/posts', postData)
       .subscribe(res => {
-        console.log(res.id);
-        post.id = res.id;
+        const post: Post = {
+          id: res.id,
+          title,
+          content,
+          imagePath: res.imagePath
+        };
         this.posts.push(post);
         // this will create a copy of the array
         this.postsUpdated.next([...this.posts]);
@@ -47,14 +55,31 @@ export class PostsService {
       });
   }
 
-  updatePost(id: number, title: string, content: string) {
-    const post: Post = {id, title, content};
-    this.http.put('http://localhost:3000/api/posts', post)
-      .subscribe(() => {
+  updatePost(id: number, title: string, content: string, image: File | string) {
+    let postData: Post | FormData;
+    if (typeof (image) === 'object') {
+      postData = new FormData();
+      // @ts-ignore
+      postData.append('id', id);
+      postData.append('title', title);
+      postData.append('content', content);
+      postData.append('image', image, title);
+    } else {
+      postData = {
+        id, title, content, imagePath: image
+      };
+    }
+    this.http.put<{ imagePath: string }>('http://localhost:3000/api/posts', postData)
+      .subscribe(res => {
         console.log('Edited');
         const updatedPosts = [...this.posts];
         const oldPostIndex = updatedPosts.findIndex((p) => p.id === id);
-        updatedPosts[oldPostIndex] = post;
+        updatedPosts[oldPostIndex] = {
+          id,
+          title,
+          content,
+          imagePath: res.imagePath
+        };
         this.posts = updatedPosts;
         this.postsUpdated.next([...this.posts]);
         this.router.navigate(['/']);

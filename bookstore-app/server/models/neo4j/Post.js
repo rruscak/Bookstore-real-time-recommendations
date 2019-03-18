@@ -7,6 +7,7 @@ function Post(_node) {
     id: dbUtils.getID(_node),
     title: _node.properties['title'],
     content: _node.properties['content'],
+    imagePath: _node.properties['imagePath'],
   });
 }
 
