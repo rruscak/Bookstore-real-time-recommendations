@@ -1,0 +1,31 @@
+mat-form-field {
+  width: 100%;
+}
+
+mat-card {
+  margin: 0 auto;
+  width: 30rem;
+}
+
+form {
+  margin: 0 1rem 0 1rem;
+}
+
+mat-card-title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.submit-btn {
+  float: right;
+}
+
+.left-field {
+  width: 48%;
+  margin: 0 2% 0 0;
+}
+
+.right-field {
+  width: 48%;
+  margin: 0 0 0 2%;
+}

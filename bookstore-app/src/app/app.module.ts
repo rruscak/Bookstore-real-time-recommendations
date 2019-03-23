@@ -27,6 +27,8 @@ import { PostListComponent } from './posts/post-list/post-list.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserCreateComponent } from './user/user-create.component';
 import { PostFormComponent } from './posts/post-dialog/post-form.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignUpComponent } from './auth/signup/sign-up.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { PostFormComponent } from './posts/post-dialog/post-form.component';
     PostCreateComponent,
     PostListComponent,
     UserCreateComponent,
-    PostFormComponent
+    PostFormComponent,
+    LoginComponent,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,

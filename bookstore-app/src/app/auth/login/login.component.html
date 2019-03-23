@@ -1,0 +1,46 @@
+<!--<textarea name="" id="" cols="30" rows="10" [value]="newPost" #postInput></textarea>-->
+<mat-card>
+  <mat-card-title>Log In</mat-card-title>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input
+        #emailField
+        matInput
+        type="email"
+        name="email"
+        ngModel
+        #emailInput="ngModel"
+        email
+        required
+        (keyup.enter)="!emailInput.invalid && passwordField.focus()">
+      <mat-error *ngIf="emailInput.invalid">Enter your email address</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        #passwordField
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        name="password"
+        ngModel
+        #passwordInput="ngModel"
+        required>
+      <mat-error *ngIf="passwordInput.invalid">Enter your password</mat-error>
+      <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+        {{hidePassword ? 'visibility_off' : 'visibility'}}
+      </mat-icon>
+    </mat-form-field>
+    <div class="input-nav-div">
+      <a mat-button routerLink="/login">Forgot password?</a>
+    </div>
+    <a mat-button routerLink="/signup">Create account</a>
+    <button
+      class="submit-btn"
+      mat-raised-button
+      color="primary"
+      type="submit">Log In
+    </button>
+  </form>
+</mat-card>
