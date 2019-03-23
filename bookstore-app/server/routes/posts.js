@@ -9,11 +9,8 @@ let multerConf = require('../configurators/multer');
 // Multer configuration
 // multerConf.cleanFolder('uploads/images');
 let upload = multer({
-  storage: multerConf.imagesUploads
+  storage: multerConf.imagesUploads,
   // fileFilter: multerConf.imageFilter,
-  // onFileUploadComplete: (file) => {
-  //   console.log('-- File: ' + file.originalname + ' upload was completed. --');
-  // }
 });
 
 // Create post
@@ -39,7 +36,7 @@ router.post("", upload.single("image"), (req, res) => {
 
 // Update post
 router.put("", upload.single("image"), (req, res) => {
-  console.log(req.body.id + "    " +req.file);
+  console.log(req.body.id + "    " + req.file);
   let imagePath = req.body.imagePath;
   if (req.file) {
     const url = req.protocol + '://' + req.get('host') + '/images/';
@@ -79,11 +76,26 @@ router.get("/:id", (req, res) => {
 
 // Get all posts
 router.get("", (req, res, next) => {
+  const limit = +req.query.limit;
+  const page = +req.query.page;
+  let skip;
+  if (limit && page) {
+    skip = limit * (page - 1)
+  }
+
+  let posts;
   const session = dbUtils.getSession(req.body);
-  Posts.findAll(session, req.body)
+  Posts.findAll(session, skip, limit)
     .then(data => {
-      console.log(data);
-      writeResponse(res, data);
+      posts = data;
+      console.log(posts);
+      return Posts.count(session);
+    })
+    .then(count => {
+      writeResponse(res, {
+        posts: posts,
+        count: dbUtils.toNumber(count)
+      });
     })
     .catch((err) => {
       console.log(err);

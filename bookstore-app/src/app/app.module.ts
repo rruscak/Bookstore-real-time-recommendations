@@ -7,15 +7,16 @@ import { HttpClientModule } from '@angular/common/http';
 import {
   MatButtonModule,
   MatCardModule,
+  MatDialogModule,
   MatExpansionModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
   MatMenuModule,
+  MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSidenavModule,
-  MatToolbarModule,
-  MatDialogModule
+  MatToolbarModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -57,6 +58,7 @@ import { PostFormComponent } from './posts/post-dialog/post-form.component';
     MatInputModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
     MatDialogModule
   ],
   providers: [],

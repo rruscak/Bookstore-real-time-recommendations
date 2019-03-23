@@ -39,6 +39,17 @@ const update = (session, post) => {
     .then(result => result.records[0].get("postId"))
 };
 
+const count = (session) => {
+  let query = [
+    'MATCH(posts:Post)',
+    'RETURN count(posts) AS count'
+  ].join('\n');
+
+  return session
+    .run(query)
+    .then(result => result.records[0].get("count"));
+};
+
 const findById = (session, id) => {
   let query = [
     'MATCH (post:Post)',
@@ -56,14 +67,24 @@ const findById = (session, id) => {
     });
 };
 
-const findAll = session => {
+const findAll = (session, skip, limit) => {
   let query = [
     'MATCH(posts:Post)',
     'RETURN posts'
   ].join('\n');
 
+  let properties = {};
+  if (skip) {
+    query = query + ' SKIP $skip';
+    properties.skip = skip;
+  }
+  if (limit) {
+    query = query + ' LIMIT $limit';
+    properties.limit = limit;
+  }
+
   return session
-    .run(query)
+    .run(query, properties)
     .then(result => {
       return manyPosts(result);
     });
@@ -87,6 +108,7 @@ const manyPosts = (result) => {
 module.exports = {
   create: create,
   update: update,
+  count: count,
   findById: findById,
   findAll: findAll,
   deleteById: deleteById
