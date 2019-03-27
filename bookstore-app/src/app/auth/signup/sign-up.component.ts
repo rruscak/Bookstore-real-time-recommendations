@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { AuthService } from '../auth.service';
+import { User } from '../user.model';
 
 @Component({
   templateUrl: './sign-up.component.html',
@@ -10,12 +12,24 @@ export class SignUpComponent implements AfterViewInit {
   hidePassword = true;
   isLoading = false;
 
+  constructor(public authService: AuthService) {
+  }
+
   ngAfterViewInit(): void {
     // this.emailField.nativeElement.focus();
   }
 
   onSignUp(form: NgForm) {
-    console.log(form.value.email);
-    console.log(form.value.password);
+    if (form.invalid) {
+      return;
+    }
+    this.isLoading = true;
+    const user: User = {
+      email: form.value.email,
+      firstName: form.value.firstName,
+      lastName: form.value.lastName,
+      password: form.value.password,
+    };
+    this.authService.createUser(user);
   }
 }

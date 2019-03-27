@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroupDirective, NgForm } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   templateUrl: './login.component.html',
@@ -10,12 +11,18 @@ export class LoginComponent implements AfterViewInit {
   hidePassword = true;
   isLoading = false;
 
+  constructor(public authService: AuthService) {
+  }
+
   ngAfterViewInit(): void {
     // this.emailField.nativeElement.focus();
   }
 
   onLogin(form: NgForm) {
-    console.log(form.value.email);
-    console.log(form.value.password);
+    if (form.invalid) {
+      return;
+    }
+    this.isLoading = true;
+    this.authService.login(form.value.email, form.value.password);
   }
 }

@@ -34,6 +34,9 @@ const whereTemplate = (name, key, paramKey) => {
   return name + '.' + key + '={' + (paramKey || key) + '}';
 };
 
+exports.errorCodes = {
+  CONSTRAINT_VALIDATION: 'Neo.ClientError.Schema.ConstraintValidationFailed'
+};
 
 // // const session = driver.getSession();
 // const tx = session.beginTransaction();

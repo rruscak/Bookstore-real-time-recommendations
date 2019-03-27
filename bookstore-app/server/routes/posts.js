@@ -2,19 +2,18 @@ const dbUtils = require('../configurators/dbUtils');
 const writeResponse = require('../configurators/response').writeResponse;
 const router = require('express').Router();
 const Posts = require('../models/posts');
-
+const auth = require('../middleware/auth');
 let multer = require('multer');
 let multerConf = require('../configurators/multer');
 
-// Multer configuration
 // multerConf.cleanFolder('uploads/images');
+// Multer configuration
 let upload = multer({
-  storage: multerConf.imagesUploads,
-  // fileFilter: multerConf.imageFilter,
+  storage: multerConf.imagesUploads
 });
 
 // Create post
-router.post("", upload.single("image"), (req, res) => {
+router.post("", auth, upload.single("image"), (req, res) => {
   const url = req.protocol + '://' + req.get('host') + '/images/';
   const imagePath = url + req.file.filename;
   req.body.imagePath = imagePath;
@@ -35,7 +34,7 @@ router.post("", upload.single("image"), (req, res) => {
 });
 
 // Update post
-router.put("", upload.single("image"), (req, res) => {
+router.put("", auth, upload.single("image"), (req, res) => {
   console.log(req.body.id + "    " + req.file);
   let imagePath = req.body.imagePath;
   if (req.file) {
@@ -105,7 +104,7 @@ router.get("", (req, res, next) => {
 });
 
 // Delete post
-router.delete("/:id", (req, res) => {
+router.delete("/:id", auth, (req, res) => {
   const session = dbUtils.getSession(req.body);
   Posts.deleteById(session, req.params.id)
     .then(data => {

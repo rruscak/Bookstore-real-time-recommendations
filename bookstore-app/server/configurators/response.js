@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 exports.writeResponse = function writeResponse(res, response, status) {
   sw.setHeaders(res);
-  res.status(status || 200).send(JSON.stringify(response));
+  res.status(status || 200).send(response ? JSON.stringify(response) : null);
 };
 
 exports.writeError = function writeError(res, error, status) {
