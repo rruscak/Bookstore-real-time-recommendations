@@ -1,0 +1,8 @@
+{
+  "env": {
+    "NEO4J_URL": "bolt://localhost",
+    "NEO4J_USERNAME": "neo4j",
+    "NEO4J_PASSWORD": "admin",
+    "JWT_KEY": "pwlmavuutrylzaroeihfwsadpioqwehinsotnnirtevcw"
+  }
+}

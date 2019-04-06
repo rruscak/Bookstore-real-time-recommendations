@@ -2,8 +2,7 @@
 const _ = require('lodash');
 
 let neo4j = require('neo4j-driver').v1;
-// let driver = neo4j.driver(conf.get('neo4j-local'), neo4j.auth.basic(conf.get('USERNAME'), conf.get('PASSWORD')));
-const driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "admin"));
+const driver = neo4j.driver(process.env.NEO4J_URL, neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD));
 
 exports.getSession = (context) => {
   if (context.neo4jSession) {
