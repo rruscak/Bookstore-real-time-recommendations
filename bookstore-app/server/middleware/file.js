@@ -8,7 +8,7 @@ const MIME_TYPE_MAP = {
 };
 
 // Uploads Storage
-module.exports.imagesUploads = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     const isValid = MIME_TYPE_MAP[file.mimetype];
     let error = new Error("Invalid mime type");
@@ -29,7 +29,7 @@ module.exports.imagesUploads = multer.diskStorage({
 });
 
 // Images only Filter
-module.exports.imageFilter = (req, file, callback) => {
+const imageFilter = (req, file, callback) => {
   console.log(file.originalname.toLowerCase());
   if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png)$/)) {
     // return callback(new Error('Only image files are allowed'), false);
@@ -43,3 +43,7 @@ module.exports.cleanFolder = (folderPath) => {
   del.sync([`${folderPath}/**`, `!${folderPath}`]);
   console.log('Cleaning folder ' + folderPath + '...');
 };
+
+module.exports = multer({
+  storage: storage
+}).single("image");

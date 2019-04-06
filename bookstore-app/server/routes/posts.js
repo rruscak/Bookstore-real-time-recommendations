@@ -1,21 +1,14 @@
 const router = require('express').Router();
-
-const auth = require('../middleware/auth');
-const multer = require('multer');
-const multerConf = require('../configurators/multer');
-
 const PostsController = require('../controllers/posts');
+const auth = require('../middleware/auth');
+const extractFile = require('../middleware/file');
 
-// multerConf.cleanFolder('uploads/images');
-// Multer configuration
-let upload = multer({
-  storage: multerConf.imagesUploads
-});
+// extractFile.cleanFolder('uploads/images');
 
 // Create post
-router.post("", auth, upload.single("image"), PostsController.createPost);
+router.post("", auth, extractFile, PostsController.createPost);
 // Update post
-router.put("", auth, upload.single("image"), PostsController.updatePost);
+router.put("", auth, extractFile, PostsController.updatePost);
 // Get by id
 router.get("/:id", PostsController.getPost);
 // Get all posts
