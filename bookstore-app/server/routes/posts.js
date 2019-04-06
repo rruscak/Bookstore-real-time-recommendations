@@ -1,10 +1,14 @@
 const dbUtils = require('../configurators/dbUtils');
 const writeResponse = require('../configurators/response').writeResponse;
+const writeError = require('../configurators/response').writeError;
 const router = require('express').Router();
 const Posts = require('../models/posts');
 const auth = require('../middleware/auth');
 let multer = require('multer');
 let multerConf = require('../configurators/multer');
+
+const UnauthorizedError = require('../errors/UnauthorizedError');
+const ApplicationError = require('../errors/ApplicationError');
 
 // multerConf.cleanFolder('uploads/images');
 // Multer configuration
@@ -19,8 +23,11 @@ router.post("", auth, upload.single("image"), (req, res) => {
   req.body.imagePath = imagePath;
 
   const session = dbUtils.getSession(req.body);
-  Posts.create(session, req.body)
+  Posts.create(session, req.userData.userId, req.body)
     .then(data => {
+      if (!data) {
+        throw new UnauthorizedError();
+      }
       writeResponse(res, {
         id: dbUtils.toNumber(data),
         imagePath: imagePath
@@ -28,7 +35,7 @@ router.post("", auth, upload.single("image"), (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json();
+      writeError(res, err);
     })
     .then(() => session.close())
 });
@@ -44,16 +51,16 @@ router.put("", auth, upload.single("image"), (req, res) => {
   req.body.imagePath = imagePath;
 
   const session = dbUtils.getSession(req.body);
-  Posts.update(session, req.body)
+  Posts.update(session, req.body, req.userData.userId)
     .then(data => {
-      console.log(data);
-      writeResponse(res, {
-        imagePath: imagePath
-      });
+      if (!data) {
+        throw new UnauthorizedError();
+      }
+      writeResponse(res);
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json();
+      writeError(res, err);
     })
     .then(() => session.close())
 });
@@ -68,7 +75,7 @@ router.get("/:id", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json();
+      writeError(res, err);
     })
     .then(() => session.close())
 });
@@ -98,7 +105,7 @@ router.get("", (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json();
+      writeError(res, err);
     })
     .then(() => session.close())
 });
@@ -106,14 +113,20 @@ router.get("", (req, res, next) => {
 // Delete post
 router.delete("/:id", auth, (req, res) => {
   const session = dbUtils.getSession(req.body);
-  Posts.deleteById(session, req.params.id)
-    .then(data => {
-      console.log(data);
+  Posts.deleteById(session, req.params.id, req.userData.userId)
+    .then(result => {
+      if (result == null) {
+        throw new ApplicationError();
+      }
+      console.log(result);
+      if (result === 0) {
+        throw new UnauthorizedError();
+      }
       writeResponse(res);
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json();
+      writeError(res, err);
     })
     .then(() => session.close())
 });

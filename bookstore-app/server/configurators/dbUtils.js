@@ -30,6 +30,9 @@ exports.getID = _node => _node.identity.inSafeRange() ? _node.identity.toNumber(
 
 exports.toNumber = integerVal => integerVal.inSafeRange() ? integerVal.toNumber() : integerVal.toString();
 
+exports.getStatistics = result => result != null ? result.summary.updateStatistics._stats : null;
+
+
 const whereTemplate = (name, key, paramKey) => {
   return name + '.' + key + '={' + (paramKey || key) + '}';
 };

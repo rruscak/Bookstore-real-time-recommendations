@@ -74,7 +74,8 @@ router.post("/login", (req, res, next) => {
       );
       writeResponse(res, {
         token: token,
-        expiresIn: 3600
+        expiresIn: 3600,
+        userId: user.id
       });
     })
     .catch((err) => {
