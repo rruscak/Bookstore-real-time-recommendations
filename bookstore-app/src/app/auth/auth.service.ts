@@ -35,7 +35,7 @@ export class AuthService {
   createUser(user: User) {
     this.http.post('http://localhost:3000/api/user/signup', user)
       .subscribe(res => {
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       }, error => {
         this.authStatusListener.next(false);
       });

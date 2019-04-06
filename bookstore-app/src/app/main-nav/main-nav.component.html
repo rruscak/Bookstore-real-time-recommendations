@@ -11,7 +11,7 @@
       <div *ngIf="isAuth">
         <a mat-list-item routerLink="/form" (click)="drawer.toggle()" routerLinkActive="mat-accent">New Post</a>
       </div>
-      <a mat-list-item routerLink="/login" (click)="drawer.toggle()" routerLinkActive="mat-accent"
+      <a mat-list-item routerLink="/auth/login" (click)="drawer.toggle()" routerLinkActive="mat-accent"
          *ngIf="!isAuth">Login</a>
       <a mat-list-item (click)="drawer.toggle()" *ngIf="isAuth">Logout</a>
     </mat-nav-list>
@@ -32,7 +32,7 @@
         <button mat-button routerLink="/">Home</button>
         <!--<a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>-->
         <a mat-button routerLink="/form" routerLinkActive="mat-accent" *ngIf="isAuth">New Post</a>
-        <a mat-button routerLink="/login" routerLinkActive="mat-accent" *ngIf="!isAuth">Log In</a>
+        <a mat-button routerLink="/auth/login" routerLinkActive="mat-accent" *ngIf="!isAuth">Log In</a>
         <button mat-button (click)="onLogout()" *ngIf="isAuth">Log Out</button>
         <!--<button mat-button [matMenuTriggerFor]="books">Books</button>-->
         <!--<mat-menu #books="matMenu">-->
