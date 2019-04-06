@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+
+const BACKEND_URL = environment.apiUrl + '/posts/';
 
 // No need to import it in app.modules and also it becomes singleton
 @Injectable({providedIn: 'root'})
@@ -14,12 +17,12 @@ export class PostsService {
   }
 
   getPost(id: number) {
-    return this.http.get<Post>('http://localhost:3000/api/posts/' + id);
+    return this.http.get<Post>(BACKEND_URL + id);
   }
 
   getPosts(limit: number, page: number) {
     const queryParams = `?limit=${limit}&page=${page}`;
-    this.http.get<{ posts: Post[], count: number }>('http://localhost:3000/api/posts' + queryParams)
+    this.http.get<{ posts: Post[], count: number }>(BACKEND_URL + queryParams)
       .subscribe((res) => {
         console.log(res);
         this.posts = res.posts;
@@ -44,7 +47,7 @@ export class PostsService {
     postData.append('content', content);
     postData.append('image', image, title);
 
-    this.http.post<{ id: number; imagePath: string }>('http://localhost:3000/api/posts', postData)
+    this.http.post<{ id: number; imagePath: string }>(BACKEND_URL, postData)
       .subscribe(res => {
         // const post: Post = {
         //   id: res.id,
@@ -73,7 +76,7 @@ export class PostsService {
         id, title, content, imagePath: image, userId: null
       };
     }
-    this.http.put('http://localhost:3000/api/posts', postData)
+    this.http.put(BACKEND_URL, postData)
       .subscribe(res => {
         // const updatedPosts = [...this.posts];
         // const oldPostIndex = updatedPosts.findIndex((p) => p.id === id);
@@ -90,6 +93,6 @@ export class PostsService {
   }
 
   deletePost(id: number) {
-    return this.http.delete('http://localhost:3000/api/posts/' + id);
+    return this.http.delete(BACKEND_URL + id);
   }
 }
