@@ -1,3 +1,9 @@
+.content-div {
+   width: 1255px;
+   margin: 0 auto;
+   /*flex: 1 1 100%;*/
+ }
+
 .sidenav-container {
   height: 100%;
 }

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -14,6 +14,13 @@ import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { PostsModule } from './posts/posts.module';
+import { BooksModule } from './books/books.module';
+import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
+
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+
+registerLocaleData(localeDe);
 
 @NgModule({
   declarations: [
@@ -31,9 +38,14 @@ import { PostsModule } from './posts/posts.module';
     LayoutModule,
     HttpClientModule,
     AngularMaterialModule,
-    PostsModule
+    PostsModule,
+    BooksModule,
+    ShoppingCartModule
   ],
   providers: [{
+    provide: LOCALE_ID,
+    useValue: 'de-DE' // 'de-DE' for Germany, 'fr-FR' for France ...
+  }, {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true

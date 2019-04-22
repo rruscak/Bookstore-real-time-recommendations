@@ -1,0 +1,32 @@
+<mat-grid-list cols="4" rowHeight="552px" gutterSize="10px">
+  <mat-grid-tile *ngFor="let book of books">
+    <mat-card class="card-div">
+      <!-- Image -->
+      <img mat-card-image width="230" height="361" [src]="book.imagePath" [alt]="book.title">
+      <!-- Author -->
+      <mat-card-subtitle fxLayoutAlign="center">{{ book.author }}</mat-card-subtitle>
+      <!-- Title -->
+      <mat-card-title fxLayoutAlign="center">{{ book.title }}</mat-card-title>
+      <hr>
+      <!-- Price -->
+      <mat-card-title fxLayoutAlign="center center">
+        {{ book.price | currency:'EUR':true }}
+      </mat-card-title>
+
+      <mat-card-actions fxLayoutAlign="center">
+        <button mat-button color="primary">
+          <mat-icon>add_shopping_cart</mat-icon>
+          Add to Cart
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+<mat-paginator
+  [length]="books.length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  *ngIf="books.length > 0">
+</mat-paginator>
+
+<!--<app-book-item *ngFor="let book of books"></app-book-item>-->

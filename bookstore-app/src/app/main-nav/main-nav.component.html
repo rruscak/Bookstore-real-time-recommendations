@@ -29,9 +29,13 @@
       <span class="home-header" routerLink="/">Bookstore</span>
       <span class="spacer"></span>
       <div *ngIf="!(isHandset$ | async)">
-        <button mat-button routerLink="/">Home</button>
+        <a mat-button routerLink="/books" routerLinkActive="mat-accent">Books</a>
+        <a mat-button routerLink="/posts" routerLinkActive="mat-accent">Posts</a>
         <!--<a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>-->
         <a mat-button routerLink="/form" routerLinkActive="mat-accent" *ngIf="isAuth">New Post</a>
+        <a mat-icon-button routerLink="/cart" routerLinkActive="mat-accent">
+          <mat-icon>shopping_cart</mat-icon>
+        </a>
         <a mat-button routerLink="/auth/login" routerLinkActive="mat-accent" *ngIf="!isAuth">Log In</a>
         <button mat-button (click)="onLogout()" *ngIf="isAuth">Log Out</button>
         <!--<button mat-button [matMenuTriggerFor]="books">Books</button>-->
@@ -41,8 +45,9 @@
         <!--</mat-menu>-->
       </div>
     </mat-toolbar>
-    <ng-content>
-      <!-- Content -->
-    </ng-content>
+    <!-- Content -->
+    <div class="content-div">
+      <ng-content></ng-content>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

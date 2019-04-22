@@ -1,3 +1,7 @@
 .input-nav-div {
   margin-bottom: 1rem;
 }
+
+.icon {
+  cursor: pointer;
+}
