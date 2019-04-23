@@ -1,0 +1,15 @@
+.content-div {
+  padding: 1rem 2rem;
+}
+
+.details-div {
+  padding: 1rem 1rem 0 1rem;
+}
+
+.price-div {
+  margin-left: 16px;
+}
+
+.book-img {
+  border-radius: 4px;
+}

@@ -2,3 +2,18 @@
   width: 198px;
   height: 506px;
 }
+
+.ripple-container {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.title-link, .book-img {
+  cursor: pointer;
+  outline: none;
+}

@@ -6,9 +6,11 @@ import { PostFormComponent } from './posts/post-dialog/post-form.component';
 import { AuthGuard } from './auth/auth.guard';
 import { BookListComponent } from './books/book-list/book-list.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { BookDetailComponent } from './books/book-detail/book-detail.component';
 
 const routes: Routes = [
   {path: '', component: BookListComponent},
+  {path: 'book', component: BookDetailComponent},
   {path: 'books', component: BookListComponent},
   {path: 'cart', component: ShoppingCartComponent},
   {path: 'posts', component: PostListComponent},

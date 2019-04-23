@@ -1,3 +1,57 @@
-<p>
-  book-detail works!
-</p>
+<mat-card>
+  <div fxLayout="row">
+
+    <div>
+      <img
+        class="book-img"
+        routerLink="/book"
+        width="230" height="361"
+        [src]="book.imagePath"
+        [alt]="book.title">
+
+      <mat-card-content class="details-div">
+        <p><b>Number of Pages: </b>{{ book.numOfPages }}</p>
+        <p><b>Language: </b>{{ book.language }}</p>
+        <p><b>ISBN: </b>{{ book.isbn }}</p>
+        <p><b>Release Year: </b>{{ book.releaseYear }}</p>
+        <p><b>Weight: </b>{{ book.weight }} kg</p>
+      </mat-card-content>
+    </div>
+
+    <div fxLayout="column">
+      <div class="content-div">
+        <mat-card-title>{{ book.title }}</mat-card-title>
+        <mat-card-subtitle>
+          <span class="accent-color">Author:</span>
+          {{ book.author }}
+        </mat-card-subtitle>
+      </div>
+
+      <mat-card fxLayout="row" class="price-div">
+        <div fxLayout="column" fxFlex="1 1 30%" fxLayoutAlign="center start">
+          <mat-card-subtitle>
+            In Stock: {{ book.inStock }}
+          </mat-card-subtitle>
+          <mat-card-title>
+            Price: {{ book.price | currency:'EUR':true }}
+          </mat-card-title>
+        </div>
+
+        <div fxFlex="1 1 60%" fxLayoutAlign="end center" fxFlexOffset="10px">
+          <button mat-stroked-button
+                  color="primary">
+            <mat-icon>add_shopping_cart</mat-icon>
+            Add to Cart
+          </button>
+        </div>
+      </mat-card>
+
+      <mat-card-content class="content-div">
+        <b>About: </b>{{ book.about }}
+      </mat-card-content>
+    </div>
+
+
+  </div>
+
+</mat-card>

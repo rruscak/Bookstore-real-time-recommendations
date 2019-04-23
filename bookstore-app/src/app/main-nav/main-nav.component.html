@@ -33,7 +33,12 @@
         <a mat-button routerLink="/posts" routerLinkActive="mat-accent">Posts</a>
         <!--<a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>-->
         <a mat-button routerLink="/form" routerLinkActive="mat-accent" *ngIf="isAuth">New Post</a>
-        <a mat-icon-button routerLink="/cart" routerLinkActive="mat-accent">
+        <a mat-icon-button
+           routerLink="/cart"
+           routerLinkActive="mat-accent"
+           matBadge="8"
+           matBadgePosition="after"
+           matBadgeColor="accent">
           <mat-icon>shopping_cart</mat-icon>
         </a>
         <a mat-button routerLink="/auth/login" routerLinkActive="mat-accent" *ngIf="!isAuth">Log In</a>

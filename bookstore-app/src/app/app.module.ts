@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { UserCreateComponent } from './user/user-create.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
-import { ErrorComponent } from './error/error.component';
+import { ErrorComponent } from './shared/error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { PostsModule } from './posts/posts.module';
 import { BooksModule } from './books/books.module';

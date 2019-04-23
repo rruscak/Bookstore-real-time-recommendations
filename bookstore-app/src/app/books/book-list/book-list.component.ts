@@ -1,5 +1,6 @@
-import { Component, LOCALE_ID, OnInit } from '@angular/core';
-import { Book } from '../book.mdoel';
+import { Component, OnInit } from '@angular/core';
+import { Book } from '../book.model';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -13,7 +14,7 @@ export class BookListComponent implements OnInit {
   currentPage = 1;
   pageSizeOptions = [8, 16, 32, 64];
 
-  constructor() {
+  constructor(private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -50,4 +51,9 @@ export class BookListComponent implements OnInit {
       10.00));
   }
 
+  addToCart() {
+    this.snackBar.open('Book added to the shopping cart.', 'OK', {
+      duration: 5000,
+    });
+  }
 }
