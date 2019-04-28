@@ -4,30 +4,32 @@
      [matRippleDisabled]="false"
      [matRippleUnbounded]="false">
   <mat-card class="card-div">
-    <!-- Image -->
+    <!-- IMAGE -->
     <img mat-card-image
          class="book-img"
          routerLink="/book"
-         width="230" height="361"
+         width="222" height="341"
          [src]="book.imagePath"
          [alt]="book.title">
-    <!-- Author -->
+    <!-- AUTHOR -->
     <mat-card-subtitle fxLayoutAlign="center">
       {{ book.author }}
     </mat-card-subtitle>
-    <!-- Title -->
-    <mat-card-title class="title-link"
+    <!-- TITLE -->
+    <mat-card-title class="title-link font-size-large"
                     routerLink="/book"
                     fxLayoutAlign="center">
       {{ book.title }}
     </mat-card-title>
     <hr>
-    <!-- Price -->
-    <mat-card-title fxLayoutAlign="center center">
+    <!-- PRICE -->
+    <mat-card-title class="font-size-large"
+                    fxLayoutAlign="center center">
       {{ book.price | currency:'EUR':'symbol' }}
     </mat-card-title>
-
-    <mat-card-actions fxLayoutAlign="center">
+    <!-- ADD TO CART -->
+    <mat-card-actions class="action-div"
+                      fxLayoutAlign="center">
       <button mat-button
               color="primary"
               (click)="addToCart()">

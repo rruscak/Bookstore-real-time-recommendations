@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from '../book.model';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 
 
 @Component({
@@ -13,7 +14,23 @@ export class BookListComponent implements OnInit {
   currentPage = 1;
   pageSizeOptions = [8, 16, 32, 64];
 
-  constructor() {
+  columnNum = 0;
+
+  constructor(media: MediaObserver) {
+    media.media$
+      .subscribe((change: MediaChange) => {
+        // alert(change.mqAlias);
+        console.log(change.mqAlias);
+        if (change.mqAlias === 'xs') {
+          this.columnNum = 2;
+        } else if (change.mqAlias === 'sm') {
+          this.columnNum = 3;
+        } else if (change.mqAlias === 'md') {
+          this.columnNum = 3;
+        } else if (change.mqAlias === 'lg') {
+          this.columnNum = 4;
+        }
+      });
   }
 
   ngOnInit(): void {

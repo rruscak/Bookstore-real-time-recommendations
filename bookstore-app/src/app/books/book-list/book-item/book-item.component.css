@@ -1,6 +1,6 @@
 .card-div {
-  width: 198px;
-  height: 506px;
+  width: 190px;
+  height: 462px;
 }
 
 .ripple-container {
@@ -16,4 +16,13 @@
 .title-link, .book-img {
   cursor: pointer;
   outline: none;
+}
+
+.font-size-large {
+  font-size: large;
+  /*margin-bottom: 4px;*/
+}
+
+.action-div {
+  padding: 0;
 }

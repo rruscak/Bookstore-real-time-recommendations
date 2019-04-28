@@ -6,6 +6,10 @@
   margin-left: 1rem;
 }
 
+.category-div {
+  padding: 0;
+}
+
 /*:host {*/
 /*  background-color: #fafafa;*/
 /*}*/
