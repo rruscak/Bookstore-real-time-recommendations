@@ -1,5 +1,17 @@
-<mat-card fxFlex="0 0 auto" class="filter-div">
-  <p>
-    book-filter works!
-  </p>
-</mat-card>
+<!--<mat-card fxFlex="0 0 auto" fxFlex.lt-md="0 0 100%" class="filter-div">-->
+<mat-accordion multi="false" *ngIf="filters.genres.length > 0">
+
+  <mat-expansion-panel *ngFor="let genre of filters.genres">
+    <mat-expansion-panel-header>
+      <a matLine>{{ genre.name }}</a>
+    </mat-expansion-panel-header>
+
+    <mat-nav-list>
+      <mat-list-item *ngFor="let category of genre.categories">
+        <a>{{ category.name }}</a>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<!--</mat-card>-->

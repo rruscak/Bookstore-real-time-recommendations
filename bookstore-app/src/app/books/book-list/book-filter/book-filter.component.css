@@ -1,5 +1,11 @@
 .filter-div {
-  width: 240px;
-  height: 500px;
-  position: fixed;
+  width: 260px;
 }
+
+.btn-subcategory {
+  margin-left: 1rem;
+}
+
+/*:host {*/
+/*  background-color: #fafafa;*/
+/*}*/

@@ -1,3 +1,7 @@
 main {
-  margin: 1rem auto;
+  margin: 10px auto;
+}
+
+.bg-color {
+  background-color: #fafafa;
 }

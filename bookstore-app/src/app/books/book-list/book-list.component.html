@@ -1,13 +1,15 @@
-<div fxLayout="row">
-  <app-book-filter fxFlex="1 1 15rem"></app-book-filter>
+<div class="container" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="0.5%">
+  <app-book-filter></app-book-filter>
 
-  <div fxLayout="column" fxFlex="1 1 auto">
+  <div fxLayout="column" fxFlex="1 1 auto" fxLayoutGap="0.5%">
+    <app-book-sorter></app-book-sorter>
+
     <mat-grid-list cols="4" rowHeight="552px" gutterSize="10px" fxFlex="0 1 auto">
       <mat-grid-tile *ngFor="let book of books">
         <app-book-item [book]="book"></app-book-item>
       </mat-grid-tile>
-
     </mat-grid-list>
+
     <mat-paginator
       [length]="books.length"
       [pageSize]="pageSize"
@@ -16,5 +18,3 @@
     </mat-paginator>
   </div>
 </div>
-
-<!--<app-book-item *ngFor="let book of books"></app-book-item>-->

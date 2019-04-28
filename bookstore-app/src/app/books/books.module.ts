@@ -7,13 +7,15 @@ import { BookDetailComponent } from './book-detail/book-detail.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BookFilterComponent } from './book-list/book-filter/book-filter.component';
 import { RouterModule } from '@angular/router';
+import { BookSorterComponent } from './book-list/book-sorter/book-sorter.component';
 
 @NgModule({
   declarations: [
     BookListComponent,
     BookItemComponent,
     BookDetailComponent,
-    BookFilterComponent
+    BookFilterComponent,
+    BookSorterComponent
   ],
   imports: [
     AngularMaterialModule,

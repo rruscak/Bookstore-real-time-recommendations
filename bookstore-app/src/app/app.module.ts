@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AppRoutingModule } from './app-routing.module';
-import { UserCreateComponent } from './user/user-create.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './shared/error/error.component';
@@ -26,7 +25,6 @@ registerLocaleData(localeDe);
   declarations: [
     AppComponent,
     MainNavComponent,
-    UserCreateComponent,
     ErrorComponent
   ],
   imports: [
