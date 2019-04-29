@@ -14,21 +14,23 @@ export class BookListComponent implements OnInit {
   currentPage = 1;
   pageSizeOptions = [8, 16, 32, 64];
 
-  columnNum = 0;
+  columnNum = 4;
 
   constructor(media: MediaObserver) {
     media.media$
       .subscribe((change: MediaChange) => {
         // alert(change.mqAlias);
         console.log(change.mqAlias);
-        if (change.mqAlias === 'xs') {
-          this.columnNum = 2;
-        } else if (change.mqAlias === 'sm') {
-          this.columnNum = 3;
-        } else if (change.mqAlias === 'md') {
-          this.columnNum = 3;
-        } else if (change.mqAlias === 'lg') {
-          this.columnNum = 4;
+        switch (change.mqAlias) {
+          case 'xs':
+            this.columnNum = 2;
+            break;
+          case 'md':
+            this.columnNum = 3;
+            break;
+          case 'lg':
+            this.columnNum = 4;
+            break;
         }
       });
   }
