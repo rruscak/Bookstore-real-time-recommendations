@@ -1,6 +1,5 @@
 .content-div {
   padding: 1rem 2rem;
-  background-color: #fafafa;
 }
 
 .details-div {
@@ -8,7 +7,6 @@
 }
 
 .price-div {
-  margin-left: 16px;
 }
 
 .book-img {

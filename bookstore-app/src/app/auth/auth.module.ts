@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { AuthRoutingModule } from './auth-routing.module';
     FormsModule,
     AngularMaterialModule,
     RouterModule,
+    FlexLayoutModule,
     AuthRoutingModule
   ]
 })

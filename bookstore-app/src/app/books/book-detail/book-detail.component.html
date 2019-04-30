@@ -1,14 +1,17 @@
 <mat-card>
-  <div fxLayout="row">
-
-    <div>
+  <div fxLayout="row"
+       fxLayout.xs="column"
+       fxLayoutGap="10px">
+    <!--  LEFT DIV - IMAGE, DETAILS  -->
+    <div fxLayoutAlign.xs="center">
+      <!--  IMAGE  -->
       <img
         class="book-img"
         routerLink="/book"
         width="230" height="361"
         [src]="book.imagePath"
         [alt]="book.title">
-
+      <!--  DETAILS  -->
       <mat-card-content class="details-div">
         <p><b>Number of Pages: </b>{{ book.numOfPages }}</p>
         <p><b>Language: </b>{{ book.language }}</p>
@@ -17,8 +20,9 @@
         <p><b>Weight: </b>{{ book.weight }} kg</p>
       </mat-card-content>
     </div>
-
+    <!--  RIGHT DIV - HEADER, ACTION BAR, ABOUT  -->
     <div fxLayout="column">
+      <!--  HEADER  -->
       <div class="content-div">
         <mat-card-title>{{ book.title }}</mat-card-title>
         <mat-card-subtitle>
@@ -26,9 +30,10 @@
           {{ book.author }}
         </mat-card-subtitle>
       </div>
-
+      <!--  ACTION BAR  -->
       <mat-card fxLayout="row" class="price-div">
-        <div fxLayout="column" fxFlex="1 1 30%" fxLayoutAlign="center start">
+        <!--  PRICE  -->
+        <div fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="center start">
           <mat-card-subtitle>
             In Stock: {{ book.inStock }}
           </mat-card-subtitle>
@@ -36,8 +41,8 @@
             Price: {{ book.price | currency:'EUR':'symbol' }}
           </mat-card-title>
         </div>
-
-        <div fxFlex="1 1 60%" fxLayoutAlign="end center" fxFlexOffset="10px">
+        <!--  ACTIONS  -->
+        <div fxFlex="1 1 auto" fxLayoutAlign="end center" fxFlexOffset="10px">
           <button mat-stroked-button
                   color="primary">
             <mat-icon>add_shopping_cart</mat-icon>
@@ -45,13 +50,10 @@
           </button>
         </div>
       </mat-card>
-
+      <!--  ABOUT  -->
       <mat-card-content class="content-div">
         <b>About: </b>{{ book.about }}
       </mat-card-content>
     </div>
-
-
   </div>
-
 </mat-card>

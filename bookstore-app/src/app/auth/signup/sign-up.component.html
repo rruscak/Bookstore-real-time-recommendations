@@ -1,98 +1,100 @@
 <!--<textarea name="" id="" cols="30" rows="10" [value]="newPost" #postInput></textarea>-->
-<mat-card>
-  <mat-card-title>Sign Up</mat-card-title>
-  <form (submit)="onSignUp(signUpForm)"
-        #signUpForm="ngForm"
-        (keydown.enter)="$event.preventDefault()">
-    <div class="two-col">
-      <!-- First name -->
+<div fxLayoutAlign="center">
+  <mat-card fxFlex="582px" fxFlex.xs="100%">
+    <mat-card-title>Sign Up</mat-card-title>
+    <form (submit)="onSignUp(signUpForm)"
+          #signUpForm="ngForm"
+          (keydown.enter)="$event.preventDefault()">
+      <div class="two-col">
+        <!-- First name -->
+        <mat-form-field appearance="outline" class="left-field">
+          <mat-label>First name</mat-label>
+          <input
+            matInput
+            type="text"
+            name="firstName"
+            ngModel
+            #firstName="ngModel"
+            required
+            [disabled]="isLoading"
+            (keyup.enter)="!firstName.invalid && lastNameField.focus()">
+          <mat-error *ngIf="firstName.invalid">Enter first name</mat-error>
+        </mat-form-field>
+        <!-- Last name -->
+        <mat-form-field appearance="outline" class="right-field">
+          <mat-label>Last name</mat-label>
+          <input
+            #lastNameField
+            matInput
+            type="text"
+            name="lastName"
+            ngModel
+            #lastName="ngModel"
+            required
+            [disabled]="isLoading"
+            (keyup.enter)="!lastName.invalid && emailField.focus()">
+          <mat-error *ngIf="lastName.invalid">Enter last name</mat-error>
+        </mat-form-field>
+      </div>
+      <!-- Email -->
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          #emailField
+          matInput
+          type="email"
+          name="email"
+          ngModel
+          #email="ngModel"
+          email
+          required
+          [disabled]="isLoading"
+          (keyup.enter)="!email.invalid && passwordField.focus()">
+        <mat-error *ngIf="email.invalid">Enter email address</mat-error>
+      </mat-form-field>
+      <!-- Password -->
       <mat-form-field appearance="outline" class="left-field">
-        <mat-label>First name</mat-label>
+        <mat-label>Password</mat-label>
         <input
+          #passwordField
           matInput
-          type="text"
-          name="firstName"
+          [type]="hidePassword ? 'password' : 'text'"
+          name="password"
           ngModel
-          #firstName="ngModel"
+          #password="ngModel"
           required
           [disabled]="isLoading"
-          (keyup.enter)="!firstName.invalid && lastNameField.focus()">
-        <mat-error *ngIf="firstName.invalid">Enter first name</mat-error>
+          (keyup.enter)="!email.invalid && passwordConfirmField.focus()">
+        <mat-error *ngIf="password.invalid">Enter a password</mat-error>
       </mat-form-field>
-      <!-- Last name -->
+      <!-- Password confirm -->
       <mat-form-field appearance="outline" class="right-field">
-        <mat-label>Last name</mat-label>
+        <mat-label>Confirm</mat-label>
         <input
-          #lastNameField
+          #passwordConfirmField
           matInput
-          type="text"
-          name="lastName"
+          [type]="hidePassword ? 'password' : 'text'"
+          name="passwordConfirm"
           ngModel
-          #lastName="ngModel"
+          #passwordRe="ngModel"
           required
-          [disabled]="isLoading"
-          (keyup.enter)="!lastName.invalid && emailField.focus()">
-        <mat-error *ngIf="lastName.invalid">Enter last name</mat-error>
+          [disabled]="isLoading">
+        <mat-error *ngIf="passwordRe.invalid">Confirm your password</mat-error>
+        <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+          {{hidePassword ? 'visibility_off' : 'visibility'}}
+        </mat-icon>
       </mat-form-field>
-    </div>
-    <!-- Email -->
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input
-        #emailField
-        matInput
-        type="email"
-        name="email"
-        ngModel
-        #email="ngModel"
-        email
-        required
-        [disabled]="isLoading"
-        (keyup.enter)="!email.invalid && passwordField.focus()">
-      <mat-error *ngIf="email.invalid">Enter email address</mat-error>
-    </mat-form-field>
-    <!-- Password -->
-    <mat-form-field appearance="outline" class="left-field">
-      <mat-label>Password</mat-label>
-      <input
-        #passwordField
-        matInput
-        [type]="hidePassword ? 'password' : 'text'"
-        name="password"
-        ngModel
-        #password="ngModel"
-        required
-        [disabled]="isLoading"
-        (keyup.enter)="!email.invalid && passwordConfirmField.focus()">
-      <mat-error *ngIf="password.invalid">Enter a password</mat-error>
-    </mat-form-field>
-    <!-- Password confirm -->
-    <mat-form-field appearance="outline" class="right-field">
-      <mat-label>Confirm</mat-label>
-      <input
-        #passwordConfirmField
-        matInput
-        [type]="hidePassword ? 'password' : 'text'"
-        name="passwordConfirm"
-        ngModel
-        #passwordRe="ngModel"
-        required
-        [disabled]="isLoading">
-      <mat-error *ngIf="passwordRe.invalid">Confirm your password</mat-error>
-      <mat-icon matSuffix (click)="hidePassword = !hidePassword">
-        {{hidePassword ? 'visibility_off' : 'visibility'}}
-      </mat-icon>
-    </mat-form-field>
-    <a mat-button
-       [routerLink]="isLoading ? null : '/auth/login'"
-       [disabled]="isLoading">Sign in instead</a>
-    <button
-      class="submit-btn"
-      mat-raised-button
-      color="primary"
-      type="submit"
-      *ngIf="!isLoading">Sign Up
-    </button>
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
-  </form>
-</mat-card>
+      <a mat-button
+         [routerLink]="isLoading ? null : '/auth/login'"
+         [disabled]="isLoading">Sign in instead</a>
+      <button
+        class="submit-btn"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        *ngIf="!isLoading">Sign Up
+      </button>
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+    </form>
+  </mat-card>
+</div>

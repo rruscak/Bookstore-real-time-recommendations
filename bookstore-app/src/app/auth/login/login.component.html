@@ -1,53 +1,55 @@
 <!--<textarea name="" id="" cols="30" rows="10" [value]="newPost" #postInput></textarea>-->
-<mat-card>
-  <mat-card-title>Log In</mat-card-title>
-  <form (submit)="onLogin(loginForm)"
-        #loginForm="ngForm">
-    <mat-form-field appearance="outline">
-      <mat-label>Email</mat-label>
-      <input
-        #emailField
-        matInput
-        type="email"
-        name="email"
-        ngModel
-        #emailInput="ngModel"
-        email
-        required
-        [disabled]="isLoading"
-        (keyup.enter)="!emailInput.invalid && passwordField.focus()">
-      <mat-error *ngIf="emailInput.invalid">Enter your email address</mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Password</mat-label>
-      <input
-        #passwordField
-        matInput
-        [type]="hidePassword ? 'password' : 'text'"
-        name="password"
-        ngModel
-        #passwordInput="ngModel"
-        required
-        [disabled]="isLoading">
-      <mat-error *ngIf="passwordInput.invalid">Enter your password</mat-error>
-      <mat-icon matSuffix class="icon" (click)="hidePassword = !hidePassword">
-        {{hidePassword ? 'visibility_off' : 'visibility'}}
-      </mat-icon>
-    </mat-form-field>
-    <div class="input-nav-div">
+<div fxLayoutAlign="center">
+  <mat-card fxFlex="582px" fxFlex.xs="100%">
+    <mat-card-title>Log In</mat-card-title>
+    <form (submit)="onLogin(loginForm)"
+          #loginForm="ngForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          #emailField
+          matInput
+          type="email"
+          name="email"
+          ngModel
+          #emailInput="ngModel"
+          email
+          required
+          [disabled]="isLoading"
+          (keyup.enter)="!emailInput.invalid && passwordField.focus()">
+        <mat-error *ngIf="emailInput.invalid">Enter your email address</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          #passwordField
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          name="password"
+          ngModel
+          #passwordInput="ngModel"
+          required
+          [disabled]="isLoading">
+        <mat-error *ngIf="passwordInput.invalid">Enter your password</mat-error>
+        <mat-icon matSuffix class="icon" (click)="hidePassword = !hidePassword">
+          {{hidePassword ? 'visibility_off' : 'visibility'}}
+        </mat-icon>
+      </mat-form-field>
+      <div class="input-nav-div">
+        <a mat-button
+           [disabled]="isLoading">Forgot password?</a>
+      </div>
       <a mat-button
-         [disabled]="isLoading">Forgot password?</a>
-    </div>
-    <a mat-button
-       [routerLink]="isLoading ? null : '/auth/signup'"
-       [disabled]="isLoading">Create account</a>
-    <button
-      class="submit-btn"
-      mat-raised-button
-      color="primary"
-      type="submit"
-      *ngIf="!isLoading">Log In
-    </button>
-    <mat-spinner *ngIf="isLoading"></mat-spinner>
-  </form>
-</mat-card>
+         [routerLink]="isLoading ? null : '/auth/signup'"
+         [disabled]="isLoading">Create account</a>
+      <button
+        class="submit-btn"
+        mat-raised-button
+        color="primary"
+        type="submit"
+        *ngIf="!isLoading">Log In
+      </button>
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+    </form>
+  </mat-card>
+</div>
