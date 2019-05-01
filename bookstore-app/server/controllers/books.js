@@ -18,3 +18,31 @@ exports.getBook = (req, res) => {
     .then(() => session.close())
 };
 
+// Find filtered Books
+exports.getAllBooks = (req, res) => {
+  const session = dbUtils.getSession(req.body);
+
+  // Filtering
+  const genreId = +req.query.genreId;
+  const categoryId = +req.query.categoryId;
+  // Ordering
+  const orderBy = req.query.orderBy;
+  const orderDir = req.query.orderDir;
+  // Pagination
+  const limit = +req.query.limit;
+  const page = +req.query.page;
+  let skip;
+  if (limit && page) {
+    skip = limit * (page - 1)
+  }
+  Books.findAll(session, genreId, categoryId, orderBy, orderDir, skip, limit)
+    .then(data => {
+      // console.log(data);
+      Res_.writeResponse(res, data);
+    })
+    .catch((err) => {
+      console.log(err);
+      Res_.writeError(res, err);
+    })
+    .then(() => session.close())
+};

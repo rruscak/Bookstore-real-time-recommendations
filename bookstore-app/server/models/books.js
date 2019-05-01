@@ -1,7 +1,6 @@
 const Book = require('../models/neo4j/Book');
-const Image = require('../models/neo4j/Image');
+const BookItem = require('../models/neo4j/BookItem');
 const _ = require('lodash');
-const dbUtils = require('../configurators/dbUtils');
 
 const findById = (session, id) => {
   let query = [
@@ -31,6 +30,69 @@ const findById = (session, id) => {
     });
 };
 
+const findAll = (session, genreId, catId, orderBy, orderDir, skip, limit) => {
+  let properties = {};
+  let conditions = '';
+  if (genreId) {
+    conditions = 'WHERE ID(g) = toInteger($genreId) ';
+    properties.genreId = genreId;
+  }
+  if (catId) {
+    conditions = 'WHERE ID(c) = toInteger($catId) ';
+    properties.catId = catId;
+  }
+
+  let query = [
+    'MATCH (book:Book)-[:HAS_CATEGORY]->(c:Category)-[:CATEGORY_OF]->(g:Genre)',
+    conditions,
+    'OPTIONAL MATCH (book)-[:HAS_IMAGE]->(i:Image)',
+    'OPTIONAL MATCH (book)<-[:WRITER_OF]-(w:Writer)',
+    'OPTIONAL MATCH (book)<-[:PUBLISHER_OF]-(p:Publisher)',
+    'RETURN',
+    '{id: id(book), title: book.title, writer: w.name, price: book.price, image: collect(DISTINCT i)} AS book'
+  ].join('\n');
+
+  // Ordering
+  switch (orderBy) {
+    case 'name':
+      query += ' ORDER BY book.title ';
+      break;
+    case 'price':
+      query += ' ORDER BY book.price ';
+      break;
+    case 'date':
+      query += ' ORDER BY book.releaseYear ';
+      break;
+  }
+  if (orderDir) {
+    query += orderDir;
+  }
+  // Pagination
+  if (skip) {
+    query += ' SKIP $skip';
+    properties.skip = skip;
+  }
+  if (limit) {
+    query += ' LIMIT $limit';
+    properties.limit = limit;
+  }
+
+  return session
+    .run(query, properties)
+    .then(result => {
+      if (_.isEmpty(result.records))
+        return null;
+
+      // console.log(result.records[0].get('book'));
+      return manyBooksItems(result);
+    });
+};
+
+const manyBooksItems = (result) => {
+  return result.records.map(r => new BookItem(r.get('book')));
+};
+
 module.exports = {
-  findById: findById
+  findById: findById,
+  findAll: findAll
 };

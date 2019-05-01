@@ -3,10 +3,7 @@ const dbUtils = require('../../configurators/dbUtils');
 
 const Image = require('./Image');
 
-function Book(_node, _details, _image) {
-  let images = [];
-  _image.forEach((image => images.push(new Image(image))));
-
+function Book(_node, _details, _images) {
   _.extend(this, {
     id: dbUtils.getID(_node),
     title: _node.properties['title'],
@@ -24,7 +21,7 @@ function Book(_node, _details, _image) {
     category: _details[0].category,
     genre: _details[0].genre,
 
-    images: images
+    images: _images.map((image => new Image(image)))
   });
 }
 
