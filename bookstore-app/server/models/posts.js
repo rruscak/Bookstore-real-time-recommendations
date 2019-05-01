@@ -76,7 +76,7 @@ const findById = (session, id) => {
       if (_.isEmpty(result.records))
         return null;
 
-      return new Post(result.records[0].get('post'), result.records[0].get("userId"))
+      return new Post(result.records[0].get('post'), result.records[0].get("userId"));
     });
 };
 

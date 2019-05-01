@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from '../book.model';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
+import { Image } from '../../shared/image.model';
 
 
 @Component({
@@ -36,11 +37,17 @@ export class BookListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const image: Image = {
+      id: null,
+      name: '',
+      path: 'https://www.pantarhei.sk/media/catalog/product/cache/1/image/250x361/040ec09b1e35df139433887a97daa66f/m/e/metro-2035-91713.jpg'
+    };
+
     const book = new Book(
       1,
       'Book Title',
       'Author Name',
-      'https://www.pantarhei.sk/media/catalog/product/cache/1/image/250x361/040ec09b1e35df139433887a97daa66f/m/e/metro-2035-91713.jpg',
+      image,
       10.09);
 
     this.books.push(book);
@@ -48,14 +55,13 @@ export class BookListComponent implements OnInit {
       1,
       'This book title',
       'Author Name 2',
-      'https://www.pantarhei.sk/media/catalog/product/cache/1/image/250x361/040ec09b1e35df139433887a97daa66f/m/e/metro-2033-86428.jpg',
+      image,
       10.00));
     this.books.push(new Book(
       1,
       'Book Title 3',
       'Author Name 3',
-      'https://www.pantarhei.sk/media/catalog/product/cache/1/image/250x361/' +
-      '040ec09b1e35df139433887a97daa66f/m/e/metro-a-trilogia-24882.jpg',
+      image,
       10.00));
     this.books.push(book);
     this.books.push(book);
@@ -65,7 +71,7 @@ export class BookListComponent implements OnInit {
       1,
       'Book Title 4',
       'Author Name 4',
-      'https://www.pantarhei.sk/media/catalog/product/cache/1/image/250x361/040ec09b1e35df139433887a97daa66f/m/e/metro-2035-91713.jpg',
+      image,
       10.00));
   }
 

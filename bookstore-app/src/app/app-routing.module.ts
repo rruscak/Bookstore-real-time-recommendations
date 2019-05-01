@@ -10,7 +10,7 @@ import { BookDetailComponent } from './books/book-detail/book-detail.component';
 
 const routes: Routes = [
   {path: '', component: BookListComponent},
-  {path: 'book', component: BookDetailComponent},
+  {path: 'book/:bookId', component: BookDetailComponent},
   {path: 'books', component: BookListComponent},
   {path: 'cart', component: ShoppingCartComponent},
   {path: 'posts', component: PostListComponent},

@@ -5,6 +5,9 @@ const extractFile = require('../middleware/file');
 
 // extractFile.cleanFolder('uploads/images');
 
+/**
+ * url: /api/posts
+ * */
 // Create post
 router.post("", auth, extractFile, PostsController.createPost);
 // Update post

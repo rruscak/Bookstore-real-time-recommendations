@@ -1,23 +1,26 @@
 <mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
   <div fxLayout="row"
        fxLayout.xs="column"
-       fxLayoutGap="10px">
+       fxLayoutGap="10px"
+       *ngIf="!isLoading">
     <!--  LEFT DIV - IMAGE, DETAILS  -->
     <div fxLayoutAlign.xs="center">
       <!--  IMAGE  -->
-      <img
-        class="book-img"
-        routerLink="/book"
-        width="230" height="361"
-        [src]="book.imagePath"
-        [alt]="book.title">
+      <div class="book-img-div">
+        <img
+          class="book-img"
+          width="230" height="361"
+          [src]="book.images[0].path"
+          [alt]="book.images[0].name">
+      </div>
       <!--  DETAILS  -->
       <mat-card-content class="details-div">
-        <p><b>Number of Pages: </b>{{ book.numOfPages }}</p>
-        <p><b>Language: </b>{{ book.language }}</p>
-        <p><b>ISBN: </b>{{ book.isbn }}</p>
-        <p><b>Release Year: </b>{{ book.releaseYear }}</p>
-        <p><b>Weight: </b>{{ book.weight }} kg</p>
+        <p *ngIf="book.numOfPages"><b>Number of Pages: </b>{{ book.numOfPages }}</p>
+        <p *ngIf="book.language"><b>Language: </b>{{ book.language }}</p>
+        <p *ngIf="book.isbn"><b>ISBN: </b>{{ book.isbn }}</p>
+        <p *ngIf="book.releaseYear"><b>Release Year: </b>{{ book.releaseYear }}</p>
+        <p *ngIf="book.weight"><b>Weight: </b>{{ book.weight }} kg</p>
       </mat-card-content>
     </div>
     <!--  RIGHT DIV - HEADER, ACTION BAR, ABOUT  -->

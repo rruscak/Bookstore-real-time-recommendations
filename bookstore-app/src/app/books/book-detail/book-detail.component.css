@@ -12,3 +12,8 @@
 .book-img {
   border-radius: 4px;
 }
+
+.book-img-div {
+  min-width: 230px;
+  min-height: 361px;
+}

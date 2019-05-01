@@ -25,9 +25,19 @@ exports.dbWhere = (name, keys) => {
   }
 };
 
-exports.getID = _node => _node.identity.inSafeRange() ? _node.identity.toNumber() : _node.identity.toString();
+exports.getID = _node => {
+  if (_node.identity == null) {
+    return null;
+  }
+  return _node.identity.inSafeRange() ? _node.identity.toNumber() : _node.identity.toString();
+};
 
-exports.toNumber = integerVal => integerVal.inSafeRange() ? integerVal.toNumber() : integerVal.toString();
+exports.toNumber = integerVal => {
+  if (integerVal == null) {
+    return null;
+  }
+  return integerVal.inSafeRange() ? integerVal.toNumber() : integerVal.toString();
+};
 
 exports.getStatistics = result => result != null ? result.summary.updateStatistics._stats : null;
 
