@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: 'http://localhost:3000/api/',
+  imagesUrl: 'http://localhost:3000/images/',
+  defaultImage: 'http://localhost:3000/images/metro-2033-86428.jpg'
 };
 
 /*

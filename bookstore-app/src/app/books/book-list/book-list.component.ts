@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Book } from '../book.model';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { Image } from '../../shared/image.model';
+import { BooksService } from '../books.service';
+import { Subscription } from 'rxjs';
+import { PageEvent } from '@angular/material';
 
 
 @Component({
@@ -10,14 +12,17 @@ import { Image } from '../../shared/image.model';
   styleUrls: ['./book-list.component.css']
 })
 export class BookListComponent implements OnInit {
+  isLoading = false;
   books: Book[] = [];
-  pageSize = 16;
+  totalBooks = 0;
+  pageSize = 2;
   currentPage = 1;
-  pageSizeOptions = [8, 16, 32, 64];
-
+  // pageSizeOptions = [8, 16, 32, 64];
+  pageSizeOptions = [2, 4, 6, 8];
   columnNum = 4;
+  private booksSubs: Subscription;
 
-  constructor(media: MediaObserver) {
+  constructor(public booksService: BooksService, private media: MediaObserver) {
     media.media$
       .subscribe((change: MediaChange) => {
         // alert(change.mqAlias);
@@ -37,42 +42,23 @@ export class BookListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const image: Image = {
-      id: null,
-      name: '',
-      path: 'https://www.pantarhei.sk/media/catalog/product/cache/1/image/250x361/040ec09b1e35df139433887a97daa66f/m/e/metro-2035-91713.jpg'
-    };
+    this.isLoading = true;
+    this.booksService.getPosts(this.pageSize, this.currentPage);
+    this.booksSubs = this.booksService
+      .getBooksUpdatedListener()
+      .subscribe((bookData: { books: Book[], count: number }) => {
+        this.isLoading = false;
+        console.log(bookData.books);
+        this.books = bookData.books;
+        this.totalBooks = bookData.count;
+      });
+  }
 
-    const book = new Book(
-      1,
-      'Book Title',
-      'Author Name',
-      image,
-      10.09);
-
-    this.books.push(book);
-    this.books.push(new Book(
-      1,
-      'This book title',
-      'Author Name 2',
-      image,
-      10.00));
-    this.books.push(new Book(
-      1,
-      'Book Title 3',
-      'Author Name 3',
-      image,
-      10.00));
-    this.books.push(book);
-    this.books.push(book);
-    this.books.push(book);
-    this.books.push(book);
-    this.books.push(new Book(
-      1,
-      'Book Title 4',
-      'Author Name 4',
-      image,
-      10.00));
+  onChangedPage(pageData: PageEvent) {
+    this.isLoading = true;
+    this.pageSize = pageData.pageSize;
+    this.currentPage = ++pageData.pageIndex;
+    this.booksService.getPosts(this.pageSize, this.currentPage);
   }
 
 

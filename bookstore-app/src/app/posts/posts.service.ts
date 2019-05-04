@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
-const BACKEND_URL = environment.apiUrl + '/posts/';
+const BACKEND_URL = environment.apiUrl + 'posts/';
 
 // No need to import it in app.modules and also it becomes singleton
 @Injectable({providedIn: 'root'})

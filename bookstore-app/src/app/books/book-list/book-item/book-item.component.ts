@@ -18,5 +18,4 @@ export class BookItemComponent {
       duration: 5000,
     });
   }
-
 }

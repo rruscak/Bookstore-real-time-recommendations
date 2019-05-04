@@ -92,7 +92,19 @@ const manyBooksItems = (result) => {
   return result.records.map(r => new BookItem(r.get('book')));
 };
 
+const count = (session) => {
+  let query = [
+    'MATCH(books:Book)',
+    'RETURN count(books) AS count'
+  ].join('\n');
+
+  return session
+    .run(query)
+    .then(result => result.records[0].get("count"));
+};
+
 module.exports = {
   findById: findById,
-  findAll: findAll
+  findAll: findAll,
+  count: count
 };

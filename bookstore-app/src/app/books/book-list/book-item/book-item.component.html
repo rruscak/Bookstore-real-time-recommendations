@@ -5,19 +5,20 @@
      [matRippleUnbounded]="false">
   <mat-card class="card-div">
     <!-- IMAGE -->
-    <img mat-card-image
+    <img dCheckImage
+         mat-card-image
          class="book-img"
-         routerLink="/book/20"
+         [routerLink]="['/book/', book.id]"
          width="222" height="341"
-         [src]="book.images[0].path"
-         [alt]="book.images[0].name">
+         [src]="book.images[0]?.path"
+         [alt]="book.images[0]?.name">
     <!-- AUTHOR -->
     <mat-card-subtitle fxLayoutAlign="center">
-      {{ book.author }}
+      {{ book.writer }}
     </mat-card-subtitle>
     <!-- TITLE -->
     <mat-card-title class="title-link font-size-large"
-                    routerLink="/book/20"
+                    [routerLink]="['/book/', book.id]"
                     fxLayoutAlign="center">
       {{ book.title }}
     </mat-card-title>

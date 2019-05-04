@@ -20,8 +20,6 @@ exports.getBook = (req, res) => {
 
 // Find filtered Books
 exports.getAllBooks = (req, res) => {
-  const session = dbUtils.getSession(req.body);
-
   // Filtering
   const genreId = +req.query.genreId;
   const categoryId = +req.query.categoryId;
@@ -35,10 +33,20 @@ exports.getAllBooks = (req, res) => {
   if (limit && page) {
     skip = limit * (page - 1)
   }
+
+  let books;
+  const session = dbUtils.getSession(req.body);
   Books.findAll(session, genreId, categoryId, orderBy, orderDir, skip, limit)
     .then(data => {
       // console.log(data);
-      Res_.writeResponse(res, data);
+      books = data;
+      return Books.count(session);
+    })
+    .then(count => {
+      Res_.writeResponse(res, {
+        books: books,
+        count: dbUtils.toNumber(count)
+      });
     })
     .catch((err) => {
       console.log(err);

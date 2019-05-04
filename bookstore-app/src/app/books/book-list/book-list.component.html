@@ -10,19 +10,22 @@
     <!--  SORTING  -->
     <app-book-sorter></app-book-sorter>
     <!--  ITEMS  -->
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
     <mat-grid-list [cols]="columnNum"
                    rowHeight="500px"
                    gutterSize="10px"
-                   fxFlex="1 1 auto">
+                   fxFlex="1 1 auto"
+                   *ngIf="books.length > 0 && !isLoading">
       <mat-grid-tile *ngFor="let book of books">
         <app-book-item [book]="book"></app-book-item>
       </mat-grid-tile>
     </mat-grid-list>
     <!--  PAGINATOR  -->
     <mat-paginator
-      [length]="books.length"
+      [length]="totalBooks"
       [pageSize]="pageSize"
       [pageSizeOptions]="pageSizeOptions"
+      (page)="onChangedPage($event)"
       *ngIf="books.length > 0">
     </mat-paginator>
   </div>

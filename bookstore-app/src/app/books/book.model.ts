@@ -5,7 +5,7 @@ export class Book {
   public title: string;
   public price: number;
 
-  public author: string;
+  public writer: string;
   public publisher: string;
   public category: string;
   public genre: string;
@@ -20,10 +20,10 @@ export class Book {
 
   public images: Image[];
 
-  constructor(id: number, title: string, author: string, image: Image, price: number) {
+  constructor(id: number, title: string, writer: string, image: Image, price: number) {
     this.id = id;
     this.title = title;
-    this.author = author;
+    this.writer = writer;
     this.price = price;
     this.images = [image];
   }

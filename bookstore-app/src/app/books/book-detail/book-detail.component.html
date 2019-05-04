@@ -8,11 +8,11 @@
     <div fxLayoutAlign.xs="center">
       <!--  IMAGE  -->
       <div class="book-img-div">
-        <img
-          class="book-img"
-          width="230" height="361"
-          [src]="book.images[0].path"
-          [alt]="book.images[0].name">
+        <img dCheckImage
+             class="book-img"
+             width="230" height="361"
+             [src]="book.images[0]?.path"
+             [alt]="book.images[0]?.name">
       </div>
       <!--  DETAILS  -->
       <mat-card-content class="details-div">
@@ -30,7 +30,7 @@
         <mat-card-title>{{ book.title }}</mat-card-title>
         <mat-card-subtitle>
           <span class="accent-color">Author:</span>
-          {{ book.author }}
+          {{ book.writer }}
         </mat-card-subtitle>
       </div>
       <!--  ACTION BAR  -->

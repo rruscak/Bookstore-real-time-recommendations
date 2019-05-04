@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BookFilterComponent } from './book-list/book-filter/book-filter.component';
 import { RouterModule } from '@angular/router';
 import { BookSorterComponent } from './book-list/book-sorter/book-sorter.component';
+import { CheckImageDirective } from '../shared/directives/check-image.directive';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { BookSorterComponent } from './book-list/book-sorter/book-sorter.compone
     BookItemComponent,
     BookDetailComponent,
     BookFilterComponent,
-    BookSorterComponent
+    BookSorterComponent,
+    CheckImageDirective
   ],
   imports: [
     AngularMaterialModule,
