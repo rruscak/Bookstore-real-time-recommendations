@@ -4,8 +4,10 @@ import { Book } from './book.model';
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Genre } from './genre.model';
 
 const BACKEND_URL = environment.apiUrl + 'books/';
+const BACKEND_URL_FILTERS = environment.apiUrl + 'filters/';
 
 @Injectable({providedIn: 'root'})
 export class BooksService {
@@ -23,16 +25,28 @@ export class BooksService {
     return this.http.get<Book>(BACKEND_URL + id);
   }
 
-  getPosts(limit: number, page: number) {
-    const queryParams = `?limit=${limit}&page=${page}`;
+  getPosts(limit: number, page: number, orderBy: string, orderDir: string) {
+    console.log('----------');
+    console.log('orderBy: ' + orderBy);
+    console.log('orderDir: ' + orderDir);
+    let queryParams = `?limit=${limit}&page=${page}`;
+    if (orderBy) {
+      queryParams += `&orderBy=${orderBy}`;
+    }
+    if (orderDir) {
+      queryParams += `&orderDir=${orderDir}`;
+    }
     this.http.get<{ books: Book[], count: number }>(BACKEND_URL + queryParams)
       .subscribe((res) => {
-        console.log(res);
         this.books = res.books;
         this.booksUpdated.next({
           books: [...this.books],
           count: res.count
         });
       });
+  }
+
+  getFilters() {
+    return this.http.get<Genre[]>(BACKEND_URL_FILTERS);
   }
 }

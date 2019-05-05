@@ -2,27 +2,29 @@
   <mat-form-field class="sorting-select">
     <span matPrefix>Sort by:&nbsp;</span>
     <mat-select
-      [(value)]="defaultOrder">
-      <mat-option *ngFor="let order of bookOrder" [value]="order">
-        {{ order }}
+      [value]="defaultOrder.value"
+      (selectionChange)="onOrderByChanged($event)">
+      <mat-option *ngFor="let order of sortOrders" [value]="order.value">
+        {{ order.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
   <div fxFlex="1 1 auto" fxLayoutAlign="end center">
     <mat-button-toggle-group
+      (change)="onOrderDirChanged($event)"
       #group="matButtonToggleGroup"
       aria-label="Sorting direction"
-      value="ascending">
+      value="ASC">
       <mat-button-toggle
-        value="ascending"
+        value="ASC"
         matTooltip="Ascending"
         matTooltipPosition="left"
         aria-label="Change sorting in ascending order">
         <mat-icon>arrow_upward</mat-icon>
       </mat-button-toggle>
       <mat-button-toggle
-        value="descending"
+        value="DESC"
         matTooltip="Descending"
         matTooltipPosition="left"
         aria-label="Change sorting in descending order">

@@ -54,3 +54,17 @@ exports.getAllBooks = (req, res) => {
     })
     .then(() => session.close())
 };
+
+exports.getFilters = (req, res) => {
+  const session = dbUtils.getSession(req.body);
+  Books.findFilters(session)
+    .then(data => {
+
+      Res_.writeResponse(res, data);
+    })
+    .catch((err) => {
+      console.log(err);
+      Res_.writeError(res, err);
+    })
+    .then(() => session.close())
+};
