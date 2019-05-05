@@ -30,17 +30,19 @@ export class BookFilterComponent implements OnInit {
       });
   }
 
-  onGenreCollapsed() {
-    this.genreId = null;
+  onGenreCollapsed(genre: Genre) {
+    genre.expanded = false;
     this.categoryId = null;
-    console.log(this.categoryValues);
     this.categoryValues = [];
-    this.emitFilterChanged();
+    this.checkAndEmitFilterChanged();
   }
 
-  onGenreChanged(genreId: number) {
-    this.genreId = genreId;
-    this.emitFilterChanged();
+  onGenreChanged(genre: Genre) {
+    if (!this.filters.genres.find(g => g.expanded)) {
+      genre.expanded = true;
+      this.checkAndEmitFilterChanged();
+    }
+    genre.expanded = true;
   }
 
   onCategoryChanged(event: MatButtonToggleChange) {
@@ -53,10 +55,23 @@ export class BookFilterComponent implements OnInit {
         this.categoryId = toggle.value;
       }
     }
-    this.emitFilterChanged();
+    this.checkAndEmitFilterChanged();
+  }
+
+  private checkAndEmitFilterChanged() {
+    const expandedCount = this.filters.genres.filter(g => g.expanded).length;
+    if (expandedCount === 1) {
+      const genre = this.filters.genres.find(g => g.expanded);
+      this.genreId = genre.id;
+      this.emitFilterChanged();
+    } else if (expandedCount === 0) {
+      this.genreId = null;
+      this.emitFilterChanged();
+    }
   }
 
   private emitFilterChanged() {
+    console.log('Filter');
     this.filterChanged.emit({
       genreId: this.genreId,
       categoryId: this.categoryId

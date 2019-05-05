@@ -11,6 +11,7 @@
     <app-book-sorter (sortingChanged)="onSortingChanged($event)"></app-book-sorter>
     <!--  ITEMS  -->
     <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <p class="info-text" *ngIf="books.length <= 0 && !isLoading">No results.</p>
     <mat-grid-list [cols]="columnNum"
                    rowHeight="500px"
                    gutterSize="10px"

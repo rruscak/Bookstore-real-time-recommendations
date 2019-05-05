@@ -3,8 +3,8 @@
   <mat-accordion multi="false"
                  *ngIf="filters.genres.length > 0 && !isLoading">
     <mat-expansion-panel *ngFor="let genre of filters.genres"
-                         (afterExpand)="onGenreChanged(genre.id)"
-                         (afterCollapse)="onGenreCollapsed()">
+                         (opened)="onGenreChanged(genre)"
+                         (afterCollapse)="onGenreCollapsed(genre)">
       <!--  GENRE  -->
       <mat-expansion-panel-header>
         <a matLine>{{ genre.name }}</a>
