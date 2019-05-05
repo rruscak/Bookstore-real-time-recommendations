@@ -92,14 +92,25 @@ const manyBooksItems = (result) => {
   return result.records.map(r => new BookItem(r.get('book')));
 };
 
-const count = (session) => {
+const count = (session, genreId, catId) => {
+  let properties = {};
+  let conditions = '';
+  if (genreId) {
+    conditions = 'WHERE ID(g) = toInteger($genreId) ';
+    properties.genreId = genreId;
+  }
+  if (catId) {
+    conditions = 'WHERE ID(c) = toInteger($catId) ';
+    properties.catId = catId;
+  }
   let query = [
-    'MATCH(books:Book)',
+    'MATCH(books:Book)-[:HAS_CATEGORY]->(c:Category)-[:CATEGORY_OF]->(g:Genre)',
+    conditions,
     'RETURN count(books) AS count'
   ].join('\n');
 
   return session
-    .run(query)
+    .run(query, properties)
     .then(result => result.records[0].get("count"));
 };
 

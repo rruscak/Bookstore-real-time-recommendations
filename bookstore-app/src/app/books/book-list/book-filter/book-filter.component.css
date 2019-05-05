@@ -1,5 +1,5 @@
 .filter-div {
-  width: 260px;
+  /*width: 260px;*/
 }
 
 .btn-subcategory {
@@ -8,6 +8,11 @@
 
 .category-div {
   padding: 0;
+}
+
+.category-toggle-group {
+  width: 100%;
+  border: none;
 }
 
 /*:host {*/

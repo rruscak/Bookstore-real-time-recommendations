@@ -1,18 +1,27 @@
 <div class="filter-div">
-
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <mat-accordion multi="false"
                  *ngIf="filters.genres.length > 0 && !isLoading">
-    <mat-expansion-panel *ngFor="let genre of filters.genres">
+    <mat-expansion-panel *ngFor="let genre of filters.genres"
+                         (afterExpand)="onGenreChanged(genre.id)"
+                         (afterCollapse)="onGenreCollapsed()">
       <!--  GENRE  -->
       <mat-expansion-panel-header>
         <a matLine>{{ genre.name }}</a>
       </mat-expansion-panel-header>
       <!--  CATEGORY  -->
       <mat-nav-list class="category-div" *ngIf="genre.categories.length > 0">
-        <mat-list-item *ngFor="let category of genre.categories">
-          <a>{{ category.name }}</a>
-        </mat-list-item>
+        <mat-button-toggle-group class="category-toggle-group"
+                                 vertical
+                                 multiple
+                                 [value]="categoryValues"
+                                 (change)="onCategoryChanged($event)">
+          <mat-button-toggle
+            *ngFor="let category of genre.categories"
+            [value]="category.id">
+            {{ category.name }}
+          </mat-button-toggle>
+        </mat-button-toggle-group>
       </mat-nav-list>
     </mat-expansion-panel>
   </mat-accordion>

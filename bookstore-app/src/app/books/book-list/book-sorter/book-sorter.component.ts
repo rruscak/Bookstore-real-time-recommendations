@@ -39,6 +39,9 @@ export class BookSorterComponent implements OnInit {
   }
 
   private emitSortingChange() {
-    this.sortingChanged.emit({orderBy: this.orderBy, orderDir: this.orderDir});
+    this.sortingChanged.emit({
+      orderBy: this.orderBy,
+      orderDir: this.orderDir
+    });
   }
 }

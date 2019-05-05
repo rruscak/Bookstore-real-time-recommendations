@@ -21,8 +21,11 @@ export class BookListComponent implements OnInit {
   pageSizeOptions = [2, 4, 6, 8];
   columnNum = 4;
 
+  genreId: number = null;
+  categoryId: number = null;
   orderBy = 'name';
   orderDir = 'ASC';
+
   private booksSubs: Subscription;
 
   constructor(public booksService: BooksService, private media: MediaObserver) {
@@ -44,7 +47,7 @@ export class BookListComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.booksService.getPosts(this.pageSize, this.currentPage, this.orderBy, this.orderDir);
+    this.fetchBooks();
     this.booksSubs = this.booksService
       .getBooksUpdatedListener()
       .subscribe((bookData: { books: Book[], count: number }) => {
@@ -55,7 +58,15 @@ export class BookListComponent implements OnInit {
   }
 
   private fetchBooks() {
-    this.booksService.getPosts(this.pageSize, this.currentPage, this.orderBy, this.orderDir);
+    this.isLoading = true;
+    this.booksService.getPosts(
+      this.pageSize,
+      this.currentPage,
+      this.orderBy,
+      this.orderDir,
+      this.genreId,
+      this.categoryId
+    );
   }
 
   onChangedPage(pageData: PageEvent) {
@@ -75,4 +86,12 @@ export class BookListComponent implements OnInit {
     this.fetchBooks();
   }
 
+  onFilteringChanged(eventDate: { genreId: number; categoryId: number }) {
+    if (this.genreId === eventDate.genreId && this.categoryId === eventDate.categoryId) {
+      return;
+    }
+    this.genreId = eventDate.genreId;
+    this.categoryId = eventDate.categoryId;
+    this.fetchBooks();
+  }
 }

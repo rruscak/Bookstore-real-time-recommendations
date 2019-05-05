@@ -3,7 +3,7 @@
      fxLayout.lt-md="column"
      fxLayoutGap="0.5%">
   <!--  FILTERING  -->
-  <app-book-filter></app-book-filter>
+  <app-book-filter (filterChanged)="onFilteringChanged($event)"></app-book-filter>
   <div fxLayout="column"
        fxFlex="1 1 auto"
        fxLayoutGap="0.5%">

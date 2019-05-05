@@ -40,27 +40,13 @@ exports.getAllBooks = (req, res) => {
     .then(data => {
       // console.log(data);
       books = data;
-      return Books.count(session);
+      return Books.count(session, genreId, categoryId);
     })
     .then(count => {
       Res_.writeResponse(res, {
         books: books,
         count: dbUtils.toNumber(count)
       });
-    })
-    .catch((err) => {
-      console.log(err);
-      Res_.writeError(res, err);
-    })
-    .then(() => session.close())
-};
-
-exports.getFilters = (req, res) => {
-  const session = dbUtils.getSession(req.body);
-  Books.findFilters(session)
-    .then(data => {
-
-      Res_.writeResponse(res, data);
     })
     .catch((err) => {
       console.log(err);

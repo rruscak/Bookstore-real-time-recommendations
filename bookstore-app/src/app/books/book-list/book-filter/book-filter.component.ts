@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BooksService } from '../../books.service';
 import { Genre } from '../../genre.model';
+import { MatButtonToggleChange } from '@angular/material';
 
 @Component({
   selector: 'app-book-filter',
@@ -8,8 +9,12 @@ import { Genre } from '../../genre.model';
   styleUrls: ['./book-filter.component.css']
 })
 export class BookFilterComponent implements OnInit {
+  @Output() filterChanged = new EventEmitter<{ genreId: number, categoryId: number }>();
   isLoading = false;
-  filters: { genres: Genre[] } = { genres: []};
+  filters: { genres: Genre[] } = {genres: []};
+  genreId: number = null;
+  categoryId: number = null;
+  categoryValues: number[] = [];
 
   constructor(public booksService: BooksService) {
   }
@@ -19,48 +24,42 @@ export class BookFilterComponent implements OnInit {
     this.booksService.getFilters()
       .subscribe(res => {
         if (res) {
-          // console.log(res);
-          console.log(res);
           res.forEach((g) => this.filters.genres.push(g));
-          console.log(this.filters.genres);
-          this.isLoading = false;
         }
+        this.isLoading = false;
       });
-    console.log(this.filters.genres);
-
-    //
-    // this.filters = {
-    //   genres: [
-    //     ({
-    //       name: 'Fiction',
-    //       categories: [
-    //         {name: 'World fiction'},
-    //         {name: 'Romance fiction'},
-    //         {name: 'Sci-fi, fantasy'},
-    //         {name: 'Historic fiction'},
-    //         {name: 'True Stories'},
-    //         {name: 'Humor, satire'},
-    //         {name: 'Detectives, thrillers, horrors'},
-    //         {name: 'Novels, short stories, anthologies'},
-    //         {name: 'Others'}
-    //       ]
-    //     }), ({
-    //       name: 'Biography',
-    //       categories: [
-    //         {name: 'Biography - others'},
-    //         {name: 'Business'},
-    //         {name: 'History, politics'}
-    //       ]
-    //     }), ({
-    //       name: 'Poetry',
-    //       categories: [
-    //         {name: 'Slovak poetry'},
-    //         {name: 'Czech poetry'},
-    //         {name: 'World poetry'}
-    //       ]
-    //     })
-    //   ]
-    // };
   }
 
+  onGenreCollapsed() {
+    this.genreId = null;
+    this.categoryId = null;
+    console.log(this.categoryValues);
+    this.categoryValues = [];
+    this.emitFilterChanged();
+  }
+
+  onGenreChanged(genreId: number) {
+    this.genreId = genreId;
+    this.emitFilterChanged();
+  }
+
+  onCategoryChanged(event: MatButtonToggleChange) {
+    const toggle = event.source;
+    this.categoryId = null;
+    if (toggle) {
+      const group = toggle.buttonToggleGroup;
+      if (event.value.some(item => item === toggle.value)) {
+        group.value = [toggle.value];
+        this.categoryId = toggle.value;
+      }
+    }
+    this.emitFilterChanged();
+  }
+
+  private emitFilterChanged() {
+    this.filterChanged.emit({
+      genreId: this.genreId,
+      categoryId: this.categoryId
+    });
+  }
 }
