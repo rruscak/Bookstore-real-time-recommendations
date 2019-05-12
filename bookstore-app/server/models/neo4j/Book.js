@@ -13,7 +13,7 @@ function Book(_node, _details, _images) {
     numOfPages: dbUtils.toNumber(_node.properties['numOfPages']),
     inStock: dbUtils.toNumber(_node.properties['inStock']),
     language: _node.properties['language'],
-    releaseYear: _node.properties['releaseYear'],
+    releaseYear: dbUtils.toNumber(_node.properties['releaseYear']),
     weight: _node.properties['weight'],
 
     publisher: _details[0].publisher,

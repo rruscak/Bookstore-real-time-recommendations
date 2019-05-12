@@ -9,6 +9,7 @@ function BookItem(_node) {
     title: _node.title,
     writer: _node.writer,
     price: _node.price,
+    releaseYear: dbUtils.toNumber(_node.releaseYear),
 
     images: _node.image ? _node.image.map((image => new Image(image))) : null
   });

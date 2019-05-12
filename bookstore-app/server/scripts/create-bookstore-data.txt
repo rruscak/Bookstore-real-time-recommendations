@@ -1,0 +1,481 @@
+// Create Bookstore Data
+// Users
+CREATE(user1: User {
+	email: 'user1@user.com',
+	password: '$2b$10$NqYSQELTLpfE8l98HnbN7OcSSyc8o3XAXvGqMQdawcPLp0AMadErO',
+	firstName: 'Bob',
+	lastName: 'Godfrey',
+	phone: '0910 155 284',
+	address: 'Blue Valley 62',
+	city: 'London',
+	created: datetime()
+})
+CREATE(user2: User {
+	email: 'user2@user.com',
+	password: '$2b$10$NqYSQELTLpfE8l98HnbN7OcSSyc8o3XAXvGqMQdawcPLp0AMadErO',
+	firstName: 'Chuck',
+	lastName: 'Norris',
+	phone: '0910 155 284',
+	address: 'Blue Valley 62',
+	city: 'London',
+	created: datetime()
+})
+CREATE(user3: User {
+	email: 'user3@user.com',
+	password: '$2b$10$NqYSQELTLpfE8l98HnbN7OcSSyc8o3XAXvGqMQdawcPLp0AMadErO',
+	firstName: 'Padme',
+	lastName: 'Skywalker',
+	phone: '0910 155 284',
+	address: 'Blue Valley 62',
+	city: 'London',
+	created: datetime()
+})
+CREATE(user4: User {
+	email: 'user4@user.com',
+	password: '$2b$10$NqYSQELTLpfE8l98HnbN7OcSSyc8o3XAXvGqMQdawcPLp0AMadErO',
+	firstName: 'Robert',
+	lastName: 'Baratheon',
+	phone: '0910 155 284',
+	address: 'Blue Valley 62',
+	city: 'London',
+	created: datetime()
+})
+CREATE(user5: User {
+	email: 'user5@user.com',
+	password: '$2b$10$NqYSQELTLpfE8l98HnbN7OcSSyc8o3XAXvGqMQdawcPLp0AMadErO',
+	firstName: 'Tom',
+	lastName: 'Marley',
+	phone: '0910 155 284',
+	address: 'Blue Valley 62',
+	city: 'London',
+	created: datetime()
+})
+CREATE(user6: User {
+	email: 'user6@user.com',
+	password: '$2b$10$NqYSQELTLpfE8l98HnbN7OcSSyc8o3XAXvGqMQdawcPLp0AMadErO',
+	firstName: 'Will',
+	lastName: 'Smith',
+	phone: '0910 155 284',
+	address: 'Blue Valley 62',
+	city: 'London',
+	created: datetime()
+})
+CREATE(user7: User {
+	email: 'user7@user.com',
+	password: '$2b$10$NqYSQELTLpfE8l98HnbN7OcSSyc8o3XAXvGqMQdawcPLp0AMadErO',
+	firstName: 'Bob',
+	lastName: 'Peterson',
+	phone: '0910 155 284',
+	address: 'Blue Valley 62',
+	city: 'London',
+	created: datetime()
+})
+CREATE(user8: User {
+	email: 'user8@user.com',
+	password: '$2b$10$NqYSQELTLpfE8l98HnbN7OcSSyc8o3XAXvGqMQdawcPLp0AMadErO',
+	firstName: 'Thomas',
+	lastName: 'Howard',
+	phone: '0910 155 284',
+	address: 'Blue Valley 62',
+	city: 'London',
+	created: datetime()
+})
+CREATE(user9: User {
+	email: 'user9@user.com',
+	password: '$2b$10$NqYSQELTLpfE8l98HnbN7OcSSyc8o3XAXvGqMQdawcPLp0AMadErO',
+	firstName: 'Anakin',
+	lastName: 'Skywalker',
+	phone: '0910 155 284',
+	address: 'Blue Valley 62',
+	city: 'London',
+	created: datetime()
+})
+
+// Genres
+CREATE(fiction: Genre {
+	name: 'Fiction',
+	displayOrder: 1
+})
+CREATE(biography: Genre {
+	name: 'Biography',
+	displayOrder: 2
+})
+CREATE(poetry: Genre {
+	name: 'Poetry',
+	displayOrder: 3
+})
+//	Categories - Fiction
+CREATE(fictionWorld: Category {
+	name: 'World fiction',
+	displayOrder: 1
+})
+CREATE(fictionRomance: Category {
+	name: 'Romance fiction',
+	displayOrder: 2
+})
+// 2 authors - 5 books
+CREATE(fictionFantasy: Category {
+	name: 'Sci-fi, fantasy',
+	displayOrder: 3
+})
+CREATE(fictionHistory: Category {
+	name: 'Historic fiction',
+	displayOrder: 4
+})
+CREATE(fictionTrueStories: Category {
+	name: 'True Stories',
+	displayOrder: 5
+})
+CREATE(fictionHumor: Category {
+	name: 'Humor, satire',
+	displayOrder: 6
+})
+CREATE(fictionDetectives: Category {
+	name: 'Detectives',
+	displayOrder: 7
+})
+CREATE(fictionHorror: Category {
+	name: 'Thrillers, horrors',
+	displayOrder: 8
+})
+CREATE(fictionNovel: Category {
+	name: 'Novels, anthologies',
+	displayOrder: 9
+})
+CREATE(fictionOthers: Category {
+	name: 'Others',
+	displayOrder: 10
+})
+
+CREATE(fictionWorld) - [: CATEGORY_OF]->(fiction)
+CREATE(fictionRomance) - [: CATEGORY_OF]->(fiction)
+CREATE(fictionFantasy) - [: CATEGORY_OF]->(fiction)
+CREATE(fictionHistory) - [: CATEGORY_OF]->(fiction)
+CREATE(fictionTrueStories) - [: CATEGORY_OF]->(fiction)
+CREATE(fictionHumor) - [: CATEGORY_OF]->(fiction)
+CREATE(fictionHorror) - [: CATEGORY_OF]->(fiction)
+CREATE(fictionDetectives) - [: CATEGORY_OF]->(fiction)
+CREATE(fictionNovel) - [: CATEGORY_OF]->(fiction)
+CREATE(fictionOthers) - [: CATEGORY_OF]->(fiction)
+
+//	Categories - Biography
+CREATE(biographyOthers: Category {
+	name: 'Biography - others',
+	displayOrder: 1
+})
+CREATE(biographyBusiness: Category {
+	name: 'Business',
+	displayOrder: 2
+})
+CREATE(biographyHistory: Category {
+	name: 'History, politics',
+	displayOrder: 3
+})
+
+CREATE(biographyOthers) - [: CATEGORY_OF]->(biography)
+CREATE(biographyBusiness) - [: CATEGORY_OF]->(biography)
+CREATE(biographyHistory) - [: CATEGORY_OF]->(biography)
+
+//	Categories - Poetry
+CREATE(poetrySlovak: Category {
+	name: 'Slovak poetry',
+	displayOrder: 1
+})
+CREATE(poetryCzech: Category {
+	name: 'Czech poetry',
+	displayOrder: 2
+})
+CREATE(poetryWorld: Category {
+	name: 'World poetry',
+	displayOrder: 3
+})
+
+CREATE(poetrySlovak) - [: CATEGORY_OF]->(poetry)
+CREATE(poetryCzech) - [: CATEGORY_OF]->(poetry)
+CREATE(poetryWorld) - [: CATEGORY_OF]->(poetry)
+
+// Publishers
+CREATE(ikar: Publisher {
+	name: 'Ikar'
+})
+
+// Writers
+// Stephen King
+CREATE(stephanKing: Writer {
+	name: 'Stephen King',
+	born: '1947',
+	about: 'Stephen Edwin King sa narodil 21. septembra 1947 v Portlande v štáte Maine. Vyrastal v rodine spolu s adoptovaným starším bratom Davidom. Otec rodinu opustil, potom sa spolu s matkou a starším bratom presťahovali do Durhamu, kde sa jeho mama starala o svojich chorých rodičov.<BR><BR>Tam začal dvanásťročný King prvýkrát písať, spolu so svojím bratom vydával lokálny plátok pomenovaný Daves Rag a čoskoro začal písať aj svoje prvé poviedky.<BR>V čase svojich štúdií na univerzite v Maine pokračoval v písaní, nielen poviedok, prispieval aj do študentského časopisu. Zároveň protestoval proti vietnamskej vojne. V školskej knižnici, kde pracoval, stretol svoju budúcu ženu Tabithu. V roku 1970 získal bakalársky titul v odbore angličtina, ale dlho nemohol nájsť prácu učiteľa. On a Tabitha tak žili zo študentských úspor a jeho práce v práčovni.'
+})
+
+CREATE(temnaVeza: Book {
+	title: 'Temná veža 1 - Pištoľník',
+	language: 'Slovak',
+	ISBN: '978-80-551-5260-8',
+	releaseYear: 2016,
+	weight: 0.37,
+	numOfPages: 296,
+	about: 'Roland Deschain z Gileadu, posledný pištoľník v Stredsvete, samotár putujúci po ceste dobra a zla, stopuje tajuplného mága so schopnosťou oživovať mŕtvych, známeho iba ako muž v čiernom. Na svojej výprave po Mohainskej púšti zamorenej démonmi sa Roland vzoprie pomätenej kazateľke a jej vražedným ovečkám, zoznámi sa s príťažlivou ženou Alice, vedie rozhovor s démonom a napokon sa spriatelí s chlapcom z nášho sveta. Jake Chambers sa pridá k Rolandovi, ale zatiaľ čo pištoľník putuje so svojím mladým spoločníkom, muž v čiernom si odnáša jeho dušu vo vrecku. ',
+	price: 11.90,
+	inStock: 20
+})
+CREATE(temnaVezaImage: Image {
+	name: 'Temná veža 1 - Pištoľník',
+	path: 'http://localhost:3000/images/temna-veza-1-pistolnik-59304.jpg'
+})
+CREATE(temnaVeza) - [: HAS_IMAGE]->(temnaVezaImage)
+
+
+CREATE(temnaVeza2: Book {
+	title: 'Temná veža 2 - Osudová trojka',
+	language: 'Slovak',
+	ISBN: '978-80-551-5260-8',
+	releaseYear: 2017,
+	weight: 0.37,
+	numOfPages: 296,
+	about: 'Roland Deschain z Gileadu, posledný pištoľník v Stredsvete, samotár putujúci po ceste dobra a zla, stopuje tajuplného mága so schopnosťou oživovať mŕtvych, známeho iba ako muž v čiernom. Na svojej výprave po Mohainskej púšti zamorenej démonmi sa Roland vzoprie pomätenej kazateľke a jej vražedným ovečkám, zoznámi sa s príťažlivou ženou Alice, vedie rozhovor s démonom a napokon sa spriatelí s chlapcom z nášho sveta. Jake Chambers sa pridá k Rolandovi, ale zatiaľ čo pištoľník putuje so svojím mladým spoločníkom, muž v čiernom si odnáša jeho dušu vo vrecku. ',
+	price: 11.90,
+	inStock: 20
+})
+CREATE(temnaVeza2Image: Image {
+	name: 'Temná veža 2 - Osudová trojka',
+	path: 'http://localhost:3000/images/temna-veza-2-osudova-trojka-49011.jpg'
+})
+CREATE(temnaVeza2) - [: HAS_IMAGE]->(temnaVeza2Image)
+
+CREATE(temnaVeza3: Book {
+	title: 'Temná veža 3 - Pustatiny',
+	language: 'Slovak',
+	ISBN: '978-80-551-5260-8',
+	releaseYear: 2018,
+	weight: 0.41,
+	numOfPages: 311,
+	about: 'Roland Deschain z Gileadu, posledný pištoľník v Stredsvete, samotár putujúci po ceste dobra a zla, stopuje tajuplného mága so schopnosťou oživovať mŕtvych, známeho iba ako muž v čiernom. Na svojej výprave po Mohainskej púšti zamorenej démonmi sa Roland vzoprie pomätenej kazateľke a jej vražedným ovečkám, zoznámi sa s príťažlivou ženou Alice, vedie rozhovor s démonom a napokon sa spriatelí s chlapcom z nášho sveta. Jake Chambers sa pridá k Rolandovi, ale zatiaľ čo pištoľník putuje so svojím mladým spoločníkom, muž v čiernom si odnáša jeho dušu vo vrecku. ',
+	price: 14.90,
+	inStock: 18
+})
+CREATE(temnaVeza3Image: Image {
+	name: 'Temná veža 3 - Pustatiny',
+	path: 'http://localhost:3000/images/temna-veza-3-pustatiny-69409.jpg'
+})
+CREATE(temnaVeza3) - [: HAS_IMAGE]->(temnaVeza3Image)
+
+
+CREATE(temnaVeza4: Book {
+	title: 'Temná veža 4 - Čarodejník a sklo',
+	language: 'Slovak',
+	ISBN: '978-80-551-5260-8',
+	releaseYear: 2019,
+	weight: 0.48,
+	numOfPages: 331,
+	about: 'Roland Deschain z Gileadu, posledný pištoľník v Stredsvete, samotár putujúci po ceste dobra a zla, stopuje tajuplného mága so schopnosťou oživovať mŕtvych, známeho iba ako muž v čiernom. Na svojej výprave po Mohainskej púšti zamorenej démonmi sa Roland vzoprie pomätenej kazateľke a jej vražedným ovečkám, zoznámi sa s príťažlivou ženou Alice, vedie rozhovor s démonom a napokon sa spriatelí s chlapcom z nášho sveta. Jake Chambers sa pridá k Rolandovi, ale zatiaľ čo pištoľník putuje so svojím mladým spoločníkom, muž v čiernom si odnáša jeho dušu vo vrecku. ',
+	price: 18.91,
+	inStock: 15
+})
+CREATE(temnaVeza4Image: Image {
+	name: 'Temná veža 4 - Čarodejník a sklo',
+	path: 'http://localhost:3000/images/temna-veza-4-carodejnik-a-sklo-19655.jpg'
+})
+CREATE(temnaVeza4) - [: HAS_IMAGE]->(temnaVeza4Image)
+
+
+CREATE(temnaVeza) - [: HAS_SEQUEL]->(temnaVeza2)
+CREATE(temnaVeza2) - [: HAS_SEQUEL]->(temnaVeza3)
+CREATE(temnaVeza3) - [: HAS_SEQUEL]->(temnaVeza4)
+
+CREATE(stephanKing) - [: WRITER_OF]->(temnaVeza)
+CREATE(stephanKing) - [: WRITER_OF]->(temnaVeza2)
+CREATE(stephanKing) - [: WRITER_OF]->(temnaVeza3)
+CREATE(stephanKing) - [: WRITER_OF]->(temnaVeza4)
+
+CREATE(temnaVeza) - [: HAS_CATEGORY]->(fictionFantasy)
+CREATE(temnaVeza2) - [: HAS_CATEGORY]->(fictionFantasy)
+CREATE(temnaVeza3) - [: HAS_CATEGORY]->(fictionFantasy)
+CREATE(temnaVeza4) - [: HAS_CATEGORY]->(fictionFantasy)
+
+CREATE(ikar) - [: PUBLISHER_OF {
+		year: 2016
+	}
+]->(temnaVeza)
+CREATE(ikar) - [: PUBLISHER_OF {
+		year: 2017
+	}
+]->(temnaVeza2)
+CREATE(ikar) - [: PUBLISHER_OF {
+		year: 2018
+	}
+]->(temnaVeza3)
+CREATE(ikar) - [: PUBLISHER_OF {
+		year: 2019
+	}
+]->(temnaVeza4)
+
+// Dmitry Glukhovsky
+CREATE(dimitryGlukhovsky: Writer {
+	name: 'Dmitry Glukhovsky',
+	born: '1979',
+	about: 'Metro 2033 (Ikar 2010) je jeho románovým debutom z roku 2005. V Rusku sa kniha stala kultovou a vznikla podľa nej počítačová hra. V roku 2007 román získal cenu za najlepší debut na európskom sci-fi stretnutí EuroCon. V roku 2009 vyšiel v Rusku jeho ďalší román Metro 2034 (Ikar 2011), ktoré nie je pokračovaním Metra 2033, ale paraleným príbehom s inými postavami. Metro 2035 (Ikar 2016) završuje príbeh Arťoma z prvej knihy kultovej trilógie.'
+})
+
+CREATE(metro2033: Book {
+	title: 'Metro 2033',
+	language: 'Slovak',
+	ISBN: '978-80-551-2140-6',
+	releaseYear: 2010,
+	weight: 0.44,
+	numOfPages: 352,
+	about: 'Odvtedy, čo Arťom býva v metre na stanici VÚNCH, na povrchu bol iba raz, a aj to tajne. Po jadrovom výbuchu už totiž zem nie je pre ľudí bezpečná. .. Život na stanici je dobre zorganizovaný a prebieha takmer normálne, ale v sústavnom strachu – začali na ňu útočiť nebezpeční čierni mutanti. A preto sa Arťom podujme na splnenie úlohy od záhadného Lovca, aby pomohol zachrániť nielen svoju stanicu, ale celé metro. ',
+	price: 13.90,
+	inStock: 50
+})
+CREATE(metro2033Image: Image {
+	name: 'Dmitry Glukhovsky: Metro 2033',
+	path: 'http://localhost:3000/images/metro-2033-86428.jpg'
+})
+CREATE(metro2033) - [: HAS_IMAGE]->(metro2033Image)
+
+CREATE(metro2034: Book {
+	title: 'Metro 2034',
+	language: 'Slovak',
+	ISBN: '978-80-551-2479-7',
+	releaseYear: 2011,
+	weight: 0.38,
+	numOfPages: 224,
+	about: 'Rok 2034 Svet je v troskách. Ľudia sa navzájom vyhubili. V mestách zničených rádioaktívnym odpadom sa nedá žiť. Za ich hranicami sa rozprestierajú vyprahnuté púšte a húštiny čudných zmenených lesov. Nikto netuší, aké tvory v nich žijú.',
+	price: 9.90,
+	inStock: 42
+})
+CREATE(metro2034Image: Image {
+	name: 'Dmitry Glukhovsky: Metro 2034',
+	path: 'http://localhost:3000/images/metro-2034-2-vydanie-91729.jpg'
+})
+CREATE(metro2034) - [: HAS_IMAGE]->(metro2034Image)
+
+CREATE(metro2035: Book {
+	title: 'Metro 2035',
+	language: 'Slovak',
+	ISBN: '978-80-551-2479-7',
+	releaseYear: 2016,
+	weight: 0.61,
+	numOfPages: 416,
+	about: 'Rok 2035. Svetlá minulosť. Temná budúcnosť. Jadrová vojna zničila civilizáciu na Zemi v podobe, ako ju poznáme dnes. Prežilo iba niekoľko desiatok tisíc ľudí, ktorí sa utiahli do moskovského metra, aby sa zachránili pred rádioaktívnym žiarením na povrchu. Napriek vyhubeniu podstatnej časti ľudstva sa obyvatelia metra nedokázali zjednotiť a okrem túžby prežiť si priniesli aj bremeno zastaraných ideológií.',
+	price: 14.91,
+	inStock: 33
+})
+CREATE(metro2035Image: Image {
+	name: 'Dmitry Glukhovsky: Metro 2035',
+	path: 'http://localhost:3000/images/metro-2035-91713.jpg'
+})
+CREATE(metro2035) - [: HAS_IMAGE]->(metro2035Image)
+
+CREATE(metro2033) - [: HAS_SEQUEL]->(metro2034)
+CREATE(metro2034) - [: HAS_SEQUEL]->(metro2035)
+
+CREATE(dimitryGlukhovsky) - [: WRITER_OF]->(metro2033)
+CREATE(dimitryGlukhovsky) - [: WRITER_OF]->(metro2034)
+CREATE(dimitryGlukhovsky) - [: WRITER_OF]->(metro2035)
+
+CREATE(metro2033) - [: HAS_CATEGORY]->(fictionFantasy)
+CREATE(metro2034) - [: HAS_CATEGORY]->(fictionFantasy)
+CREATE(metro2035) - [: HAS_CATEGORY]->(fictionFantasy)
+
+CREATE(ikar) - [: PUBLISHER_OF {
+		year: 2010
+	}
+]->(metro2033)
+CREATE(ikar) - [: PUBLISHER_OF {
+		year: 2011
+	}
+]->(metro2034)
+CREATE(ikar) - [: PUBLISHER_OF {
+		year: 2016
+	}
+]->(metro2035)
+
+// Keywords
+CREATE(keyPostAp: Keyword {
+	name: 'post apocaliptic'
+})
+CREATE(keyWar: Keyword {
+	name: 'war'
+})
+CREATE(keyMetro: Keyword {
+	name: 'metro'
+})
+CREATE(keyBomb: Keyword {
+	name: 'atomic bomb'
+})
+
+CREATE(metro2033) - [: HAS_KEYWORD]->(keyPostAp)
+CREATE(metro2033) - [: HAS_KEYWORD]->(keyWar)
+CREATE(metro2033) - [: HAS_KEYWORD]->(keyMetro)
+CREATE(metro2033) - [: HAS_KEYWORD]->(keyBomb)
+
+CREATE(metro2034) - [: HAS_KEYWORD]->(keyPostAp)
+CREATE(metro2034) - [: HAS_KEYWORD]->(keyWar)
+CREATE(metro2034) - [: HAS_KEYWORD]->(keyMetro)
+CREATE(metro2034) - [: HAS_KEYWORD]->(keyBomb)
+
+CREATE(metro2035) - [: HAS_KEYWORD]->(keyPostAp)
+CREATE(metro2035) - [: HAS_KEYWORD]->(keyWar)
+CREATE(metro2035) - [: HAS_KEYWORD]->(keyMetro)
+CREATE(metro2035) - [: HAS_KEYWORD]->(keyBomb)
+
+// Kristan Higgins
+CREATE(higginsKristian: Writer {
+	name: 'Kristan Higgins',
+	born: '1947',
+	about: 'Cupcake ipsum dolor sit. Amet jujubes marshmallow candy canes candy canes cheesecake. Sesame snaps soufflé cookie pie candy soufflé. Marzipan liquorice marzipan muffin icing chocolate cake. Jelly marshmallow topping muffin chocolate cake liquorice sweet. Topping tart icing chupa chups powder caramels pastry toffee. Dessert muffin macaroon sweet roll wafer.'
+})
+
+CREATE(zenSvedok: Book {
+	title: 'Ženíchov svedok',
+	language: 'Slovak',
+	ISBN: '978-80-551-4505-1',
+	releaseYear: 2017,
+	weight: 0.37,
+	numOfPages: 296,
+	about: 'Chocolate cake pie caramels chocolate cake candy ice cream sweet brownie pastry. Marshmallow sesame snaps oat cake muffin pie sugar plum jelly-o cookie. Toffee halvah gingerbread candy canes carrot cake carrot cake. Jujubes croissant apple pie. Tootsie roll sugar plum ice cream cake muffin. Candy jelly-o cookie.',
+	price: 11.90,
+	inStock: 9
+})
+
+CREATE(zenSvedokImage: Image {
+	name: 'Kristan Higgins: Ženíchov svedok',
+	path: 'http://localhost:3000/images/zenichov-svedok-80292.jpg'
+})
+
+CREATE(zenSvedok) - [: HAS_IMAGE]->(zenSvedokImage)
+
+CREATE(manzRozum: Book {
+	title: 'Manželstvo z rozumu',
+	language: 'Slovak',
+	ISBN: '978-80-551-4840-3',
+	releaseYear: 2017,
+	weight: 0.37,
+	numOfPages: 296,
+	about: 'Chocolate cake pie caramels chocolate cake candy ice cream sweet brownie pastry. Marshmallow sesame snaps oat cake muffin pie sugar plum jelly-o cookie. Toffee halvah gingerbread candy canes carrot cake carrot cake. Jujubes croissant apple pie. Tootsie roll sugar plum ice cream cake muffin. Candy jelly-o cookie.',
+	price: 11.90,
+	inStock: 9
+})
+
+CREATE(manzRozumImage: Image {
+	name: 'Kristan Higgins: Manželstvo z rozumu',
+	path: 'http://localhost:3000/images/manzelstvo-z-rozumu-58290.jpg'
+})
+
+CREATE(manzRozum) - [: HAS_IMAGE]->(manzRozumImage)
+
+CREATE(higginsKristian) - [: WRITER_OF]->(zenSvedok)
+CREATE(higginsKristian) - [: WRITER_OF]->(manzRozum)
+
+CREATE(zenSvedok) - [: HAS_CATEGORY]->(fictionRomance)
+CREATE(manzRozum) - [: HAS_CATEGORY]->(fictionRomance)
+
+CREATE(keyLove: Keyword {
+	name: 'love'
+})
+
+CREATE(zenSvedok) - [: HAS_KEYWORD]->(keyLove)
+CREATE(manzRozum) - [: HAS_KEYWORD]->(keyLove)
+
+

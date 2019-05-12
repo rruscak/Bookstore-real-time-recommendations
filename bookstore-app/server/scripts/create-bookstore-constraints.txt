@@ -1,0 +1,3 @@
+// Create Bookstore Constraints
+CREATE CONSTRAINT ON (user:User) ASSERT user.email IS UNIQUE
+

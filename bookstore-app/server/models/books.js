@@ -49,7 +49,7 @@ const findAll = (session, genreId, catId, orderBy, orderDir, skip, limit) => {
     'OPTIONAL MATCH (book)<-[:WRITER_OF]-(w:Writer)',
     'OPTIONAL MATCH (book)<-[:PUBLISHER_OF]-(p:Publisher)',
     'RETURN',
-    '{id: id(book), title: book.title, writer: w.name, price: book.price, image: collect(DISTINCT i)} AS book'
+    '{id: id(book), title: book.title, writer: w.name, price: book.price, releaseYear: book.releaseYear, image: collect(DISTINCT i)} AS book'
   ].join('\n');
 
   // Ordering

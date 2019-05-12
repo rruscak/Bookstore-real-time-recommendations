@@ -16,9 +16,9 @@
                                  multiple
                                  [value]="categoryValues"
                                  (change)="onCategoryChanged($event)">
-          <mat-button-toggle
-            *ngFor="let category of genre.categories"
-            [value]="category.id">
+          <mat-button-toggle class="category-button"
+                             *ngFor="let category of genre.categories"
+                             [value]="category.id">
             {{ category.name }}
           </mat-button-toggle>
         </mat-button-toggle-group>
