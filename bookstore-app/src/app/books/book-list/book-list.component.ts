@@ -15,10 +15,9 @@ export class BookListComponent implements OnInit {
   isLoading = false;
   books: Book[] = [];
   totalBooks = 0;
-  pageSize = 4;
+  pageSize = 8;
   currentPage = 1;
-  // pageSizeOptions = [8, 16, 32, 64];
-  pageSizeOptions = [2, 4, 6, 8];
+  pageSizeOptions = [4, 8, 16, 32];
   columnNum = 4;
 
   genreId: number = null;
