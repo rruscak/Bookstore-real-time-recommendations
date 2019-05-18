@@ -1,13 +1,40 @@
 const dbUtils = require('../configurators/dbUtils');
+const _ = require('lodash');
+const CartItem = require('../models/neo4j/CartItem');
 
-const addToCart = (session, body, userId) => {
+const addToCart = (session, id, userId) => {
   let query = [
     'MATCH (u:User)',
     'WHERE id(u) = toInteger($userId)',
     'WITH u',
     'MATCH (b:Book)',
     'WHERE id(b) = toInteger($bookId)',
-    'MERGE (u)-[:HAS_IN_CART]->(b)',
+    'MERGE (u)-[rel:HAS_IN_CART]->(b)',
+    'ON CREATE SET rel.created = datetime(), rel.quantity = toInteger(1)',
+    'ON MATCH SET rel.quantity = rel.quantity + toInteger(1)',
+  ].join('\n');
+
+  return session
+    .run(query, {
+      userId: userId,
+      bookId: id
+    })
+    .then(result => {
+      if (!result) {
+        return null;
+      }
+      return dbUtils.getStatistics(result);
+    })
+};
+
+const setBookQuantity = (session, body, userId) => {
+  let query = [
+    'MATCH (u:User)',
+    'WHERE id(u) = toInteger($userId)',
+    'WITH u',
+    'MATCH (b:Book)',
+    'WHERE id(b) = toInteger($bookId)',
+    'MERGE (u)-[rel:HAS_IN_CART]->(b)',
     'ON CREATE SET rel.created = datetime()',
     'SET rel.quantity = toInteger($quantity)',
   ].join('\n');
@@ -47,7 +74,45 @@ const removeBookById = (session, bookId, userId) => {
     })
 };
 
+const findBooksInCart = (session, userId) => {
+  let query = [
+    "MATCH (user:User)-[rel:HAS_IN_CART]->(book:Book)",
+    "WHERE id(user) = toInteger($userId) AND rel.quantity > 0",
+    "OPTIONAL MATCH (book)-[:HAS_IMAGE]->(i:Image)",
+    "OPTIONAL MATCH (book)<-[:WRITER_OF]-(w:Writer)",
+    "RETURN {id: id(book), title: book.title, writer: w.name, price: book.price, quantity: rel.quantity, image: collect(DISTINCT i)} as item"
+  ].join('\n');
+
+  return session
+    .run(query, {userId: userId})
+    .then(result => {
+      if (_.isEmpty(result.records))
+        return null;
+
+      return manyCartItems(result);
+    })
+};
+
+const manyCartItems = (result) => {
+  return result.records.map(r => new CartItem(r.get('item')));
+};
+
+const getTotalItemsInCart = (session, userId) => {
+  let query = [
+    "MATCH (user:User)-[rel:HAS_IN_CART]->()",
+    "WHERE id(user) = toInteger($userId)",
+    "RETURN sum(rel.quantity) AS total"
+  ].join("\n");
+
+  return session
+    .run(query, {userId: userId})
+    .then(result => result.records[0].get("total"));
+};
+
 module.exports = {
   addToCart: addToCart,
-  removeBookById: removeBookById
+  setBookQuantity: setBookQuantity,
+  removeBookById: removeBookById,
+  findBooksInCart: findBooksInCart,
+  getTotalItemsInCart: getTotalItemsInCart
 };

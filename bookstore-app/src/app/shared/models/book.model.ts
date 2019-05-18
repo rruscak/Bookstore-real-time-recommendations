@@ -1,4 +1,4 @@
-import { Image } from '../shared/image.model';
+import { Image } from './image.model';
 
 export class Book {
   public id: number;

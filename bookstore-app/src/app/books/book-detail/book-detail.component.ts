@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Book } from '../book.model';
+import { Book } from '../../shared/models/book.model';
 import { BooksService } from '../books.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { CartService } from '../../shopping-cart/cart.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -14,6 +15,7 @@ export class BookDetailComponent implements OnInit {
   book: Book;
 
   constructor(public booksService: BooksService,
+              private cartService: CartService,
               public route: ActivatedRoute,
               private router: Router) {
   }
@@ -39,6 +41,10 @@ export class BookDetailComponent implements OnInit {
         this.router.navigate(['/']);
       }
     });
+  }
+
+  addToCart() {
+    this.cartService.addToCart(this.book.id);
   }
 
 }

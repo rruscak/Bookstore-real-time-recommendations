@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthData } from './auth-data.model';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { CartService } from '../shopping-cart/cart.service';
 
 const BACKEND_URL = environment.apiUrl + 'user/';
 
@@ -16,7 +17,7 @@ export class AuthService {
   private userId: number;
   private authStatusListener = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private cartService: CartService) {
   }
 
   getToken() {
@@ -46,7 +47,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     const authData: AuthData = {email, password};
-    this.http.post<{ token: string, expiresIn: number, userId: number }>(
+    this.http.post<{ token: string, expiresIn: number, userId: number, totalInCart: number }>(
       BACKEND_URL + '/login',
       authData
     ).subscribe(res => {
@@ -58,6 +59,7 @@ export class AuthService {
         this.isAuth = true;
         this.userId = res.userId;
         this.authStatusListener.next(true);
+        this.cartService.setTotalInCartListener(res.totalInCart);
 
         const expirationDate = new Date(new Date().getTime() + expiresInMs);
         this.saveAuthData(res.token, expirationDate, res.userId);

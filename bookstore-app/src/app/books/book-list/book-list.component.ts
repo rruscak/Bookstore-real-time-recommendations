@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Book } from '../book.model';
+import { Book } from '../../shared/models/book.model';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { BooksService } from '../books.service';
 import { Subscription } from 'rxjs';

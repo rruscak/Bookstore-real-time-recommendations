@@ -37,7 +37,8 @@ const findByEmail = (session, email) => {
     'MATCH(user:User{ \
       email:$email \
     })',
-    'RETURN user'
+    'OPTIONAL MATCH (user)-[rel:HAS_IN_CART]->()',
+    'RETURN user, sum(rel.quantity) AS totalInCart'
   ].join('\n');
 
   return session
@@ -48,12 +49,15 @@ const findByEmail = (session, email) => {
       if (_.isEmpty(result.records)) {
         return null;
       } else {
-        return new User(result.records[0].get("user"));
+        return {
+          user: new User(result.records[0].get("user")),
+          totalInCart: result.records[0].get("totalInCart")
+        };
       }
     });
 };
 
 module.exports = {
   create: create,
-  findByEmail: findByEmail,
+  findByEmail: findByEmail
 };

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Book } from '../../book.model';
-import { MatSnackBar } from '@angular/material';
+import { Book } from '../../../shared/models/book.model';
+import { CartService } from '../../../shopping-cart/cart.service';
 
 @Component({
   selector: 'app-book-item',
@@ -10,12 +10,10 @@ import { MatSnackBar } from '@angular/material';
 export class BookItemComponent {
   @Input() book: Book;
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor(private cartService: CartService) {
   }
 
   addToCart() {
-    this.snackBar.open('Book added to the shopping cart.', 'OK', {
-      duration: 5000,
-    });
+    this.cartService.addToCart(this.book.id);
   }
 }

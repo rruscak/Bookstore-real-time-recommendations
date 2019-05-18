@@ -44,6 +44,7 @@ exports.logIn = (req, res) => {
   }
 
   let user;
+  let totalInCart;
   const session = dbUtils.getSession(req.body);
   User.findByEmail(session, email)
     .then(data => {
@@ -53,7 +54,8 @@ exports.logIn = (req, res) => {
           status: 403
         };
       }
-      user = data;
+      user = data.user;
+      totalInCart = dbUtils.toNumber(data.totalInCart);
       return bcrypt.compare(password, user.password)
     })
     .then(result => {
@@ -73,7 +75,8 @@ exports.logIn = (req, res) => {
       Res_.writeResponse(res, {
         token: token,
         expiresIn: 3600,
-        userId: user.id
+        userId: user.id,
+        totalInCart: totalInCart
       });
     })
     .catch((err) => {

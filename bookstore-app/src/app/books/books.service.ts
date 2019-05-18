@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Book } from './book.model';
+import { Book } from '../shared/models/book.model';
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
