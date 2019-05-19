@@ -1,0 +1,60 @@
+<div class="container"
+     fxLayout="row"
+     fxLayout.xs="column">
+
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center"
+       fxFlex="1 1 70%" fxLayoutGap="1%">
+    <!-- IMAGE -->
+    <img class="style-link item-img"
+         [routerLink]="['/book/', book.id]"
+         width="80" height="126"
+         [src]="book.images[0]?.path"
+         [alt]="book.images[0]?.name">
+    <!--  DETAILS  -->
+    <div fxFlex="auto auto" fxLayout="column">
+      <!-- TITLE -->
+      <span class="style-link font-size-large"
+            [routerLink]="['/book/', book.id]">
+        {{ book.title }}
+      </span>
+      <!-- WRITER -->
+      <span class="mat-card-subtitle">
+        {{ book.writer }}
+      </span>
+    </div>
+  </div>
+
+  <!--  QUANTITY  -->
+  <div fxFlex="1 1 18%" fxLayoutAlign="center center">
+    <div fxFlex="50px" fxLayoutAlign="center center">
+      <span class="font-size-large">{{ book.quantity }}</span>
+    </div>
+    <div fxFlex="50px" fxLayout="column" fxLayoutAlign="center center">
+      <button mat-icon-button
+              color="primary"
+              (click)="incrementQuantity()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button
+              color="primary"
+              (click)="decrementQuantity()">
+        <mat-icon>remove</mat-icon>
+      </button>
+    </div>
+    <div fxFlex="50px" fxLayoutAlign="center center">
+      <button mat-icon-button
+              color="primary"
+              (click)="removeFromCart()">
+        <mat-icon>remove_shopping_cart</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!--  PRICE  -->
+  <div fxFlex="1 1 12%" fxLayoutAlign="center">
+    <span class="font-size-medium"
+          fxLayoutAlign="center center">
+      {{ book.price | currency:'EUR':'symbol' }}
+    </span>
+  </div>
+</div>

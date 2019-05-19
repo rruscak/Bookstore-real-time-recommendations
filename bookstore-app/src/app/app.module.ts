@@ -14,7 +14,7 @@ import { ErrorComponent } from './shared/error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
 import { PostsModule } from './posts/posts.module';
 import { BooksModule } from './books/books.module';
-import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
+import { CartModule } from './shopping-cart/cart.module';
 
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
@@ -38,7 +38,7 @@ registerLocaleData(localeDe);
     AngularMaterialModule,
     PostsModule,
     BooksModule,
-    ShoppingCartModule
+    CartModule
   ],
   providers: [{
     provide: LOCALE_ID,

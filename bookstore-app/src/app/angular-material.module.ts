@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import {
+  MatBadgeModule,
   MatButtonModule,
+  MatButtonToggleModule,
   MatCardModule,
   MatDialogModule,
   MatExpansionModule,
@@ -12,13 +14,12 @@ import {
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatRippleModule,
+  MatSelectModule,
   MatSidenavModule,
   MatSnackBarModule,
   MatStepperModule,
+  MatTableModule,
   MatToolbarModule,
-  MatBadgeModule,
-  MatSelectModule,
-  MatButtonToggleModule,
   MatTooltipModule
 } from '@angular/material';
 
@@ -43,7 +44,8 @@ import {
     MatBadgeModule,
     MatSelectModule,
     MatButtonToggleModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTableModule
   ]
 })
 export class AngularMaterialModule {

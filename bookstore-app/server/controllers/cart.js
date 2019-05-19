@@ -7,7 +7,7 @@ const BadRequestError = require('../errors/BadRequestError');
 const ApplicationError = require('../errors/ApplicationError');
 
 // Add to Cart
-exports.addToCart = (req, res) => {
+exports.AddToCart = (req, res) => {
   const session = dbUtils.getSession(req.body);
   Cart.addToCart(session, req.params.id, req.userData.userId)
     .then(result => {
@@ -29,11 +29,8 @@ exports.addToCart = (req, res) => {
 };
 
 // Add to Cart
-exports.setQuantity = (req, res) => {
-  console.log(req.body.bookId);
-  console.log(req.body.quantity);
-  if (!_.get(req.body, 'bookId') ||
-    !_.get(req.body, 'quantity')) {
+exports.SetQuantity = (req, res) => {
+  if (!_.get(req.body, 'bookId')) {
     return Res_.writeError(res, new BadRequestError());
   }
 

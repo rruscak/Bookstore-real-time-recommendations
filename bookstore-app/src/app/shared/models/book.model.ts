@@ -18,6 +18,8 @@ export class Book {
   public language: string;
   public releaseYear: string;
 
+  public quantity: number;
+
   public images: Image[];
 
   constructor(id: number, title: string, writer: string, image: Image, price: number) {

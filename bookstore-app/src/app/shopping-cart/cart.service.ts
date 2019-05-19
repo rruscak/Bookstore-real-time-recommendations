@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
+import { Book } from '../shared/models/book.model';
 
 const BACKEND_URL = environment.apiUrl + 'cart/';
 
@@ -36,14 +37,12 @@ export class CartService {
       });
   }
 
+  getCartItems() {
+    return this.http.get<Book[]>(BACKEND_URL);
+  }
+
   setQuantity(bookId: number, quantity: number) {
-    this.http.put<{ totalInCart: number }>(BACKEND_URL + bookId, {bookId, quantity})
-      .subscribe(res => {
-        this.totalInCartListener.next(res.totalInCart);
-        this.snackBar.open('Book added to the shopping cart.', 'OK', {
-          duration: 5000,
-        });
-      });
+    return this.http.put<{ totalInCart: number }>(BACKEND_URL, {bookId, quantity});
   }
 
   removeFromCart(id: number) {

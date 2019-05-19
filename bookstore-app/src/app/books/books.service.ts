@@ -11,7 +11,6 @@ const BACKEND_URL_FILTERS = environment.apiUrl + 'filters/';
 
 @Injectable({providedIn: 'root'})
 export class BooksService {
-  private books: Book[] = [];
   private booksUpdated = new Subject<{ books: Book[], count: number }>();
 
   constructor(private http: HttpClient, private router: Router) {
@@ -25,7 +24,7 @@ export class BooksService {
     return this.http.get<Book>(BACKEND_URL + id);
   }
 
-  getPosts(limit: number, page: number,
+  getBooks(limit: number, page: number,
            orderBy: string, orderDir: string,
            genreId: number, categoryId: number) {
     let queryParams = `?limit=${limit}&page=${page}`;
@@ -44,10 +43,9 @@ export class BooksService {
       queryParams += `&categoryId=${categoryId}`;
     }
     this.http.get<{ books: Book[], count: number }>(BACKEND_URL + queryParams)
-      .subscribe((res) => {
-        this.books = res.books;
+      .subscribe(res => {
         this.booksUpdated.next({
-          books: this.books ? [...this.books] : [],
+          books: res.books ? [...res.books] : [],
           count: res.count
         });
       });

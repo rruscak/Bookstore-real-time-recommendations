@@ -13,16 +13,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.title-link, .book-img {
-  cursor: pointer;
-  outline: none;
-}
-
-.font-size-large {
-  font-size: medium;
-  /*margin-bottom: 4px;*/
-}
-
 .action-div {
   padding: 0;
+}
+
+.style-title {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }

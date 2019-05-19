@@ -1,0 +1,30 @@
+<div class="container"
+     fxLayout="row"
+     fxLayout.lt-md="column"
+     fxLayoutGap="0.5%">
+  <!--  CART LIST  -->
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <p class="info-text" *ngIf="books.length <= 0 && !isLoading">No results.</p>
+  <div fxFlex="1 1 auto"
+       *ngIf="books.length > 0 && !isLoading">
+    <!--  HEADER  -->
+    <div fxLayout="row" fxShow.xs="false">
+      <h3 fxFlex="1 1 70%" class="h3-details">Details</h3>
+      <h3 fxFlex="1 1 18%" fxLayoutAlign="center">Quantity</h3>
+      <h3 fxFlex="1 1 12%" fxLayoutAlign="center">Price</h3>
+    </div>
+    <!--  ITEMS  -->
+    <div *ngFor="let book of books">
+      <hr class="item-spacer" fxShow.gt-xs="false">
+      <app-cart-item [book]="book" (quantityChanged)="onQuantityChanged($event)"></app-cart-item>
+    </div>
+    <hr>
+    <!--  FOOTER  -->
+    <div fxLayout="row" fxLayoutGap="0.5%" fxLayoutAlign="end center">
+      <p fxFlex="1 1 18%" fxFlex.xs="1 1 50%" fxLayoutAlign="center">Subtotal: </p>
+      <h3 fxFlex="1 1 12%" fxFlex.xs="1 1 50%" fxLayoutAlign="center">
+        {{ subtotal | currency:'EUR':'symbol' }}
+      </h3>
+    </div>
+  </div>
+</div>

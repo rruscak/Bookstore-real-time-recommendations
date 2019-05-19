@@ -1,0 +1,56 @@
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <!--  Cart  -->
+    <ng-template matStepLabel>Cart</ng-template>
+    <!--  Cart List  -->
+    <app-cart-list></app-cart-list>
+    <!--  Nav Bar  -->
+    <div fxLayoutAlign="end center">
+      <button mat-raised-button matStepperNext
+              color="primary"
+              fxFlex="1 1 12%"
+              fxFlex.xs="1 1 50%">Next
+      </button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <!--  Shipping & Payment  -->
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Shipping & Payment</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Address" formControlName="secondCtrl" required>
+      </mat-form-field>
+      <!--  Nav Bar  -->
+      <div fxLayoutGap="0.5%" fxLayoutAlign="end center">
+        <button mat-raised-button matStepperPrevious
+                color="primary"
+                fxFlex="1 1 12%"
+                fxFlex.xs="1 1 50%">Back
+        </button>
+        <button mat-raised-button matStepperNext
+                color="primary"
+                fxFlex="1 1 12%"
+                fxFlex.xs="1 1 50%">Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <!--  Address  -->
+    <ng-template matStepLabel>Address</ng-template>
+    You are now done.
+    <!--  Nav Bar  -->
+    <div fxLayoutGap="0.5%" fxLayoutAlign="end center">
+      <button mat-raised-button matStepperPrevious
+              color="primary"
+              fxFlex="1 1 12%"
+              fxFlex.xs="1 1 50%">Back
+      </button>
+      <button mat-raised-button matStepperNext
+              color="primary"
+              fxFlex="1 1 12%"
+              fxFlex.xs="1 1 50%">Next
+      </button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

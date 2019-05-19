@@ -7,24 +7,24 @@
     <!-- IMAGE -->
     <img appImageLoader
          mat-card-image
-         class="book-img"
+         class="style-link"
          [routerLink]="['/book/', book.id]"
          width="222" height="341"
          [src]="book.images[0]?.path"
          [alt]="book.images[0]?.name">
-    <!-- AUTHOR -->
+    <!-- WRITER -->
     <mat-card-subtitle fxLayoutAlign="center">
       {{ book.writer }}
     </mat-card-subtitle>
     <!-- TITLE -->
-    <mat-card-title class="title-link font-size-large"
+    <mat-card-title class="style-link font-size-medium"
                     [routerLink]="['/book/', book.id]"
                     fxLayoutAlign="center">
-      {{ book.title }}
+      <span class="style-title">{{ book.title }}</span>
     </mat-card-title>
     <hr>
     <!-- PRICE -->
-    <mat-card-title class="font-size-large"
+    <mat-card-title class="font-size-medium"
                     fxLayoutAlign="center center">
       {{ book.price | currency:'EUR':'symbol' }}
     </mat-card-title>

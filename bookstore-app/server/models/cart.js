@@ -80,7 +80,8 @@ const findBooksInCart = (session, userId) => {
     "WHERE id(user) = toInteger($userId) AND rel.quantity > 0",
     "OPTIONAL MATCH (book)-[:HAS_IMAGE]->(i:Image)",
     "OPTIONAL MATCH (book)<-[:WRITER_OF]-(w:Writer)",
-    "RETURN {id: id(book), title: book.title, writer: w.name, price: book.price, quantity: rel.quantity, image: collect(DISTINCT i)} as item"
+    "RETURN {id: id(book), title: book.title, writer: w.name, price: book.price, quantity: rel.quantity, image: collect(DISTINCT i)} as item",
+    "ORDER BY item.title"
   ].join('\n');
 
   return session

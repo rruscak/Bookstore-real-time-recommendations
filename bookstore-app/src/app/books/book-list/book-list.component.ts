@@ -58,7 +58,7 @@ export class BookListComponent implements OnInit {
 
   private fetchBooks() {
     this.isLoading = true;
-    this.booksService.getPosts(
+    this.booksService.getBooks(
       this.pageSize,
       this.currentPage,
       this.orderBy,
