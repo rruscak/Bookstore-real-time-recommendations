@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './error.component.html',
-  styleUrls: ['./error.component.css']
+  styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: { status: number, message: string },

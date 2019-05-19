@@ -8,7 +8,7 @@ import { CartService } from '../shopping-cart/cart.service';
 @Component({
   selector: 'app-main-nav',
   templateUrl: './main-nav.component.html',
-  styleUrls: ['./main-nav.component.css']
+  styleUrls: ['./main-nav.component.scss']
 })
 export class MainNavComponent implements OnInit, OnDestroy {
   isAuth = false;

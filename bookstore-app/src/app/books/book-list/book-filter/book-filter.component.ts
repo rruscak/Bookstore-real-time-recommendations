@@ -6,7 +6,7 @@ import { MatButtonToggleChange } from '@angular/material';
 @Component({
   selector: 'app-book-filter',
   templateUrl: './book-filter.component.html',
-  styleUrls: ['./book-filter.component.css']
+  styleUrls: ['./book-filter.component.scss']
 })
 export class BookFilterComponent implements OnInit {
   @Output() filterChanged = new EventEmitter<{ genreId: number, categoryId: number }>();

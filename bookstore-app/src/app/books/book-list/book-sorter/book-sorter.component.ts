@@ -4,7 +4,7 @@ import { MatButtonToggleChange, MatSelectChange } from '@angular/material';
 @Component({
   selector: 'app-book-sorter',
   templateUrl: './book-sorter.component.html',
-  styleUrls: ['./book-sorter.component.css']
+  styleUrls: ['./book-sorter.component.scss']
 })
 export class BookSorterComponent implements OnInit {
   @Output() sortingChanged = new EventEmitter<{ orderBy: string, orderDir: string }>();

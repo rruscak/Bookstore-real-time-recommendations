@@ -15,12 +15,16 @@ mat-card-title {
   float: right;
 }
 
-.left-field {
+%shared-width {
   width: 48%;
+}
+
+.left-field {
+  @extend %shared-width;
   margin: 0 2% 0 0;
 }
 
 .right-field {
-  width: 48%;
+  @extend %shared-width;
   margin: 0 0 0 2%;
 }

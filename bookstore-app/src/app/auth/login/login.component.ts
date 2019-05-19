@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css', '../auth.component.css']
+  styleUrls: ['./login.component.scss', '../auth.component.scss']
 })
 export class LoginComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild('emailField') emailField: ElementRef;

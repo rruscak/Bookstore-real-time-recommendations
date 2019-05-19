@@ -6,7 +6,7 @@ import { CartService } from '../../cart.service';
 @Component({
   selector: 'app-cart-item',
   templateUrl: './cart-item.component.html',
-  styleUrls: ['./cart-item.component.css']
+  styleUrls: ['./cart-item.component.scss']
 })
 export class CartItemComponent implements OnInit {
   @Output() quantityChanged = new EventEmitter<{ id: number, quantity: number }>();

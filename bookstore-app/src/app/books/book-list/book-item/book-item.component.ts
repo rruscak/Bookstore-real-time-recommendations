@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-book-item',
   templateUrl: './book-item.component.html',
-  styleUrls: ['./book-item.component.css']
+  styleUrls: ['./book-item.component.scss']
 })
 export class BookItemComponent {
   @Input() book: Book;
