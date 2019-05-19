@@ -22,7 +22,9 @@ export class CartListComponent implements OnInit {
         this.isLoading = false;
         this.books = books ? [...books] : [];
         this.setSubtotal();
-        console.log(this.books);
+        let totalInCart = 0;
+        this.books.forEach(b => totalInCart += b.quantity);
+        this.cartService.setTotalInCartListener(totalInCart);
       });
   }
 

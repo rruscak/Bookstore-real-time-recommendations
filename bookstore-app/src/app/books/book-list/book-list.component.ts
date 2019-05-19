@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Book } from '../../shared/models/book.model';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { BooksService } from '../books.service';
 import { Subscription } from 'rxjs';
 import { PageEvent } from '@angular/material';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { PageEvent } from '@angular/material';
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.css']
 })
-export class BookListComponent implements OnInit {
+export class BookListComponent implements OnInit, OnDestroy {
   isLoading = false;
   books: Book[] = [];
   totalBooks = 0;
@@ -25,9 +26,13 @@ export class BookListComponent implements OnInit {
   orderBy = 'name';
   orderDir = 'ASC';
 
+  isAuth = false;
+  private authStatusSub: Subscription;
   private booksSubs: Subscription;
 
-  constructor(public booksService: BooksService, private media: MediaObserver) {
+  constructor(public booksService: BooksService,
+              private authService: AuthService,
+              private media: MediaObserver) {
     media.media$
       .subscribe((change: MediaChange) => {
         switch (change.mqAlias) {
@@ -45,6 +50,14 @@ export class BookListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Authentication
+    this.isAuth = this.authService.getIsAuth();
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.isAuth = isAuthenticated;
+      });
+
     this.isLoading = true;
     this.fetchBooks();
     this.booksSubs = this.booksService
@@ -92,5 +105,9 @@ export class BookListComponent implements OnInit {
     this.genreId = eventDate.genreId;
     this.categoryId = eventDate.categoryId;
     this.fetchBooks();
+  }
+
+  ngOnDestroy(): void {
+    this.authStatusSub.unsubscribe();
   }
 }

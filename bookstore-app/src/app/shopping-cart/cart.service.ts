@@ -28,6 +28,7 @@ export class CartService {
   }
 
   addToCart(bookId: number) {
+    // this.addToLocalStorageCart(bookId, 1);
     this.http.put<{ totalInCart: number }>(BACKEND_URL + bookId, null)
       .subscribe(res => {
         this.totalInCartListener.next(res.totalInCart);
@@ -48,4 +49,19 @@ export class CartService {
   removeFromCart(id: number) {
     return this.http.delete(BACKEND_URL + id);
   }
+
+
+  // private addToLocalStorageCart(id, quantity) {
+  //   const item = {id, quantity};
+  //   let items = [];
+  //   const itemsInLSCart = localStorage.getItem('itemsInCart');
+  //   if (itemsInLSCart) {
+  //     items = JSON.parse(itemsInLSCart);
+  //   }
+  //   console.log(items);
+  //   items.push(item);
+  //
+  //   localStorage.setItem('itemsInCart', JSON.stringify(items));
+  //   localStorage.setItem('totalInCart', quantity);
+  // }
 }

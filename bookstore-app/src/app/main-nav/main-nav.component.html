@@ -40,12 +40,14 @@
         <!--<button mat-menu-item>Item 1</button>-->
         <!--</mat-menu>-->
       </div>
+      <!--  SHOPPING CART  -->
       <a mat-icon-button
          routerLink="/cart"
          routerLinkActive="mat-accent"
          [matBadge]="totalInCart"
          matBadgePosition="after"
-         matBadgeColor="accent">
+         matBadgeColor="accent"
+         *ngIf="isAuth">
         <mat-icon>shopping_cart</mat-icon>
       </a>
       <!--  LOGIN/LOGOUT  -->

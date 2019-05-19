@@ -1,26 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Book } from '../../shared/models/book.model';
 import { BooksService } from '../books.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { CartService } from '../../shopping-cart/cart.service';
+import { AuthService } from '../../auth/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-book-detail',
   templateUrl: './book-detail.component.html',
   styleUrls: ['./book-detail.component.css']
 })
-export class BookDetailComponent implements OnInit {
+export class BookDetailComponent implements OnInit, OnDestroy {
   isLoading = false;
   private bookId: string;
   book: Book;
 
-  constructor(public booksService: BooksService,
+  isAuth = false;
+  private authStatusSub: Subscription;
+
+  constructor(private route: ActivatedRoute,
+              private booksService: BooksService,
               private cartService: CartService,
-              public route: ActivatedRoute,
+              private authService: AuthService,
               private router: Router) {
   }
 
   ngOnInit() {
+    // Authentication
+    this.isAuth = this.authService.getIsAuth();
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.isAuth = isAuthenticated;
+      });
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('bookId')) {
         this.bookId = paramMap.get('bookId');
@@ -44,7 +58,14 @@ export class BookDetailComponent implements OnInit {
   }
 
   addToCart() {
+    if (!this.isAuth) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
     this.cartService.addToCart(this.book.id);
   }
 
+  ngOnDestroy(): void {
+    this.authStatusSub.unsubscribe();
+  }
 }
