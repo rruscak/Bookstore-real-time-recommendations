@@ -17,6 +17,7 @@ export class Book {
   public inStock: number;
   public language: string;
   public releaseYear: string;
+  public rating: number;
 
   public quantity: number;
 

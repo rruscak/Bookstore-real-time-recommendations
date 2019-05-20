@@ -1,5 +1,6 @@
 const Book = require('../models/neo4j/Book');
 const BookItem = require('../models/neo4j/BookItem');
+const dbUtils = require('../configurators/dbUtils');
 const _ = require('lodash');
 
 const findById = (session, id) => {
@@ -11,9 +12,11 @@ const findById = (session, id) => {
     'OPTIONAL MATCH (book)<-[:PUBLISHER_OF]-(p:Publisher)',
     'OPTIONAL MATCH (book)-[:HAS_CATEGORY]->(c:Category)',
     'OPTIONAL MATCH (c)-[:CATEGORY_OF]->(g:Genre)',
+    'OPTIONAL MATCH (:User)-[ratRel:RATED]->(book)',
+    'WITH i, c, g, w, p, book, avg(ratRel.rating) AS rating',
     'RETURN DISTINCT book AS book,',
     'collect(DISTINCT i) AS image,',
-    'collect(DISTINCT {category: c.name, genre: g.name, writer: w.name, publisher: p.name}) AS details',
+    'collect(DISTINCT {category: c.name, genre: g.name, writer: w.name, publisher: p.name, rating: rating}) AS details',
   ].join('\n');
 
   return session
@@ -47,9 +50,10 @@ const findAll = (session, genreId, catId, orderBy, orderDir, skip, limit) => {
     conditions,
     'OPTIONAL MATCH (book)-[:HAS_IMAGE]->(i:Image)',
     'OPTIONAL MATCH (book)<-[:WRITER_OF]-(w:Writer)',
-    'OPTIONAL MATCH (book)<-[:PUBLISHER_OF]-(p:Publisher)',
+    'OPTIONAL MATCH (:User)-[ratRel:RATED]->(book)',
+    'WITH i, w, book, avg(ratRel.rating) AS rating',
     'RETURN',
-    '{id: id(book), title: book.title, writer: w.name, price: book.price, releaseYear: book.releaseYear, image: collect(DISTINCT i)} AS book'
+    '{id: id(book), title: book.title, writer: w.name, price: book.price, releaseYear: book.releaseYear, rating: rating, image: collect(DISTINCT i)} AS book'
   ].join('\n');
 
   // Ordering
@@ -62,6 +66,9 @@ const findAll = (session, genreId, catId, orderBy, orderDir, skip, limit) => {
       break;
     case 'date':
       query += ' ORDER BY book.releaseYear ';
+      break;
+    case 'rating':
+      query += ' ORDER BY book.rating ';
       break;
   }
   if (orderDir) {
@@ -114,8 +121,36 @@ const count = (session, genreId, catId) => {
     .then(result => result.records[0].get("count"));
 };
 
+const rateBook = (session, body, userId) => {
+  let query = [
+    'MATCH (u:User)',
+    'WHERE id(u) = toInteger($userId)',
+    'WITH u',
+    'MATCH (b:Book)',
+    'WHERE id(b) = toInteger($bookId)',
+    'MERGE (u)-[rel:RATED]->(b)',
+    'ON CREATE SET rel.created = datetime(), rel.count = 1',
+    'ON MATCH SET rel.updated = datetime(), rel.count = rel.count + 1',
+    'SET rel.rating = toInteger($rating)'
+  ].join('\n');
+
+  return session
+    .run(query, {
+      userId: userId,
+      bookId: body.bookId,
+      rating: body.rating
+    })
+    .then(result => {
+      if (!result) {
+        return null;
+      }
+      return dbUtils.getStatistics(result);
+    })
+};
+
 module.exports = {
   findById: findById,
   findAll: findAll,
-  count: count
+  count: count,
+  rateBook: rateBook
 };

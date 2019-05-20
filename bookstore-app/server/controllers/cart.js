@@ -7,7 +7,7 @@ const BadRequestError = require('../errors/BadRequestError');
 const ApplicationError = require('../errors/ApplicationError');
 
 // Add to Cart
-exports.AddToCart = (req, res) => {
+exports.addToCart = (req, res) => {
   const session = dbUtils.getSession(req.body);
   Cart.addToCart(session, req.params.id, req.userData.userId)
     .then(result => {
@@ -29,7 +29,7 @@ exports.AddToCart = (req, res) => {
 };
 
 // Add to Cart
-exports.SetQuantity = (req, res) => {
+exports.setQuantity = (req, res) => {
   if (!_.get(req.body, 'bookId')) {
     return Res_.writeError(res, new BadRequestError());
   }
@@ -63,7 +63,7 @@ exports.SetQuantity = (req, res) => {
 };
 
 // Remove from Cart
-exports.RemoveFromCart = (req, res) => {
+exports.removeFromCart = (req, res) => {
   const session = dbUtils.getSession(req.body);
   Cart.removeBookById(session, req.params.id, req.userData.userId)
     .then(result => {
@@ -80,7 +80,7 @@ exports.RemoveFromCart = (req, res) => {
     .then(() => session.close());
 };
 
-exports.ListCart = (req, res) => {
+exports.listCart = (req, res) => {
   const session = dbUtils.getSession(req.body);
   Cart.findBooksInCart(session, req.userData.userId)
     .then(result => {

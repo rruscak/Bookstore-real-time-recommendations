@@ -1,7 +1,10 @@
 const dbUtils = require('../configurators/dbUtils');
 const Books = require('../models/books');
+const _ = require('lodash');
 
 const Res_ = require('../configurators/response');
+const ApplicationError = require('../errors/ApplicationError');
+const BadRequestError = require('../errors/BadRequestError');
 
 // Get by id
 exports.getBook = (req, res) => {
@@ -47,6 +50,31 @@ exports.getAllBooks = (req, res) => {
         books: books,
         count: dbUtils.toNumber(count)
       });
+    })
+    .catch((err) => {
+      console.log(err);
+      Res_.writeError(res, err);
+    })
+    .then(() => session.close())
+};
+
+exports.rateBook = (req, res) => {
+  if (!_.get(req.body, 'bookId') ||
+    !_.get(req.body, 'rating')) {
+    return Res_.writeError(res, new BadRequestError());
+  }
+
+  const session = dbUtils.getSession(req.body);
+  Books.rateBook(session, req.body, req.userData.userId)
+    .then(result => {
+      if (result == null) {
+        throw new ApplicationError();
+      }
+      if (result.propertiesSet === 0) {
+        throw new ApplicationError();
+      }
+      console.log(result);
+      Res_.writeResponse(res);
     })
     .catch((err) => {
       console.log(err);

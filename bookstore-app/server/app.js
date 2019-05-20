@@ -5,6 +5,7 @@ const cartRoutes = require('./routes/cart');
 const filtersRoutes = require('./routes/filters');
 const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
+const rateRoutes = require('./routes/rate');
 
 // Init App
 const app = express();
@@ -20,6 +21,7 @@ require('./configurators/logger')(app);
 app.use("/images", express.static(path.join("uploads/images")));
 app.use("/api/books", booksRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/rate", rateRoutes);
 app.use("/api/filters", filtersRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/user", userRoutes);

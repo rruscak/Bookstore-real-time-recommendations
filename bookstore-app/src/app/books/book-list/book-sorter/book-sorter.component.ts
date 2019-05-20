@@ -20,6 +20,7 @@ export class BookSorterComponent implements OnInit {
   ngOnInit() {
     this.sortOrders = [
       {value: 'name', name: 'Name'},
+      {value: 'rating', name: 'Rating'},
       {value: 'price', name: 'Price'},
       {value: 'date', name: 'Release Date'}
     ];

@@ -20,6 +20,7 @@ function Book(_node, _details, _images) {
     writer: _details[0].writer,
     category: _details[0].category,
     genre: _details[0].genre,
+    rating: _details[0].rating ? _details[0].rating : 0,
 
     images: _images.map((image => new Image(image)))
   });
