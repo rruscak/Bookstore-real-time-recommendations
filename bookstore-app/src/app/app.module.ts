@@ -18,6 +18,7 @@ import { CartModule } from './shopping-cart/cart.module';
 
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import { StarRatingModule } from 'angular-star-rating';
 
 registerLocaleData(localeDe);
 
@@ -38,7 +39,8 @@ registerLocaleData(localeDe);
     AngularMaterialModule,
     PostsModule,
     BooksModule,
-    CartModule
+    CartModule,
+    StarRatingModule.forRoot()
   ],
   providers: [{
     provide: LOCALE_ID,

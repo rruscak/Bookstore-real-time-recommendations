@@ -22,8 +22,12 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import { ImageLoaderDirective } from './shared/directives/image-loader.directive';
 
 @NgModule({
+  declarations: [
+    ImageLoaderDirective
+  ],
   exports: [
     MatButtonModule,
     MatMenuModule,
@@ -45,7 +49,8 @@ import {
     MatSelectModule,
     MatButtonToggleModule,
     MatTooltipModule,
-    MatTableModule
+    MatTableModule,
+    ImageLoaderDirective
   ]
 })
 export class AngularMaterialModule {

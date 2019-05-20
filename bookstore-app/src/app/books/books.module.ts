@@ -8,7 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BookFilterComponent } from './book-list/book-filter/book-filter.component';
 import { RouterModule } from '@angular/router';
 import { BookSorterComponent } from './book-list/book-sorter/book-sorter.component';
-import { ImageLoaderDirective } from '../shared/directives/image-loader.directive';
+import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   declarations: [
@@ -16,14 +16,14 @@ import { ImageLoaderDirective } from '../shared/directives/image-loader.directiv
     BookItemComponent,
     BookDetailComponent,
     BookFilterComponent,
-    BookSorterComponent,
-    ImageLoaderDirective
+    BookSorterComponent
   ],
   imports: [
     AngularMaterialModule,
     CommonModule,
     FlexLayoutModule,
-    RouterModule
+    RouterModule,
+    StarRatingModule.forChild()
   ]
 })
 export class BooksModule {
