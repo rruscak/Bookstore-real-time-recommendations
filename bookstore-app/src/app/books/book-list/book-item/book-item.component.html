@@ -5,13 +5,16 @@
      [matRippleUnbounded]="false">
   <mat-card class="card-div">
     <!-- IMAGE -->
-    <img appImageLoader
-         mat-card-image
-         class="style-link"
-         [routerLink]="['/book/', book.id]"
-         width="222" height="341"
-         [src]="book.images[0]?.path"
-         [alt]="book.images[0]?.name">
+    <div class="img-container" [routerLink]="['/book/', book.id]">
+      <img appImageLoader
+           class="book-img style-link"
+           width="222" height="341"
+           [src]="book.images[0]?.path"
+           [alt]="book.images[0]?.name">
+      <star-rating class="book-rating" fxLayoutAlign="center"
+                   [starType]="'svg'" [rating]="5" readOnly="true">
+      </star-rating>
+    </div>
     <!-- WRITER -->
     <mat-card-subtitle fxLayoutAlign="center">
       {{ book.writer }}

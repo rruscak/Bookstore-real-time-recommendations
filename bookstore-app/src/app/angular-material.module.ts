@@ -18,7 +18,6 @@ import {
   MatSidenavModule,
   MatSnackBarModule,
   MatStepperModule,
-  MatTableModule,
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
@@ -49,7 +48,6 @@ import { ImageLoaderDirective } from './shared/directives/image-loader.directive
     MatSelectModule,
     MatButtonToggleModule,
     MatTooltipModule,
-    MatTableModule,
     ImageLoaderDirective
   ]
 })

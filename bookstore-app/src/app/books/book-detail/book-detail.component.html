@@ -1,5 +1,4 @@
 <mat-card>
-  <star-rating [starType]="'svg'" [rating]="2.63"></star-rating>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <div fxLayout="row"
        fxLayout.xs="column"
@@ -28,8 +27,18 @@
     <div fxLayout="column">
       <!--  HEADER  -->
       <div class="content-div">
-        <mat-card-title>{{ book.title }}</mat-card-title>
-        <mat-card-subtitle>
+        <div fxLayout="row"
+             fxLayout.xs="column"
+             fxLayoutAlign.xs="center center">
+          <!--  TITLE  -->
+          <mat-card-title fxFlex="1 1 100%">{{ book.title }}</mat-card-title>
+          <!--  RATING  -->
+          <star-rating class="book-rating" fxLayoutAlign="center"
+                       [starType]="'svg'" [rating]="3" [hoverEnabled]="false">
+          </star-rating>
+        </div>
+        <!--  WRITER  -->
+        <mat-card-subtitle fxLayoutAlign.xs="center center">
           <span class="accent-color">Author:</span>
           {{ book.writer }}
         </mat-card-subtitle>
