@@ -34,7 +34,10 @@
           <mat-card-title fxFlex="1 1 100%">{{ book.title }}</mat-card-title>
           <!--  RATING  -->
           <star-rating class="book-rating" fxLayoutAlign="center"
-                       [starType]="'svg'" [rating]="book.rating" [hoverEnabled]="false">
+                       [showHalfStars]="true"
+                       [hoverEnabled]="true"
+                       [rating]="book.rating"
+                       (starClickChange)="onRatingClickChange($event)">
           </star-rating>
         </div>
         <!--  WRITER  -->

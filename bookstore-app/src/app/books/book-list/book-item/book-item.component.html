@@ -12,7 +12,9 @@
            [src]="book.images[0]?.path"
            [alt]="book.images[0]?.name">
       <star-rating class="book-rating" fxLayoutAlign="center"
-                   [starType]="'svg'" [rating]="book.rating" readOnly="true">
+                   [showHalfStars]="true"
+                   [rating]="book.rating"
+                   readOnly="true">
       </star-rating>
     </div>
     <!-- WRITER -->

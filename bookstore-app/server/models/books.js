@@ -1,6 +1,5 @@
 const Book = require('../models/neo4j/Book');
 const BookItem = require('../models/neo4j/BookItem');
-const dbUtils = require('../configurators/dbUtils');
 const _ = require('lodash');
 
 const findById = (session, id) => {
@@ -128,10 +127,17 @@ const rateBook = (session, body, userId) => {
     'WITH u',
     'MATCH (b:Book)',
     'WHERE id(b) = toInteger($bookId)',
+    'WITH u, b',
+    'OPTIONAL MATCH ()-[ratings:RATED]->(b)',
     'MERGE (u)-[rel:RATED]->(b)',
     'ON CREATE SET rel.created = datetime(), rel.count = 1',
     'ON MATCH SET rel.updated = datetime(), rel.count = rel.count + 1',
-    'SET rel.rating = toInteger($rating)'
+    'SET rel.rating = toInteger($rating)',
+    'RETURN',
+    'CASE',
+    'WHEN ratings IS NULL THEN rel.rating',
+    'ELSE avg(ratings.rating)',
+    'END AS rating'
   ].join('\n');
 
   return session
@@ -144,7 +150,7 @@ const rateBook = (session, body, userId) => {
       if (!result) {
         return null;
       }
-      return dbUtils.getStatistics(result);
+      return result.records[0].get("rating");
     })
 };
 

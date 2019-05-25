@@ -73,8 +73,9 @@ exports.rateBook = (req, res) => {
       if (result.propertiesSet === 0) {
         throw new ApplicationError();
       }
-      console.log(result);
-      Res_.writeResponse(res);
+      Res_.writeResponse(res, {
+        rating: dbUtils.toNumber(result)
+      });
     })
     .catch((err) => {
       console.log(err);

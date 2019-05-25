@@ -18,7 +18,8 @@ import { CartModule } from './shopping-cart/cart.module';
 
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
-import { StarRatingModule } from 'angular-star-rating';
+import { StarRatingConfigService, StarRatingModule } from 'angular-star-rating';
+import { CustomStarRatingConfigService } from './shared/global/CustomStarRatingConfigService';
 
 registerLocaleData(localeDe);
 
@@ -53,6 +54,9 @@ registerLocaleData(localeDe);
     provide: HTTP_INTERCEPTORS,
     useClass: ErrorInterceptor,
     multi: true
+  }, {
+    provide: StarRatingConfigService,
+    useClass: CustomStarRatingConfigService
   }],
   bootstrap: [AppComponent],
   entryComponents: [ErrorComponent]

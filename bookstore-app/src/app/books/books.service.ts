@@ -6,8 +6,9 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Genre } from './genre.model';
 
-const BACKEND_URL = environment.apiUrl + 'books/';
+const BACKEND_URL_BOOKS = environment.apiUrl + 'books/';
 const BACKEND_URL_FILTERS = environment.apiUrl + 'filters/';
+const BACKEND_URL_RATE = environment.apiUrl + 'rate/';
 
 @Injectable({providedIn: 'root'})
 export class BooksService {
@@ -21,7 +22,7 @@ export class BooksService {
   }
 
   getBook(id: number) {
-    return this.http.get<Book>(BACKEND_URL + id);
+    return this.http.get<Book>(BACKEND_URL_BOOKS + id);
   }
 
   getBooks(limit: number, page: number,
@@ -42,13 +43,20 @@ export class BooksService {
     if (categoryId) {
       queryParams += `&categoryId=${categoryId}`;
     }
-    this.http.get<{ books: Book[], count: number }>(BACKEND_URL + queryParams)
+    this.http.get<{ books: Book[], count: number }>(BACKEND_URL_BOOKS + queryParams)
       .subscribe(res => {
         this.booksUpdated.next({
           books: res.books ? [...res.books] : [],
           count: res.count
         });
       });
+  }
+
+  rateBook(bookId: number, rating: number) {
+    return this.http.put<{ rating: number }>(BACKEND_URL_RATE, {
+      bookId,
+      rating
+    });
   }
 
   getFilters() {

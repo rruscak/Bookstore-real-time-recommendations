@@ -5,7 +5,7 @@ const auth = require('../middleware/auth');
 /**
  * url: /api/rate
  * */
-// Add Book to Cart
+// Rate Book
 router.put("/", auth, BookController.rateBook);
 
 module.exports = router;

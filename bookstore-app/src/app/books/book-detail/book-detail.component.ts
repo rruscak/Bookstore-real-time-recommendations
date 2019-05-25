@@ -5,6 +5,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { CartService } from '../../shopping-cart/cart.service';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
+import { ClickEvent, HoverRatingChangeEvent, RatingChangeEvent } from 'angular-star-rating';
 
 @Component({
   selector: 'app-book-detail',
@@ -63,6 +64,17 @@ export class BookDetailComponent implements OnInit, OnDestroy {
       return;
     }
     this.cartService.addToCart(this.book.id);
+  }
+
+  onRatingClickChange($event: RatingChangeEvent) {
+    console.log('rated: ' + $event.rating);
+    this.booksService.rateBook(this.book.id, $event.rating)
+      .subscribe(result => {
+        if (result.rating) {
+          console.log('result: ' + result.rating);
+          this.book.rating = result.rating;
+        }
+      });
   }
 
   ngOnDestroy(): void {
