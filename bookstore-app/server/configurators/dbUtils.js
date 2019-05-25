@@ -36,7 +36,7 @@ exports.toNumber = integerVal => {
   if (integerVal == null) {
     return null;
   }
-  if (!isNaN(integerVal)) {
+  if (typeof integerVal == 'number') {
     return integerVal;
   }
   return integerVal.inSafeRange() ? integerVal.toNumber() : integerVal.toString();
