@@ -6,6 +6,7 @@ const filtersRoutes = require('./routes/filters');
 const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
 const rateRoutes = require('./routes/rate');
+const recRelatedRoutes = require('./routes/rec/related');
 
 // Init App
 const app = express();
@@ -25,5 +26,7 @@ app.use("/api/rate", rateRoutes);
 app.use("/api/filters", filtersRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/user", userRoutes);
+// Recommendations
+app.use("/api/rec/related", recRelatedRoutes);
 
 module.exports = app;

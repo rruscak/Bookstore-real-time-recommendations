@@ -30,48 +30,76 @@ exports.addToCart = (req, res) => {
 
 // Add to Cart
 exports.setQuantity = (req, res) => {
+  console.log(req.body.quantity);
   if (!_.get(req.body, 'bookId')) {
+    console.log('A');
     return Res_.writeError(res, new BadRequestError());
   }
 
   const session = dbUtils.getSession(req.body);
-  Cart.setBookQuantity(session, req.body, req.userData.userId)
+  if (req.body.quantity === 0) {
+    Cart.removeFromCart(session, req.body.bookId, req.userData.userId)
+      .then(result => {
+        if (result == null) {
+          throw new ApplicationError();
+        }
+        console.log(result);
+        return Cart.getTotalItemsInCart(session, req.userData.userId);
+      })
+      .then(count => {
+        Res_.writeResponse(res, {
+          totalInCart: dbUtils.toNumber(count)
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        Res_.writeError(res, err);
+      })
+      .then(() => session.close());
+  } else {
+    Cart.setBookQuantity(session, req.body, req.userData.userId)
+      .then(result => {
+        if (result == null) {
+          throw new ApplicationError();
+        }
+        // if (result === 0) {
+        //   Res_.writeResponse(res, null, 304);
+        // }
+        // if (result.relationshipsCreated === 1) {
+        //   Res_.writeResponse(res, null, 201);
+        // } else {
+        //   Res_.writeResponse(res);
+        // }
+        return Cart.getTotalItemsInCart(session, req.userData.userId);
+      })
+      .then(count => {
+        Res_.writeResponse(res, {
+          totalInCart: dbUtils.toNumber(count)
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        Res_.writeError(res, err);
+      })
+      .then(() => session.close());
+  }
+};
+
+// Remove from Cart
+exports.removeFromCart = (req, res) => {
+  const session = dbUtils.getSession(req.body);
+  Cart.removeFromCart(session, req.params.id, req.userData.userId)
     .then(result => {
       if (result == null) {
         throw new ApplicationError();
       }
-      // if (result === 0) {
-      //   Res_.writeResponse(res, null, 304);
-      // }
-      // if (result.relationshipsCreated === 1) {
-      //   Res_.writeResponse(res, null, 201);
-      // } else {
-      //   Res_.writeResponse(res);
-      // }
+      console.log(result);
       return Cart.getTotalItemsInCart(session, req.userData.userId);
     })
     .then(count => {
       Res_.writeResponse(res, {
         totalInCart: dbUtils.toNumber(count)
       });
-    })
-    .catch(err => {
-      console.log(err);
-      Res_.writeError(res, err);
-    })
-    .then(() => session.close());
-};
-
-// Remove from Cart
-exports.removeFromCart = (req, res) => {
-  const session = dbUtils.getSession(req.body);
-  Cart.removeBookById(session, req.params.id, req.userData.userId)
-    .then(result => {
-      if (result == null) {
-        throw new ApplicationError();
-      }
-      console.log(result);
-      Res_.writeResponse(res);
     })
     .catch(err => {
       console.log(err);

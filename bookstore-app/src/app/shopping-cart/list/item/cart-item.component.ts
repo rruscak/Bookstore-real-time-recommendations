@@ -37,7 +37,7 @@ export class CartItemComponent implements OnInit {
   }
 
   removeFromCart() {
-    this.cartService.setQuantity(this.book.id, 0)
+    this.cartService.removeFromCart(this.book.id)
       .subscribe(res => {
         this.cartService.setTotalInCartListener(res.totalInCart);
         this.emitQuantityChanged(0);

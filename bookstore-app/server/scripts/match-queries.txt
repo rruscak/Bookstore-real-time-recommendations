@@ -7,7 +7,7 @@ ORDER BY relsInCommon ASC, b2.title
 LIMIT 5
 
 
-// RETURN Books with most relations to another one
+// 1 - RETURN Books with most relations to another one
 MATCH (b1:Book)
 WHERE id(b1) = 28
 MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_CATEGORY|HAS_KEYWORD|PUBLISHER_OF*..3]-(b2:Book)
@@ -21,6 +21,41 @@ RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: ra
 ORDER BY book.relsInCommon DESC, book.title
 LIMIT 5
 
+// 2a - RECOMEND simmilar books to an books WITHOUT books user already bought or has in cart
+MATCH (user:User)
+WHERE id(user) = 57
+WITH user
+MATCH (b1:Book)
+WHERE id(b1) = 28
+MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_CATEGORY|HAS_KEYWORD|PUBLISHER_OF*..3]-(b2:Book)
+WHERE NOT (user)-[:HAS_IN_CART]->(b2) AND b2 <> b1
+WITH b2, relationships(p) AS rel
+OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)
+OPTIONAL MATCH (b2)<-[:WRITER_OF]-(w:Writer)
+OPTIONAL MATCH (:User)-[ratRel:RATED]->(b2)
+WITH b2, i, w, avg(ratRel.rating) AS rating, count(rel) AS relsInCommon
+RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: rating, image: collect(DISTINCT i), relsInCommon: relsInCommon} AS book
+ORDER BY book.relsInCommon DESC, book.title
+LIMIT 10
+
+// 2b - RECOMEND simmilar books to an books WITHOUT books user already bought or has in cart  -  ONLY THE FROM THE SAME CATEGORY
+MATCH (user:User)
+WHERE id(user) = 52
+WITH user
+MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)
+WHERE id(b1) = 28
+MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|PUBLISHER_OF*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
+WHERE NOT (user)-[:HAS_IN_CART]->(b2) AND b2 <> b1 AND cat1 = cat2
+WITH b2, relationships(p) AS rel
+OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)
+OPTIONAL MATCH (b2)<-[:WRITER_OF]-(w:Writer)
+OPTIONAL MATCH (:User)-[ratRel:RATED]->(b2)
+WITH b2, i, w, avg(ratRel.rating) AS rating, count(rel) AS relsInCommon
+RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: rating, image: collect(DISTINCT i), relsInCommon: relsInCommon} AS book
+ORDER BY book.relsInCommon DESC, book.title
+LIMIT 10
+
+// PRESENTATION QUERIES
 // Books has in common
 MATCH (b1:Book)
 WHERE id(b1) = 28
@@ -35,3 +70,8 @@ MATCH (b2:Book)
 WHERE id(b2) = 30
 MATCH path = (b1)-[rel:HAS_SEQUEL|WRITER_OF|HAS_CATEGORY|HAS_KEYWORD|PUBLISHER_OF*..4]-(b2)
 RETURN path, length(path) AS path_length
+
+
+// predicate if user already bought the book
+RETURN ...,
+	EXISTS(()-[]->()) AS hasBought

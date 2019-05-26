@@ -47,7 +47,7 @@ export class CartService {
   }
 
   removeFromCart(id: number) {
-    return this.http.delete(BACKEND_URL + id);
+    return this.http.delete<{ totalInCart: number }>(BACKEND_URL + id);
   }
 
 

@@ -2,7 +2,7 @@ const dbUtils = require('../configurators/dbUtils');
 const _ = require('lodash');
 const CartItem = require('../models/neo4j/CartItem');
 
-const addToCart = (session, id, userId) => {
+const addToCart = (session, bookId, userId) => {
   let query = [
     'MATCH (u:User)',
     'WHERE id(u) = toInteger($userId)',
@@ -11,13 +11,13 @@ const addToCart = (session, id, userId) => {
     'WHERE id(b) = toInteger($bookId)',
     'MERGE (u)-[rel:HAS_IN_CART]->(b)',
     'ON CREATE SET rel.created = datetime(), rel.quantity = toInteger(1)',
-    'ON MATCH SET rel.quantity = rel.quantity + toInteger(1)',
+    'ON MATCH SET rel.quantity = rel.quantity + toInteger(1)'
   ].join('\n');
 
   return session
     .run(query, {
       userId: userId,
-      bookId: id
+      bookId: bookId
     })
     .then(result => {
       if (!result) {
@@ -36,7 +36,7 @@ const setBookQuantity = (session, body, userId) => {
     'WHERE id(b) = toInteger($bookId)',
     'MERGE (u)-[rel:HAS_IN_CART]->(b)',
     'ON CREATE SET rel.created = datetime()',
-    'SET rel.quantity = toInteger($quantity)',
+    'SET rel.quantity = toInteger($quantity)'
   ].join('\n');
 
   return session
@@ -53,7 +53,7 @@ const setBookQuantity = (session, body, userId) => {
     })
 };
 
-const removeBookById = (session, bookId, userId) => {
+const removeFromCart = (session, bookId, userId) => {
   let query = [
     "MATCH (b:Book)<-[rel:HAS_IN_CART]-(user:User)",
     "WHERE ID(b) = toInteger($bookId) AND ID(user) = toInteger($userId)",
@@ -113,7 +113,7 @@ const getTotalItemsInCart = (session, userId) => {
 module.exports = {
   addToCart: addToCart,
   setBookQuantity: setBookQuantity,
-  removeBookById: removeBookById,
+  removeFromCart: removeFromCart,
   findBooksInCart: findBooksInCart,
   getTotalItemsInCart: getTotalItemsInCart
 };

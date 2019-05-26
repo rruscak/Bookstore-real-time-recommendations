@@ -99,6 +99,7 @@ const manyBooksItems = (result) => {
   return result.records.map(r => new BookItem(r.get('book')));
 };
 
+// Get total books of an CATEGORY or GENRE
 const count = (session, genreId, catId) => {
   let properties = {};
   let conditions = '';
@@ -121,6 +122,7 @@ const count = (session, genreId, catId) => {
     .then(result => result.records[0].get("count"));
 };
 
+// CREATE or UPDATE book rating of an user
 const rateBook = (session, body, userId) => {
   let query = [
     'MATCH (u:User)',
@@ -155,7 +157,13 @@ const rateBook = (session, body, userId) => {
     })
 };
 
-// When user viewed book set VIEWED relationship
+/**
+ * Create or update :VIEWED relationship between user and book
+ * @param session
+ * @param bookId
+ * @param userId
+ * @returns {*} Result statistics of query
+ */
 const mergeViewed = (session, bookId, userId) => {
   let query = [
     'MATCH (user:User)',
@@ -181,10 +189,85 @@ const mergeViewed = (session, bookId, userId) => {
     })
 };
 
+/**
+ * Find related books to input book.
+ * @param session
+ * @param bookId
+ * @returns {*} BookItem list
+ */
+const findRelatedBooks = (session, bookId) => {
+  let query = [
+    'MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)',
+    'WHERE id(b1) = 28',
+    'MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|PUBLISHER_OF*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)',
+    'WHERE b2 <> b1 AND cat1 = cat2',
+    'WITH b2, relationships(p) AS rel',
+    'OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)',
+    'OPTIONAL MATCH (b2)<-[:WRITER_OF]-(w:Writer)',
+    'OPTIONAL MATCH (:User)-[ratRel:RATED]->(b2)',
+    'WITH b2, i, w, avg(ratRel.rating) AS rating, count(rel) AS relsInCommon',
+    'RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: rating, image: collect(DISTINCT i), relsInCommon: relsInCommon} AS book',
+    'ORDER BY book.relsInCommon DESC, book.title',
+    'LIMIT 5',
+  ].join('\n');
+
+  return session
+    .run(query, {bookId: bookId})
+    .then(result => {
+      if (_.isEmpty(result.records))
+        return null;
+
+      // console.log(result.records[0].get('book'));
+      return manyBooksItems(result);
+    });
+};
+
+/**
+ * Find related books to input book without the books user already bought or has in cart.
+ * @param session
+ * @param bookId
+ * @param userId
+ * @returns {*} BookItem list
+ */
+const findRelatedBooksForUser = (session, bookId, userId) => {
+  let query = [
+    'MATCH (user:User)',
+    'WHERE id(user) = toInteger($userId)',
+    'WITH user',
+    'MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)',
+    'WHERE id(b1) = toInteger($bookId)',
+    'MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|PUBLISHER_OF*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)',
+    'WHERE NOT (user)-[:HAS_IN_CART]->(b2) AND b2 <> b1 AND cat1 = cat2',
+    'WITH b2, relationships(p) AS rel',
+    'OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)',
+    'OPTIONAL MATCH (b2)<-[:WRITER_OF]-(w:Writer)',
+    'OPTIONAL MATCH (:User)-[ratRel:RATED]->(b2)',
+    'WITH b2, i, w, avg(ratRel.rating) AS rating, count(rel) AS relsInCommon',
+    'RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: rating, image: collect(DISTINCT i), relsInCommon: relsInCommon} AS book',
+    'ORDER BY book.relsInCommon DESC, book.title',
+    'LIMIT 5',
+  ].join('\n');
+
+  return session
+    .run(query, {
+      userId: userId,
+      bookId: bookId
+    })
+    .then(result => {
+      if (_.isEmpty(result.records))
+        return null;
+
+      // console.log(result.records[0].get('book'));
+      return manyBooksItems(result);
+    });
+};
+
 module.exports = {
   findById: findById,
   findAll: findAll,
   count: count,
   rateBook: rateBook,
-  mergeViewed: mergeViewed
+  mergeViewed: mergeViewed,
+  findRelatedBooks: findRelatedBooks,
+  findRelatedBooksForUser: findRelatedBooksForUser
 };
