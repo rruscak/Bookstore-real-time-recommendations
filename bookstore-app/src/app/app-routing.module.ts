@@ -7,9 +7,10 @@ import { AuthGuard } from './auth/auth.guard';
 import { BookListComponent } from './books/book-list/book-list.component';
 import { CartComponent } from './shopping-cart/cart.component';
 import { BookDetailComponent } from './books/book-detail/book-detail.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  {path: '', component: BookListComponent},
+  {path: '', component: HomeComponent},
   {path: 'book/:bookId', component: BookDetailComponent},
   {path: 'books', component: BookListComponent},
   {path: 'cart', component: CartComponent},

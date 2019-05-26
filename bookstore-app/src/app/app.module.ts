@@ -15,6 +15,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { PostsModule } from './posts/posts.module';
 import { BooksModule } from './books/books.module';
 import { CartModule } from './shopping-cart/cart.module';
+import { HomeModule } from './home/home.module';
 
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
@@ -38,6 +39,7 @@ registerLocaleData(localeDe);
     LayoutModule,
     HttpClientModule,
     AngularMaterialModule,
+    HomeModule,
     PostsModule,
     BooksModule,
     CartModule,

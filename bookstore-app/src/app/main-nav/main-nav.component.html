@@ -31,6 +31,7 @@
       <span class="spacer"></span>
       <!--  MAIN NAV BAR  -->
       <div *ngIf="!(isHandset$ | async)">
+        <a mat-button routerLink="">Home</a>
         <a mat-button routerLink="/books" routerLinkActive="mat-accent">Books</a>
 <!--        <a mat-button routerLink="/posts" routerLinkActive="mat-accent">Posts</a>-->
 <!--        <a mat-button routerLink="/form" routerLinkActive="mat-accent" *ngIf="isAuth">New Post</a>-->
