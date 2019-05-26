@@ -55,6 +55,17 @@ RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: ra
 ORDER BY book.relsInCommon DESC, book.title
 LIMIT 10
 
+// create Order
+MATCH (user:User)-[cartRel:HAS_IN_CART]->(b:Book)
+WHERE id(user) = 52
+WITH user, cartRel, b
+WITH count(b) AS totalItems, order, user, orderRel, conRel, b
+WITH totalItems, order, user, orderRel, conRel, b, sum(b.price * totalItems) AS sum
+SET order.created = datetime(), order.totalItems = totalItems, order.subtotal = sum
+CREATE (user)-[orderRel:HAS_ORDER]->(order:Order)-[conRel:CONTAINS]->(b)
+RETURN user, orderRel, order, conRel, b
+
+
 // PRESENTATION QUERIES
 // Books has in common
 MATCH (b1:Book)
