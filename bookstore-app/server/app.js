@@ -7,6 +7,7 @@ const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
 const rateRoutes = require('./routes/rate');
 const recRelatedRoutes = require('./routes/rec/related');
+const recRecentRoutes = require('./routes/rec/recent');
 
 // Init App
 const app = express();
@@ -28,5 +29,6 @@ app.use("/api/posts", postsRoutes);
 app.use("/api/user", userRoutes);
 // Recommendations
 app.use("/api/rec/related", recRelatedRoutes);
+app.use("/api/rec/recent", recRecentRoutes);
 
 module.exports = app;

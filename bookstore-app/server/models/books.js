@@ -193,9 +193,10 @@ const mergeViewed = (session, bookId, userId) => {
  * Find related books to input book.
  * @param session
  * @param bookId
+ * @param limit
  * @returns {*} BookItem list
  */
-const findRelatedBooks = (session, bookId) => {
+const findRelatedBooks = (session, limit, bookId) => {
   let query = [
     'MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)',
     'WHERE id(b1) = 28',
@@ -208,11 +209,14 @@ const findRelatedBooks = (session, bookId) => {
     'WITH b2, i, w, avg(ratRel.rating) AS rating, count(rel) AS relsInCommon',
     'RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: rating, image: collect(DISTINCT i), relsInCommon: relsInCommon} AS book',
     'ORDER BY book.relsInCommon DESC, book.title',
-    'LIMIT 5',
+    'LIMIT toInteger($limit)',
   ].join('\n');
 
   return session
-    .run(query, {bookId: bookId})
+    .run(query, {
+      bookId: bookId,
+      limit: limit
+    })
     .then(result => {
       if (_.isEmpty(result.records))
         return null;
@@ -226,10 +230,11 @@ const findRelatedBooks = (session, bookId) => {
  * Find related books to input book without the books user already bought or has in cart.
  * @param session
  * @param bookId
+ * @param limit
  * @param userId
  * @returns {*} BookItem list
  */
-const findRelatedBooksForUser = (session, bookId, userId) => {
+const findRelatedBooksForUser = (session, bookId, limit, userId) => {
   let query = [
     'MATCH (user:User)',
     'WHERE id(user) = toInteger($userId)',
@@ -245,19 +250,53 @@ const findRelatedBooksForUser = (session, bookId, userId) => {
     'WITH b2, i, w, avg(ratRel.rating) AS rating, count(rel) AS relsInCommon',
     'RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: rating, image: collect(DISTINCT i), relsInCommon: relsInCommon} AS book',
     'ORDER BY book.relsInCommon DESC, book.title',
-    'LIMIT 5',
+    'LIMIT toInteger($limit)',
   ].join('\n');
 
   return session
     .run(query, {
       userId: userId,
-      bookId: bookId
+      bookId: bookId,
+      limit: limit
     })
     .then(result => {
       if (_.isEmpty(result.records))
         return null;
 
       // console.log(result.records[0].get('book'));
+      return manyBooksItems(result);
+    });
+};
+
+/**
+ * Find 5 most recently viewed books by user.
+ * @param session
+ * @param limit
+ * @param userId
+ * @returns {*} BookItem list
+ */
+const findRecentlyViewed = (session, limit, userId) => {
+  let query = [
+    'MATCH (user:User)-[view:VIEWED]->(b:Book)',
+    'WHERE id(user) = toInteger($userId)',
+    'OPTIONAL MATCH (b)-[:HAS_IMAGE]->(i:Image)',
+    'OPTIONAL MATCH (b)<-[:WRITER_OF]-(w:Writer)',
+    'OPTIONAL MATCH (:User)-[ratRel:RATED]->(b)',
+    'WITH b, i, w, avg(ratRel.rating) AS rating, view.created AS viewed',
+    'RETURN {id: id(b), title: b.title, writer: w.name, price: b.price, rating: rating, image: collect(DISTINCT i), viewed: viewed} AS book',
+    'ORDER BY book.viewed DESC, book.title',
+    'LIMIT toInteger($limit)',
+  ].join('\n');
+
+  return session
+    .run(query, {
+      userId: userId,
+      limit: limit
+    })
+    .then(result => {
+      if (_.isEmpty(result.records))
+        return null;
+
       return manyBooksItems(result);
     });
 };
@@ -269,5 +308,6 @@ module.exports = {
   rateBook: rateBook,
   mergeViewed: mergeViewed,
   findRelatedBooks: findRelatedBooks,
-  findRelatedBooksForUser: findRelatedBooksForUser
+  findRelatedBooksForUser: findRelatedBooksForUser,
+  findRecentlyViewed: findRecentlyViewed
 };
