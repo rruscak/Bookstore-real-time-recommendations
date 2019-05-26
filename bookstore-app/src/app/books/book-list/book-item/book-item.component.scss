@@ -42,7 +42,7 @@
   filter: alpha(opacity=75);
 }
 
-.img-container:hover {
+.ripple-container:hover .img-container {
   background-color: #673ab7;
   z-index: 2;
 }

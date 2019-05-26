@@ -9,10 +9,19 @@ const BadRequestError = require('../errors/BadRequestError');
 // Get by id
 exports.getBook = (req, res) => {
   const session = dbUtils.getSession(req.body);
+  let bookData;
   Books.findById(session, req.params.id)
     .then(data => {
-      // console.log(data);
-      Res_.writeResponse(res, data);
+      console.log(req.userData);
+      if (!req.userData) {
+        return Res_.writeResponse(res, data);
+      }
+      bookData = data;
+      return Books.mergeViewed(session, req.params.id, req.userData.userId)
+    })
+    .then(result => {
+      console.log(result);
+      return Res_.writeResponse(res, bookData);
     })
     .catch((err) => {
       console.log(err);

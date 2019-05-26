@@ -1,5 +1,6 @@
 const Book = require('../models/neo4j/Book');
 const BookItem = require('../models/neo4j/BookItem');
+const dbUtils = require('../configurators/dbUtils');
 const _ = require('lodash');
 
 const findById = (session, id) => {
@@ -154,9 +155,36 @@ const rateBook = (session, body, userId) => {
     })
 };
 
+// When user viewed book set VIEWED relationship
+const mergeViewed = (session, bookId, userId) => {
+  let query = [
+    'MATCH (user:User)',
+    'WHERE id(user) = toInteger($userId)',
+    'WITH user',
+    'MATCH (book:Book)',
+    'WHERE id(book) = toInteger($bookId)',
+    'MERGE (user)-[view:VIEWED]->(book)',
+    'ON CREATE SET view.created = datetime(), view.count = 1',
+    'ON MATCH SET view.updated = datetime(), view.count = view.count + 1'
+  ].join('\n');
+
+  return session
+    .run(query, {
+      userId: userId,
+      bookId: bookId
+    })
+    .then(result => {
+      if (!result) {
+        return null;
+      }
+      return dbUtils.getStatistics(result).propertiesSet;
+    })
+};
+
 module.exports = {
   findById: findById,
   findAll: findAll,
   count: count,
-  rateBook: rateBook
+  rateBook: rateBook,
+  mergeViewed: mergeViewed
 };
