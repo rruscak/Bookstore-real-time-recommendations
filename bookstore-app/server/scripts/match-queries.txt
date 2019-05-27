@@ -7,10 +7,11 @@ ORDER BY relsInCommon ASC, b2.title
 LIMIT 5
 
 
+// RECOMMENDATIONS --------------------------------------------------------------------------------------------------------------------------------------------
 // 1 - RETURN Books with most relations to another one -  ONLY THE FROM THE SAME CATEGORY
 MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)
 WHERE id(b1) = 28
-MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|PUBLISHER_OF*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
+MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
 WHERE b2 <> b1 AND cat1 = cat2
 WITH b2, relationships(p) AS rel
 OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)
@@ -27,7 +28,7 @@ WHERE id(user) = 57
 WITH user
 MATCH (b1:Book)
 WHERE id(b1) = 28
-MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_CATEGORY|HAS_KEYWORD|PUBLISHER_OF*..3]-(b2:Book)
+MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_CATEGORY|HAS_KEYWORD*..3]-(b2:Book)
 WHERE NOT (user)-[:HAS_IN_CART]->(b2) AND b2 <> b1 
 WITH b2, relationships(p) AS rel
 OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)
@@ -44,7 +45,7 @@ WHERE id(user) = 52
 WITH user
 MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)
 WHERE id(b1) = 28
-MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|PUBLISHER_OF*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
+MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
 WHERE NOT (user)-[:HAS_IN_CART]->(b2) AND b2 <> b1 AND cat1 = cat2
 WITH b2, relationships(p) AS rel
 OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)
@@ -55,6 +56,8 @@ RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: ra
 ORDER BY book.relsInCommon DESC, book.title
 LIMIT 10
 
+
+// ORDERS -----------------------------------------------------------------------------------------------------------------------------------------------------
 // create Order
 MATCH (user:User)-[cartRel:HAS_IN_CART]->(b:Book)
 WHERE id(user) = 52
@@ -65,8 +68,44 @@ SET order.created = datetime(), order.totalItems = totalItems, order.subtotal = 
 CREATE (user)-[orderRel:HAS_ORDER]->(order:Order)-[conRel:CONTAINS]->(b)
 RETURN user, orderRel, order, conRel, b
 
+// Find user orders
+MATCH (user:User)-[rel:HAS_ORDER]-(n:Order)-[]-(m)
+WHERE id(user) = 30
+RETURN user, rel, n, m
+// MATCH items in cart
+MATCH (user:User)-[rel:HAS_IN_CART]-(n:Book)
+WHERE id(user) = 30
+RETURN user, rel, n
+// delete order
+match (user:User)-[rel:HAS_ORDER]-(n:Order)
+WHERE id(user) = 30
+DETACH DELETE n
 
-// PRESENTATION QUERIES
+// Add to Shopping Cart
+MATCH (u:User)
+WHERE id(u) = 30
+WITH u
+MATCH (b:Book)
+WHERE id(b) = 42
+MERGE (u)-[rel:HAS_IN_CART]->(b)
+ON CREATE SET rel.created = datetime()
+SET rel.quantity = 2
+RETURN u, rel, b
+// Add to Shopping Cart
+MATCH (u:User)
+WHERE id(u) = 30
+WITH u
+MATCH (b:Book)
+WHERE id(b) = 31
+MERGE (u)-[rel:HAS_IN_CART]->(b)
+ON CREATE SET rel.created = datetime()
+SET rel.quantity = 2
+RETURN u, rel, b
+
+
+// PRESENTATION QUERIES - -------------------------------------------------------------------------------------------------------------------------------------
+call db.schema()
+
 // Books has in common
 MATCH (b1:Book)
 WHERE id(b1) = 28
@@ -86,3 +125,34 @@ RETURN path, length(path) AS path_length
 // predicate if user already bought the book
 RETURN ...,
 	EXISTS(()-[]->()) AS hasBought
+	
+	
+// CREATE ORDER QUERIES - -------------------------------------------------------------------------------------------------------------------------------------
+// create Order
+MATCH (user:User)-[:HAS_IN_CART]-(:Book)
+WHERE id(user) = 30
+CREATE (user)-[orderRel:HAS_ORDER]->(order:Order{created: datetime()})
+WITH user, order
+MATCH (user)-[cartRel:HAS_IN_CART]->(b:Book)
+CREATE (order)-[containsRel:CONTAINS]->(b)
+SET containsRel = cartRel, containsRel.purchasePrice = b.price
+MERGE (user)-[boughtRel:BOUGHT]->(b)
+DELETE cartRel
+WITH order, sum(b.price * containsRel.quantity) AS subtotal
+SET order.subtotal = subtotal
+
+//
+MATCH (user:User)-[cartRel:HAS_IN_CART]->(b:Book)
+WHERE id(user) = 52
+WITH user, b, count(b) AS totalItems, collect(b) AS books, 0 AS total
+WITH totalItems, user, b, foreach(n in users| total+= n.price) as subtotal
+
+CREATE (user)-[orderRel:HAS_ORDER]->(order:Order)-[conRel:CONTAINS]->(books)
+SET order.created = datetime(), order.totalItems = totalItems, order.subtotal = subtotal
+RETURN user, orderRel, order, conRel, b
+
+//
+MATCH (user:User)-[cartRel:HAS_IN_CART]->(b:Book)
+WHERE id(user) = 30
+WITH sum(b.price * cartRel.quantity) AS subtotal
+RETURN subtotal

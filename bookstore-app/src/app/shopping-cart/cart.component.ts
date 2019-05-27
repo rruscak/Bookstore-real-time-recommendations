@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CartService } from './cart.service';
+import { MatSnackBar, MatVerticalStepper } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -7,19 +10,41 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
+  @ViewChild('stepper') stepper: MatVerticalStepper;
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  isEmpty = true;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder,
+              private cartService: CartService,
+              private snackBar: MatSnackBar,
+              private router: Router) {
+  }
 
   ngOnInit() {
     this.firstFormGroup = this.formBuilder.group({
-      firstCtrl: ['', Validators.required]
+      check: [false, Validators.requiredTrue]
     });
     this.secondFormGroup = this.formBuilder.group({
-      secondCtrl: ['', Validators.required]
+      check: [false, Validators.requiredTrue]
     });
   }
 
+  createOrder() {
+    this.cartService.createOrder()
+      .subscribe(res => {
+        this.snackBar.open('Order created.', 'OK', {
+          duration: 5000,
+        });
+      }, err => {
+        this.router.navigate(['/']);
+      });
+  }
+
+  onIsEmpty(event: boolean) {
+    this.firstFormGroup.controls.check.setValue(!event);
+    this.secondFormGroup.controls.check.setValue(!event);
+    this.isEmpty = event;
+  }
 }

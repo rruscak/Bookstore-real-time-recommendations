@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CartService } from '../cart.service';
 import { Book } from '../../shared/models/book.model';
 
@@ -8,6 +8,7 @@ import { Book } from '../../shared/models/book.model';
   styleUrls: ['./cart-list.component.scss']
 })
 export class CartListComponent implements OnInit {
+  @Output() isEmpty = new EventEmitter<boolean>();
   isLoading = false;
   books: Book[] = [];
   subtotal = 0;
@@ -20,8 +21,13 @@ export class CartListComponent implements OnInit {
     this.cartService.getCartItems()
       .subscribe(books => {
         this.isLoading = false;
-        this.books = books ? [...books] : [];
-        this.setSubtotal();
+        if (books == null) {
+          this.isEmpty.emit(true);
+        } else {
+          this.isEmpty.emit(false);
+          this.books = books ? [...books] : [];
+          this.setSubtotal();
+        }
         let totalInCart = 0;
         this.books.forEach(b => totalInCart += b.quantity);
         this.cartService.setTotalInCartListener(totalInCart);
@@ -35,6 +41,7 @@ export class CartListComponent implements OnInit {
       this.books.find(b => b.id === event.id).quantity = event.quantity;
     }
     this.setSubtotal();
+    this.isEmpty.emit(this.subtotal === 0);
   }
 
   private setSubtotal() {

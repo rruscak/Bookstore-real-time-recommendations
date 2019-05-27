@@ -35,9 +35,10 @@
           <!--  RATING  -->
           <star-rating class="book-rating" fxLayoutAlign="center"
                        [showHalfStars]="true"
-                       [hoverEnabled]="true"
+                       [hoverEnabled]="isAuth"
                        [rating]="book.rating"
-                       (starClickChange)="onRatingClickChange($event)">
+                       [readOnly]="!isAuth"
+                       (starClickChange)="isAuth&&onRatingClickChange($event)">
           </star-rating>
         </div>
         <!--  WRITER  -->

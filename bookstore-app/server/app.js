@@ -6,6 +6,7 @@ const filtersRoutes = require('./routes/filters');
 const postsRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
 const rateRoutes = require('./routes/rate');
+const ordersRoutes = require('./routes/orders');
 const recRelatedRoutes = require('./routes/rec/related');
 const recRecentRoutes = require('./routes/rec/recent');
 
@@ -17,16 +18,17 @@ require('./configurators/headers')(app);
 require('./configurators/logger')(app);
 
 // Set Static Folder
+app.use("/images", express.static(path.join("uploads/images")));
 // app.use(express.static('uploads'));
 
 // API routes
-app.use("/images", express.static(path.join("uploads/images")));
 app.use("/api/books", booksRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/rate", rateRoutes);
 app.use("/api/filters", filtersRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/orders", ordersRoutes);
 // Recommendations
 app.use("/api/rec/related", recRelatedRoutes);
 app.use("/api/rec/recent", recRecentRoutes);

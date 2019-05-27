@@ -8,13 +8,13 @@
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
       <!--  DRAWER XS  -->
-      <a mat-list-item routerLink="/books" routerLinkActive="mat-accent"
-         (click)="drawer.toggle()">Books</a>
+      <a mat-list-item (click)="drawer.toggle()" routerLink="">Home</a>
+      <a mat-list-item (click)="drawer.toggle()" routerLink="/books">Books</a>
+      <a mat-list-item (click)="drawer.toggle()" routerLink="/posts">Posts</a>
+      <a mat-list-item (click)="drawer.toggle()" routerLink="/form" *ngIf="isAuth">New Post</a>
       <!--  LOGIN/LOGOUT  -->
-      <a mat-list-item routerLink="/auth/login" routerLinkActive="mat-accent" *ngIf="!isAuth"
-         (click)="drawer.toggle()">Login</a>
-      <a mat-list-item *ngIf="isAuth"
-         (click)="drawer.toggle(); onLogout()">Logout</a>
+      <a mat-list-item (click)="drawer.toggle()" routerLink="/auth/login" *ngIf="!isAuth">Login</a>
+      <a mat-list-item (click)="drawer.toggle(); onLogout()" *ngIf="isAuth">Logout</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -33,8 +33,8 @@
       <div *ngIf="!(isHandset$ | async)">
         <a mat-button routerLink="">Home</a>
         <a mat-button routerLink="/books" routerLinkActive="mat-accent">Books</a>
-<!--        <a mat-button routerLink="/posts" routerLinkActive="mat-accent">Posts</a>-->
-<!--        <a mat-button routerLink="/form" routerLinkActive="mat-accent" *ngIf="isAuth">New Post</a>-->
+        <a mat-button routerLink="/posts" routerLinkActive="mat-accent">Posts</a>
+        <a mat-button routerLink="/form" routerLinkActive="mat-accent" *ngIf="isAuth">New Post</a>
         <!--<a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>-->
         <!--<button mat-button [matMenuTriggerFor]="books">Books</button>-->
         <!--<mat-menu #books="matMenu">-->
@@ -45,7 +45,7 @@
       <a mat-icon-button
          routerLink="/cart"
          routerLinkActive="mat-accent"
-         [matBadge]="totalInCart"
+         [matBadge]="totalInCart+''"
          matBadgePosition="after"
          matBadgeColor="accent"
          *ngIf="isAuth">

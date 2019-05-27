@@ -5,7 +5,8 @@ import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
 import { Book } from '../shared/models/book.model';
 
-const BACKEND_URL = environment.apiUrl + 'cart/';
+const BACKEND_URL_CART = environment.apiUrl + 'cart/';
+const BACKEND_URL_ORDERS = environment.apiUrl + 'orders/';
 
 @Injectable({providedIn: 'root'})
 export class CartService {
@@ -29,7 +30,7 @@ export class CartService {
 
   addToCart(bookId: number) {
     // this.addToLocalStorageCart(bookId, 1);
-    this.http.put<{ totalInCart: number }>(BACKEND_URL + bookId, null)
+    this.http.put<{ totalInCart: number }>(BACKEND_URL_CART + bookId, null)
       .subscribe(res => {
         this.totalInCartListener.next(res.totalInCart);
         this.snackBar.open('Book added to the shopping cart.', 'OK', {
@@ -39,15 +40,19 @@ export class CartService {
   }
 
   getCartItems() {
-    return this.http.get<Book[]>(BACKEND_URL);
+    return this.http.get<Book[]>(BACKEND_URL_CART);
   }
 
   setQuantity(bookId: number, quantity: number) {
-    return this.http.put<{ totalInCart: number }>(BACKEND_URL, {bookId, quantity});
+    return this.http.put<{ totalInCart: number }>(BACKEND_URL_CART, {bookId, quantity});
   }
 
   removeFromCart(id: number) {
-    return this.http.delete<{ totalInCart: number }>(BACKEND_URL + id);
+    return this.http.delete<{ totalInCart: number }>(BACKEND_URL_CART + id);
+  }
+
+  createOrder() {
+    return this.http.post(BACKEND_URL_ORDERS, {}, /*{observe: 'response'}*/);
   }
 
 

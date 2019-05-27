@@ -224,7 +224,6 @@ CREATE(temnaVezaImage: Image {
 })
 CREATE(temnaVeza) - [: HAS_IMAGE]->(temnaVezaImage)
 
-
 CREATE(temnaVeza2: Book {
 	title: 'Temná veža 2 - Osudová trojka',
 	language: 'Slovak',
@@ -259,7 +258,6 @@ CREATE(temnaVeza3Image: Image {
 })
 CREATE(temnaVeza3) - [: HAS_IMAGE]->(temnaVeza3Image)
 
-
 CREATE(temnaVeza4: Book {
 	title: 'Temná veža 4 - Čarodejník a sklo',
 	language: 'Slovak',
@@ -276,7 +274,6 @@ CREATE(temnaVeza4Image: Image {
 	path: 'http://localhost:3000/images/temna-veza-4-carodejnik-a-sklo-19655.jpg'
 })
 CREATE(temnaVeza4) - [: HAS_IMAGE]->(temnaVeza4Image)
-
 
 CREATE(temnaVeza) - [: HAS_SEQUEL]->(temnaVeza2)
 CREATE(temnaVeza2) - [: HAS_SEQUEL]->(temnaVeza3)
@@ -477,5 +474,3 @@ CREATE(keyLove: Keyword {
 
 CREATE(zenSvedok) - [: HAS_KEYWORD]->(keyLove)
 CREATE(manzRozum) - [: HAS_KEYWORD]->(keyLove)
-
-

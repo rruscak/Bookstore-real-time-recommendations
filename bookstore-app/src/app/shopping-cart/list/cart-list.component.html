@@ -4,7 +4,7 @@
      fxLayoutGap="0.5%">
   <!--  CART LIST  -->
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <p class="info-text" *ngIf="books.length <= 0 && !isLoading">No results.</p>
+  <p class="info-text" *ngIf="books.length <= 0 && !isLoading">Shopping cart is empty.</p>
   <div fxFlex="1 1 auto"
        *ngIf="books.length > 0 && !isLoading">
     <!--  HEADER  -->

@@ -112,9 +112,6 @@ exports.listCart = (req, res) => {
   const session = dbUtils.getSession(req.body);
   Cart.findBooksInCart(session, req.userData.userId)
     .then(result => {
-      if (result == null) {
-        throw new ApplicationError();
-      }
       console.log(result);
       Res_.writeResponse(res, result);
     })
