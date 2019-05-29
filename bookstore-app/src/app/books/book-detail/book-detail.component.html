@@ -1,77 +1,83 @@
-<mat-card>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <div fxLayout="row"
-       fxLayout.xs="column"
-       fxLayoutGap="10px"
-       *ngIf="!isLoading">
-    <!--  LEFT DIV - IMAGE, DETAILS  -->
-    <div fxLayoutAlign.xs="center">
-      <!--  IMAGE  -->
-      <div class="book-img-div">
-        <img appImageLoader
-             class="book-img"
-             width="230" height="361"
-             [src]="book.images[0]?.path"
-             [alt]="book.images[0]?.name">
-      </div>
-      <!--  DETAILS  -->
-      <mat-card-content class="details-div">
-        <p *ngIf="book.numOfPages"><b>Number of Pages: </b>{{ book.numOfPages }}</p>
-        <p *ngIf="book.language"><b>Language: </b>{{ book.language }}</p>
-        <p *ngIf="book.isbn"><b>ISBN: </b>{{ book.isbn }}</p>
-        <p *ngIf="book.releaseYear"><b>Release Year: </b>{{ book.releaseYear }}</p>
-        <p *ngIf="book.weight"><b>Weight: </b>{{ book.weight }} kg</p>
-      </mat-card-content>
-    </div>
-    <!--  RIGHT DIV - HEADER, ACTION BAR, ABOUT  -->
-    <div fxLayout="column">
-      <!--  HEADER  -->
-      <div class="content-div">
-        <div fxLayout="row"
-             fxLayout.xs="column"
-             fxLayoutAlign.xs="center center">
-          <!--  TITLE  -->
-          <mat-card-title fxFlex="1 1 100%">{{ book.title }}</mat-card-title>
-          <!--  RATING  -->
-          <star-rating class="book-rating" fxLayoutAlign="center"
-                       [showHalfStars]="true"
-                       [hoverEnabled]="isAuth"
-                       [rating]="book.rating"
-                       [readOnly]="!isAuth"
-                       (starClickChange)="isAuth&&onRatingClickChange($event)">
-          </star-rating>
+<div fxLayout="column">
+  <mat-card>
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <div fxLayout="row"
+         fxLayout.xs="column"
+         fxLayoutGap="10px"
+         *ngIf="!isLoading">
+      <!--  LEFT DIV - IMAGE, DETAILS  -->
+      <div fxLayoutAlign.xs="center">
+        <!--  IMAGE  -->
+        <div class="book-img-div">
+          <img appImageLoader
+               class="book-img"
+               width="230" height="361"
+               [src]="book.images[0]?.path"
+               [alt]="book.images[0]?.name">
         </div>
-        <!--  WRITER  -->
-        <mat-card-subtitle fxLayoutAlign.xs="center center">
-          <span class="accent-color">Author:</span>
-          {{ book.writer }}
-        </mat-card-subtitle>
+        <!--  DETAILS  -->
+        <mat-card-content class="details-div">
+          <p *ngIf="book.numOfPages"><b>Number of Pages: </b>{{ book.numOfPages }}</p>
+          <p *ngIf="book.language"><b>Language: </b>{{ book.language }}</p>
+          <p *ngIf="book.isbn"><b>ISBN: </b>{{ book.isbn }}</p>
+          <p *ngIf="book.releaseYear"><b>Release Year: </b>{{ book.releaseYear }}</p>
+          <p *ngIf="book.weight"><b>Weight: </b>{{ book.weight }} kg</p>
+        </mat-card-content>
       </div>
-      <!--  ACTION BAR  -->
-      <mat-card fxLayout="row" class="price-div">
-        <!--  PRICE  -->
-        <div fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="center start">
-          <mat-card-subtitle>
-            In Stock: {{ book.inStock }}
+      <!--  RIGHT DIV - HEADER, ACTION BAR, ABOUT  -->
+      <div fxLayout="column">
+        <!--  HEADER  -->
+        <div class="content-div">
+          <div fxLayout="row"
+               fxLayout.xs="column"
+               fxLayoutAlign.xs="center center">
+            <!--  TITLE  -->
+            <mat-card-title fxFlex="1 1 100%">{{ book.title }}</mat-card-title>
+            <!--  RATING  -->
+            <star-rating class="book-rating" fxLayoutAlign="center"
+                         [showHalfStars]="true"
+                         [hoverEnabled]="isAuth"
+                         [rating]="book.rating"
+                         [readOnly]="!isAuth"
+                         (starClickChange)="isAuth&&onRatingClickChange($event)">
+            </star-rating>
+          </div>
+          <!--  WRITER  -->
+          <mat-card-subtitle fxLayoutAlign.xs="center center">
+            <span class="accent-color">Author:</span>
+            {{ book.writer }}
           </mat-card-subtitle>
-          <mat-card-title>
-            Price: {{ book.price | currency:'EUR':'symbol' }}
-          </mat-card-title>
         </div>
-        <!--  ACTIONS  -->
-        <div fxFlex="1 1 auto" fxLayoutAlign="end center" fxFlexOffset="10px">
-          <button mat-stroked-button
-                  color="primary"
-                  (click)="addToCart()">
-            <mat-icon>add_shopping_cart</mat-icon>
-            Add to Cart
-          </button>
-        </div>
-      </mat-card>
-      <!--  ABOUT  -->
-      <mat-card-content class="content-div">
-        <b>About: </b>{{ book.about }}
-      </mat-card-content>
+        <!--  ACTION BAR  -->
+        <mat-card fxLayout="row" class="price-div">
+          <!--  PRICE  -->
+          <div fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="center start">
+            <mat-card-subtitle>
+              In Stock: {{ book.inStock }}
+            </mat-card-subtitle>
+            <mat-card-title>
+              Price: {{ book.price | currency:'EUR':'symbol' }}
+            </mat-card-title>
+          </div>
+          <!--  ACTIONS  -->
+          <div fxFlex="1 1 auto" fxLayoutAlign="end center" fxFlexOffset="10px">
+            <button mat-stroked-button
+                    color="primary"
+                    (click)="addToCart()">
+              <mat-icon>add_shopping_cart</mat-icon>
+              Add to Cart
+            </button>
+          </div>
+        </mat-card>
+        <!--  ABOUT  -->
+        <mat-card-content class="content-div">
+          <b>About: </b>{{ book.about }}
+        </mat-card-content>
+      </div>
     </div>
+  </mat-card>
+  <!--  RELATED BOOKS  -->
+  <div fxFlex="1 1 100%">
+    <app-carousel [carouselTitle]="'Similar books'" [books]="relatedBooks"></app-carousel>
   </div>
-</mat-card>
+</div>

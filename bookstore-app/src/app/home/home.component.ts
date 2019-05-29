@@ -10,7 +10,8 @@ import { Book } from '../shared/models/book.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  books: Book[] = [];
+  recommendedBooks: Book[] = [];
+  recentBooks: Book[] = [];
   slides = [
     'assets/images/books-banner-4.jpg',
     'assets/images/books-banner-1.jpg',
@@ -34,10 +35,18 @@ export class HomeComponent implements OnInit {
         this.isAuth = isAuthenticated;
       });
 
-    this.booksService.getRecommendedBooks(8, 1, 'name', 'ASC', null, null)
+    // Recommended Books
+    this.booksService.getRecentBooks(5)
       .subscribe(res => {
-        this.books = res.books;
-        console.log(this.books);
+        this.recommendedBooks = res;
+        console.log(this.recommendedBooks);
+      });
+
+    // Recent Books
+    this.booksService.getRecentBooks(5)
+      .subscribe(res => {
+        this.recentBooks = res;
+        console.log(this.recentBooks);
       });
   }
 

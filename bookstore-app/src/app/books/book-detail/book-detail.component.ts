@@ -5,7 +5,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { CartService } from '../../shopping-cart/cart.service';
 import { AuthService } from '../../auth/auth.service';
 import { Subscription } from 'rxjs';
-import { ClickEvent, HoverRatingChangeEvent, RatingChangeEvent } from 'angular-star-rating';
+import { RatingChangeEvent } from 'angular-star-rating';
 
 @Component({
   selector: 'app-book-detail',
@@ -16,6 +16,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
   isLoading = false;
   private bookId: string;
   book: Book;
+  relatedBooks: Book[];
 
   isAuth = false;
   private authStatusSub: Subscription;
@@ -56,6 +57,13 @@ export class BookDetailComponent implements OnInit, OnDestroy {
         this.router.navigate(['/']);
       }
     });
+
+    // Related Books
+    this.booksService.getRelatedBooks(this.bookId, 10)
+      .subscribe(res => {
+        this.relatedBooks = res;
+        console.log(this.relatedBooks);
+      });
   }
 
   addToCart() {

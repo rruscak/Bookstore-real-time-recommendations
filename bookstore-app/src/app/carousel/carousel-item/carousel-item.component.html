@@ -1,0 +1,39 @@
+<div class="item" fxLayout="column">
+  <!-- IMAGE -->
+  <div fxLayoutAlign="center center">
+    <div class="img-container">
+      <img appImageLoader
+           class="book-img style-grab"
+           [ngClass]="{'style-grab': !clicked, 'style-grabbing': clicked}"
+           (scroll)="onMouseDown()"
+           (mouseup)="clicked = false"
+           draggable="false"
+           [src]="book.images[0]?.path"
+           [alt]="book.images[0]?.name">
+      <star-rating class="book-rating" fxLayoutAlign="center"
+                   [showHalfStars]="true"
+                   [rating]="book.rating"
+                   readOnly="true">
+      </star-rating>
+    </div>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div class="desc-div">
+    <!-- WRITER -->
+    <p class="small-text">{{ book.writer }}</p>
+    <!-- TITLE -->
+    <p class="medium-text style-link"
+       [routerLink]="['/book/', book.id]"
+       fxLayoutAlign="center">
+      <span class="style-title">{{ book.title }}</span>
+    </p>
+    <hr class="line">
+    <!-- PRICE -->
+    <p class="medium-text"
+       fxLayoutAlign="center center">
+      {{ book.price | currency:'EUR':'symbol' }}
+    </p>
+  </div>
+
+</div>

@@ -1,0 +1,78 @@
+$main-font-family: Roboto, "Helvetica Neue", sans-serif;
+
+.item {
+  margin: 8px 0;
+  width: 175px;
+  user-select: none;
+
+  .book-img {
+    width: 112px;
+    height: 175px;
+  }
+}
+
+.item:hover {
+  .img-container {
+    background-color: #673ab7;
+    z-index: 2;
+  }
+
+  .book-img {
+    opacity: 0.75;
+    filter: alpha(opacity=75);
+  }
+
+  .book-rating {
+    display: block !important;
+    opacity: 1;
+  }
+}
+
+.img-container {
+  margin-bottom: 6px;
+  width: 112px;
+  height: 175px;
+  position: relative;
+
+  .book-rating {
+    z-index: 3;
+    display: none !important;
+    position: absolute;
+    bottom: 20px;
+  }
+}
+
+.desc-div {
+  font-family: $main-font-family;
+
+  p {
+    width: 85%;
+    padding: 4px 0;
+    margin: 0 auto;
+  }
+
+  .style-title {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+  }
+
+  .small-text {
+    color: rgba(0, 0, 0, .54);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .medium-text {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .line {
+    width: 85%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}

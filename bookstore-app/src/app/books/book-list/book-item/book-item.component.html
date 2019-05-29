@@ -8,6 +8,7 @@
     <div class="img-container" [routerLink]="['/book/', book.id]">
       <img appImageLoader
            class="book-img style-link"
+           draggable="false"
            width="222" height="341"
            [src]="book.images[0]?.path"
            [alt]="book.images[0]?.name">

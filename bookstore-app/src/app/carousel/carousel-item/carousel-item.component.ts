@@ -8,8 +8,14 @@ import { Book } from '../../shared/models/book.model';
 })
 export class CarouselItemComponent implements OnInit {
   @Input() book: Book;
+  clicked = false;
 
   constructor() {
+  }
+
+  onMouseDown() {
+    this.clicked = true;
+    console.log('A');
   }
 
   ngOnInit(): void {

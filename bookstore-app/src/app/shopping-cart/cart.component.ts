@@ -37,6 +37,7 @@ export class CartComponent implements OnInit {
         this.snackBar.open('Order created.', 'OK', {
           duration: 5000,
         });
+        this.router.navigate(['/']);
       }, err => {
         this.router.navigate(['/']);
       });

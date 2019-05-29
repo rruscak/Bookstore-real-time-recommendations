@@ -2,6 +2,8 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import '~css-star-rating/scss/star-rating';
 
+$primary-color: #673ab7;
+
 html, body {
   height: 100%;
 }
@@ -24,6 +26,22 @@ mat-spinner {
 
 .style-link {
   cursor: pointer;
+  outline: none;
+
+  :hover {
+    color: $primary-color;
+  }
+}
+
+.style-grab {
+  //border: 1px solid black;
+  cursor: grab;
+  outline: none;
+}
+
+.style-grabbing {
+  //border: 1px solid red;
+  cursor: grabbing;
   outline: none;
 }
 

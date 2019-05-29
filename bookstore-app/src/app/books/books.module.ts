@@ -9,6 +9,7 @@ import { BookFilterComponent } from './book-list/book-filter/book-filter.compone
 import { RouterModule } from '@angular/router';
 import { BookSorterComponent } from './book-list/book-sorter/book-sorter.component';
 import { StarRatingModule } from 'angular-star-rating';
+import { CarouselModule } from '../carousel/carousel.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { StarRatingModule } from 'angular-star-rating';
     CommonModule,
     FlexLayoutModule,
     RouterModule,
+    CarouselModule,
     StarRatingModule.forChild()
   ]
 })
