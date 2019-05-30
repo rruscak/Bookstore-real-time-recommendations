@@ -1,16 +1,23 @@
 <div>
   <h2 class="title">{{carouselTitle}}</h2>
 </div>
-<drag-scroll #nav>
-  <app-carousel-item drag-scroll-item *ngFor="let book of books" [book]="book"></app-carousel-item>
-  <div drag-scroll-item></div>
-</drag-scroll>
-<div fxLayout="row">
-  <button (click)="moveLeft()">Left</button>
-  <button (click)="moveRight()">Right</button>
-  <button (click)="moveTo(2)">Last</button>
+<mat-spinner *ngIf="books?.length == 0"></mat-spinner>
+<div class="carousel-div" *ngIf="books?.length > 0">
+  <drag-scroll #nav>
+    <app-carousel-item drag-scroll-item *ngFor="let book of books" [book]="book"></app-carousel-item>
+    <div drag-scroll-item></div>
+  </drag-scroll>
+  <div class="scroll-left">
+    <button mat-icon-button class="scroll-btn" color="accent" (click)="moveLeft()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+  <div class="scroll-right">
+    <button mat-icon-button class="scroll-btn" color="accent" (click)="moveRight()">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
 </div>
-
 
 <!--<div class="container"-->
 <!--     fxLayout="row">-->

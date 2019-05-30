@@ -13,7 +13,6 @@ export class HomeComponent implements OnInit {
   recommendedBooks: Book[] = [];
   recentBooks: Book[] = [];
   slides = [
-    'assets/images/books-banner-4.jpg',
     'assets/images/books-banner-1.jpg',
     'assets/images/books-banner-2.jpg',
     'assets/images/books-banner-3.jpg'

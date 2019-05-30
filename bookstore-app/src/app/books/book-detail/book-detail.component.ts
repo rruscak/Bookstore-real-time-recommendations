@@ -14,6 +14,7 @@ import { RatingChangeEvent } from 'angular-star-rating';
 })
 export class BookDetailComponent implements OnInit, OnDestroy {
   isLoading = false;
+  isLoadingRec = true;
   private bookId: string;
   book: Book;
   relatedBooks: Book[];

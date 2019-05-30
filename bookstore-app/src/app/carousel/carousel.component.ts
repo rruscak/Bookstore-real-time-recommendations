@@ -35,7 +35,10 @@ export class CarouselComponent implements OnInit, AfterViewInit {
     // Starting ngx-drag-scroll from specified index(3)
     setTimeout(() => {
       this.ds.moveTo(1);
-    }, 0);
+    }, 1000);
+    setTimeout(() => {
+      this.ds.moveTo(0);
+    }, 1400);
   }
 
 }

@@ -1,13 +1,43 @@
 $main-font-family: Roboto, "Helvetica Neue", sans-serif;
+$primary-color: #673ab7;
+$accent-color: #ffd740;
 
 drag-scroll {
+  //box-shadow: inset 6px 0 6px -4px $primary-color, inset -6px 0 6px -4px $primary-color;
+  border-left: 2px solid $primary-color;
+  border-right: 2px solid $primary-color;
   height: 286px;
   width: 100%;
 }
 
+.carousel-div {
+  height: 286px;
+  width: 100%;
+  position: relative;
+}
+
+.scroll-left, .scroll-right {
+  z-index: 10;
+  position: absolute;
+  width: 40px;
+  height: 286px;
+  bottom: 0;
+
+  .scroll-btn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.scroll-right {
+  right: 0;
+}
+
 .title {
   margin-bottom: 8px;
-  color: #673ab7;
+  color: $primary-color;
   font-family: $main-font-family;
   font-size: 18px;
   font-weight: 500;
