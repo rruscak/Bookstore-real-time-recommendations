@@ -10,8 +10,8 @@ LIMIT 5
 // RECOMMENDATIONS --------------------------------------------------------------------------------------------------------------------------------------------
 // 1 - RETURN Books with most relations to another one -  ONLY THE FROM THE SAME CATEGORY
 MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)
-WHERE id(b1) = 28
-MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
+WHERE id(b1) = 42
+MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|HAS_CATEGORY*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
 WHERE b2 <> b1 AND cat1 = cat2
 WITH b2, relationships(p) AS rel
 OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)
@@ -22,6 +22,19 @@ RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: ra
 ORDER BY book.relsInCommon DESC, book.title
 LIMIT 10
 
+
+MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)
+WHERE id(b1) = 42
+MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|HAS_CATEGORY*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
+WHERE b2 <> b1 AND cat1 = cat2
+WITH b2, relationships(p) AS rel
+OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)
+OPTIONAL MATCH (b2)<-[:WRITER_OF]-(w:Writer)
+OPTIONAL MATCH (:User)-[ratRel:RATED]->(b2)
+WITH b2, i, w, avg(ratRel.rating) AS rating, count(rel) AS relsInCommon
+RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: rating, image: collect(DISTINCT i), relsInCommon: relsInCommon} AS book
+ORDER BY book.relsInCommon DESC, book.title
+LIMIT 10
 // 2a - RECOMEND simmilar books to an books WITHOUT books user already bought or has in cart
 MATCH (user:User)
 WHERE id(user) = 57
@@ -29,7 +42,7 @@ WITH user
 MATCH (b1:Book)
 WHERE id(b1) = 28
 MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_CATEGORY|HAS_KEYWORD*..3]-(b2:Book)
-WHERE NOT (user)-[:HAS_IN_CART]->(b2) AND b2 <> b1 
+WHERE NOT (user)-[:HAS_IN_CART|BOUGHT]->(b2) AND b2 <> b1 
 WITH b2, relationships(p) AS rel
 OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)
 OPTIONAL MATCH (b2)<-[:WRITER_OF]-(w:Writer)
@@ -45,8 +58,8 @@ WHERE id(user) = 52
 WITH user
 MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)
 WHERE id(b1) = 28
-MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
-WHERE NOT (user)-[:HAS_IN_CART]->(b2) AND b2 <> b1 AND cat1 = cat2
+MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|HAS_CATEGORY*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
+WHERE NOT (user)-[:HAS_IN_CART|BOUGHT]->(b2) AND b2 <> b1 AND cat1 = cat2
 WITH b2, relationships(p) AS rel
 OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)
 OPTIONAL MATCH (b2)<-[:WRITER_OF]-(w:Writer)

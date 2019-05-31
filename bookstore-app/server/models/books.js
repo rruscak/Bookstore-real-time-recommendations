@@ -199,8 +199,8 @@ const mergeViewed = (session, bookId, userId) => {
 const findRelatedBooks = (session, limit, bookId) => {
   let query = [
     'MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)',
-    'WHERE id(b1) = 28',
-    'MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)',
+    'WHERE id(b1) = toInteger($bookId)',
+    'MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|HAS_CATEGORY*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)',
     'WHERE b2 <> b1 AND cat1 = cat2',
     'WITH b2, relationships(p) AS rel',
     'OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)',
@@ -241,8 +241,8 @@ const findRelatedBooksForUser = (session, bookId, limit, userId) => {
     'WITH user',
     'MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)',
     'WHERE id(b1) = toInteger($bookId)',
-    'MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)',
-    'WHERE NOT (user)-[:HAS_IN_CART]->(b2) AND b2 <> b1 AND cat1 = cat2',
+    'MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|HAS_CATEGORY*..4]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)',
+    'WHERE NOT (user)-[:HAS_IN_CART|BOUGHT]->(b2) AND b2 <> b1 AND cat1 = cat2',
     'WITH b2, relationships(p) AS rel',
     'OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)',
     'OPTIONAL MATCH (b2)<-[:WRITER_OF]-(w:Writer)',

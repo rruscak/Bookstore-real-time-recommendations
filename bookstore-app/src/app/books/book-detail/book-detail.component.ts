@@ -39,6 +39,7 @@ export class BookDetailComponent implements OnInit, OnDestroy {
       });
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      this.relatedBooks = [];
       if (paramMap.has('bookId')) {
         this.bookId = paramMap.get('bookId');
         console.log(this.bookId);
@@ -50,6 +51,12 @@ export class BookDetailComponent implements OnInit, OnDestroy {
             if (res) {
               console.log(res);
               this.book = res;
+              // Related Books
+              this.booksService.getRelatedBooks(this.bookId, 10)
+                .subscribe(relBooks => {
+                  this.relatedBooks = relBooks;
+                  console.log(this.relatedBooks);
+                });
             } else {
               this.router.navigate(['/']);
             }
@@ -58,13 +65,6 @@ export class BookDetailComponent implements OnInit, OnDestroy {
         this.router.navigate(['/']);
       }
     });
-
-    // Related Books
-    this.booksService.getRelatedBooks(this.bookId, 10)
-      .subscribe(res => {
-        this.relatedBooks = res;
-        console.log(this.relatedBooks);
-      });
   }
 
   addToCart() {

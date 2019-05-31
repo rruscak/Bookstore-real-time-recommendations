@@ -34,6 +34,7 @@ export class CartComponent implements OnInit {
   createOrder() {
     this.cartService.createOrder()
       .subscribe(res => {
+        this.cartService.setTotalInCartListener(0);
         this.snackBar.open('Order created.', 'OK', {
           duration: 5000,
         });
