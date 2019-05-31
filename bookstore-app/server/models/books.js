@@ -172,7 +172,7 @@ const mergeViewed = (session, bookId, userId) => {
     'MATCH (book:Book)',
     'WHERE id(book) = toInteger($bookId)',
     'MERGE (user)-[view:VIEWED]->(book)',
-    'ON CREATE SET view.created = datetime(), view.count = 1',
+    'ON CREATE SET view.created = datetime(), view.updated = datetime(), view.count = 1',
     'ON MATCH SET view.updated = datetime(), view.count = view.count + 1'
   ].join('\n');
 
@@ -282,7 +282,7 @@ const findRecentlyViewed = (session, limit, userId) => {
     'OPTIONAL MATCH (b)-[:HAS_IMAGE]->(i:Image)',
     'OPTIONAL MATCH (b)<-[:WRITER_OF]-(w:Writer)',
     'OPTIONAL MATCH (:User)-[ratRel:RATED]->(b)',
-    'WITH b, i, w, avg(ratRel.rating) AS rating, view.created AS viewed',
+    'WITH b, i, w, avg(ratRel.rating) AS rating, view.updated AS viewed',
     'RETURN {id: id(b), title: b.title, writer: w.name, price: b.price, rating: rating, image: collect(DISTINCT i), viewed: viewed} AS book',
     'ORDER BY book.viewed DESC, book.title',
     'LIMIT toInteger($limit)',

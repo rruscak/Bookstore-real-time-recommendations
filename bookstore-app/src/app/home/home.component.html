@@ -24,11 +24,13 @@
   </mat-carousel>
 </div>
 <!--  RECOMMENDATIONS  -->
-<div fxLayout="row">
+<div class="recommendations-div"
+     fxLayout="row"
+     fxLayout.xs="column">
   <div fxFlex="1 1 50%">
     <app-carousel [carouselTitle]="'Recommended'" [books]="recommendedBooks"></app-carousel>
   </div>
   <div fxFlex="1 1 50%">
-    <app-carousel [carouselTitle]="'Recent'" [books]="recentBooks"></app-carousel>
+    <app-carousel [carouselTitle]="'Recent'" [books]="recentBooks" *ngIf="isAuth"></app-carousel>
   </div>
 </div>

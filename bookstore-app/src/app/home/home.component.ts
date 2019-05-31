@@ -40,13 +40,16 @@ export class HomeComponent implements OnInit {
         this.recommendedBooks = res;
         console.log(this.recommendedBooks);
       });
-
     // Recent Books
-    this.booksService.getRecentBooks(5)
-      .subscribe(res => {
-        this.recentBooks = res;
-        console.log(this.recentBooks);
-      });
+    if (this.isAuth) {
+      console.log('A');
+      // Recent Books
+      this.booksService.getRecentBooks(5)
+        .subscribe(res => {
+          this.recentBooks = res;
+          console.log(this.recentBooks);
+        });
+    }
   }
 
 }

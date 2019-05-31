@@ -2,7 +2,8 @@
   <h2 class="title">{{carouselTitle}}</h2>
 </div>
 <mat-spinner *ngIf="books?.length == 0"></mat-spinner>
-<div class="carousel-div" *ngIf="books?.length > 0">
+<div class="carousel-div"
+     *ngIf="books?.length > 0">
   <drag-scroll #nav>
     <app-carousel-item drag-scroll-item *ngFor="let book of books" [book]="book"></app-carousel-item>
     <div drag-scroll-item></div>
