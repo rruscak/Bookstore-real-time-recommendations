@@ -10,6 +10,7 @@ import { Book } from '../shared/models/book.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  bestSellingBooks: Book[] = [];
   recommendedBooks: Book[] = [];
   recentBooks: Book[] = [];
   slides = [
@@ -34,20 +35,21 @@ export class HomeComponent implements OnInit {
         this.isAuth = isAuthenticated;
       });
 
-    // Recommended Books
-    this.booksService.getRecentBooks(5)
+    // BestSellers Books
+    this.booksService.getBestSellingBooks(10)
       .subscribe(res => {
-        this.recommendedBooks = res;
-        console.log(this.recommendedBooks);
+        this.bestSellingBooks = res;
       });
     // Recent Books
     if (this.isAuth) {
-      console.log('A');
-      // Recent Books
-      this.booksService.getRecentBooks(5)
+      // Recommended Books
+      this.booksService.getRecommendedBooks(10)
+        .subscribe(res => {
+          this.recommendedBooks = res;
+        });
+      this.booksService.getRecentBooks(10)
         .subscribe(res => {
           this.recentBooks = res;
-          console.log(this.recentBooks);
         });
     }
   }

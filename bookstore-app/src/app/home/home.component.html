@@ -27,10 +27,20 @@
 <div class="recommendations-div"
      fxLayout="row"
      fxLayout.xs="column">
-  <div fxFlex="1 1 50%">
+  <!-- Recommended  -->
+  <div fxFlex="1 1 100%" *ngIf="isAuth">
     <app-carousel [carouselTitle]="'Recommended'" [books]="recommendedBooks"></app-carousel>
   </div>
+</div>
+<div class="recommendations-div"
+     fxLayout="row"
+     fxLayout.xs="column">
+  <!-- Best Sellers  -->
   <div fxFlex="1 1 50%">
-    <app-carousel [carouselTitle]="'Recently Viewed'" [books]="recentBooks" *ngIf="isAuth"></app-carousel>
+    <app-carousel [carouselTitle]="'Best Sellers'" [books]="bestSellingBooks"></app-carousel>
+  </div>
+  <!-- Recently Viewed  -->
+  <div fxFlex="1 1 50%" *ngIf="isAuth">
+    <app-carousel [carouselTitle]="'Recently Viewed'" [books]="recentBooks"></app-carousel>
   </div>
 </div>

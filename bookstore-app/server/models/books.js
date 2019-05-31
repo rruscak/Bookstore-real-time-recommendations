@@ -53,7 +53,8 @@ const findAll = (session, genreId, catId, orderBy, orderDir, skip, limit) => {
     'OPTIONAL MATCH (:User)-[ratRel:RATED]->(book)',
     'WITH i, w, book, avg(ratRel.rating) AS rating',
     'RETURN',
-    '{id: id(book), title: book.title, writer: w.name, price: book.price, releaseYear: book.releaseYear, rating: rating, image: collect(DISTINCT i)} AS book'
+    '{id: id(book), title: book.title, writer: w.name, price: book.price, ' +
+    'releaseYear: book.releaseYear, rating: CASE WHEN rating IS NULL THEN 0 ELSE rating END, image: collect(DISTINCT i)} AS book'
   ].join('\n');
 
   // Ordering
@@ -269,7 +270,7 @@ const findRelatedBooksForUser = (session, bookId, limit, userId) => {
 };
 
 /**
- * Find 5 most recently viewed books by user.
+ * Find X most recently viewed books by user.
  * @param session
  * @param limit
  * @param userId
@@ -301,6 +302,68 @@ const findRecentlyViewed = (session, limit, userId) => {
     });
 };
 
+/**
+ * Find 5 most recently viewed books by user.
+ * @param session
+ * @param limit
+ * @param userId
+ * @returns {*} BookItem list
+ */
+const findRecommendedBooks = (session, limit, userId) => {
+  let query = [
+    'MATCH (user:User)',
+    'WHERE id(user) = toInteger($userId)',
+    'WITH user',
+    'MATCH p = (user)-[*..4]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)',
+    'WHERE NOT (user)-[:BOUGHT]->(b2)',
+    'WITH b2, relationships(p) AS rel',
+    'OPTIONAL MATCH (b2)-[:HAS_IMAGE]->(i:Image)',
+    'OPTIONAL MATCH (b2)<-[:WRITER_OF]-(w:Writer)',
+    'OPTIONAL MATCH (:User)-[ratRel:RATED]->(b2)',
+    'WITH b2, i, w, avg(ratRel.rating) AS rating, count(rel) AS relsInCommon',
+    'RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: rating, image: collect(DISTINCT i), relsInCommon: relsInCommon} AS book',
+    'ORDER BY book.relsInCommon DESC, book.title',
+    'LIMIT toInteger($limit)',
+  ].join('\n');
+
+  return session
+    .run(query, {
+      userId: userId,
+      limit: limit
+    })
+    .then(result => {
+      if (_.isEmpty(result.records))
+        return null;
+
+      return manyBooksItems(result);
+    });
+};
+
+const findBestSellingBooks = (session, limit) => {
+  let query = [
+    'MATCH (o:Order)-[rel:CONTAINS]-(b:Book)\n' +
+    'WITH sum(rel.quantity) as sold, b\n' +
+    'OPTIONAL MATCH (b)-[:HAS_IMAGE]->(i:Image)\n' +
+    'OPTIONAL MATCH (b)<-[:WRITER_OF]-(w:Writer)\n' +
+    'OPTIONAL MATCH (:User)-[ratRel:RATED]->(b)\n' +
+    'WITH sold, b, i, w, avg(ratRel.rating) AS rating\n' +
+    'RETURN {id: id(b), title: b.title, writer: w.name, price: b.price, rating: rating, image: collect(DISTINCT i), sold: sold} AS book\n' +
+    'ORDER BY book.sold DESC\n' +
+    'LIMIT toInteger($limit)'
+  ].join('\n');
+
+  return session
+    .run(query, {
+      limit: limit
+    })
+    .then(result => {
+      if (_.isEmpty(result.records))
+        return null;
+
+      return manyBooksItems(result);
+    });
+};
+
 module.exports = {
   findById: findById,
   findAll: findAll,
@@ -309,5 +372,7 @@ module.exports = {
   mergeViewed: mergeViewed,
   findRelatedBooks: findRelatedBooks,
   findRelatedBooksForUser: findRelatedBooksForUser,
-  findRecentlyViewed: findRecentlyViewed
+  findRecentlyViewed: findRecentlyViewed,
+  findRecommendedBooks: findRecommendedBooks,
+  findBestSellingBooks: findBestSellingBooks
 };

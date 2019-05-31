@@ -12,7 +12,6 @@ exports.getBook = (req, res) => {
   let bookData;
   Books.findById(session, req.params.id)
     .then(data => {
-      console.log(req.userData);
       if (!req.userData) {
         return Res_.writeResponse(res, data);
       }
@@ -20,7 +19,7 @@ exports.getBook = (req, res) => {
       return Books.mergeViewed(session, req.params.id, req.userData.userId)
     })
     .then(result => {
-      console.log(result);
+      // console.log(result);
       return Res_.writeResponse(res, bookData);
     })
     .catch((err) => {
@@ -50,7 +49,6 @@ exports.getAllBooks = (req, res) => {
   const session = dbUtils.getSession(req.body);
   Books.findAll(session, genreId, categoryId, orderBy, orderDir, skip, limit)
     .then(data => {
-      // console.log(data);
       books = data;
       return Books.count(session, genreId, categoryId);
     })

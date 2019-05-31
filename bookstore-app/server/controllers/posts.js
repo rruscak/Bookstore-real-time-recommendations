@@ -31,7 +31,7 @@ exports.createPost = (req, res) => {
 
 // Update post
 exports.updatePost = (req, res) => {
-  console.log(req.body.id + "    " + req.file);
+  // console.log(req.body.id + "    " + req.file);
   let imagePath = req.body.imagePath;
   if (req.file) {
     const url = req.protocol + '://' + req.get('host') + '/images/';
@@ -59,7 +59,6 @@ exports.getPost = (req, res) => {
   const session = dbUtils.getSession(req.body);
   Posts.findById(session, req.params.id)
     .then(data => {
-      console.log(data);
       Res_.writeResponse(res, data);
     })
     .catch((err) => {
@@ -83,7 +82,6 @@ exports.getAllPosts = (req, res) => {
   Posts.findAll(session, skip, limit)
     .then(data => {
       posts = data;
-      console.log(posts);
       return Posts.count(session);
     })
     .then(count => {
@@ -107,7 +105,6 @@ exports.deletePost = (req, res) => {
       if (result == null) {
         throw new ApplicationError();
       }
-      console.log(result);
       if (result === 0) {
         throw new UnauthorizedError();
       }

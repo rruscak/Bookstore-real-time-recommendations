@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Book } from '../../shared/models/book.model';
 
 @Component({
@@ -6,20 +6,9 @@ import { Book } from '../../shared/models/book.model';
   templateUrl: './carousel-item.component.html',
   styleUrls: ['./carousel-item.component.scss']
 })
-export class CarouselItemComponent implements OnInit {
+export class CarouselItemComponent {
   @Input() book: Book;
-  clicked = false;
 
   constructor() {
-  }
-
-  onMouseDown() {
-    this.clicked = true;
-    console.log('A');
-  }
-
-  ngOnInit(): void {
-    console.log(this.book.id);
-    console.log(this.book);
   }
 }

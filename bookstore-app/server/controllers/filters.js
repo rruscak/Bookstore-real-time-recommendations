@@ -7,7 +7,6 @@ exports.getBookFilters = (req, res) => {
   const session = dbUtils.getSession(req.body);
   Filters.findBookFilters(session)
     .then(data => {
-      console.log(data);
       Res_.writeResponse(res, data);
     })
     .catch((err) => {

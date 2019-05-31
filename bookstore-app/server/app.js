@@ -9,6 +9,8 @@ const rateRoutes = require('./routes/rate');
 const ordersRoutes = require('./routes/orders');
 const recRelatedRoutes = require('./routes/rec/related');
 const recRecentRoutes = require('./routes/rec/recent');
+const recRecommendedRoutes = require('./routes/rec/recommended');
+const recSalesRoutes = require('./routes/rec/sales');
 
 // Init App
 const app = express();
@@ -32,5 +34,7 @@ app.use("/api/orders", ordersRoutes);
 // Recommendations
 app.use("/api/rec/related", recRelatedRoutes);
 app.use("/api/rec/recent", recRecentRoutes);
+app.use("/api/rec/recommended", recRecommendedRoutes);
+app.use("/api/rec/sales", recSalesRoutes);
 
 module.exports = app;

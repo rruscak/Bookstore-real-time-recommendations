@@ -30,7 +30,6 @@ exports.addToCart = (req, res) => {
 
 // Add to Cart
 exports.setQuantity = (req, res) => {
-  console.log(req.body.quantity);
   if (!_.get(req.body, 'bookId')) {
     console.log('A');
     return Res_.writeError(res, new BadRequestError());
@@ -43,7 +42,6 @@ exports.setQuantity = (req, res) => {
         if (result == null) {
           throw new ApplicationError();
         }
-        console.log(result);
         return Cart.getTotalItemsInCart(session, req.userData.userId);
       })
       .then(count => {

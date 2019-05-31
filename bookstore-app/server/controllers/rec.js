@@ -19,7 +19,6 @@ exports.getRelatedBooks = (req, res) => {
   if (req.userData) {
     Books.findRelatedBooksForUser(session, req.params.id, limit, req.userData.userId)
       .then(data => {
-        // console.log(data);
         return Res_.writeResponse(res, data);
       })
       .catch((err) => {
@@ -30,7 +29,6 @@ exports.getRelatedBooks = (req, res) => {
   } else {
     Books.findRelatedBooks(session, limit, req.params.id)
       .then(data => {
-        // console.log(data);
         return Res_.writeResponse(res, data);
       })
       .catch((err) => {
@@ -41,13 +39,45 @@ exports.getRelatedBooks = (req, res) => {
   }
 };
 
+// Find filtered Books
+exports.getRecommendedBooks = (req, res) => {
+  const limit = req.query.limit ? req.query.limit : 5;
+
+  const session = dbUtils.getSession(req.body);
+  Books.findRecommendedBooks(session, limit, req.userData.userId)
+    .then(data => {
+      console.log('AAA');
+      // console.log(data);
+      return Res_.writeResponse(res, data);
+    })
+    .catch((err) => {
+      console.log(err);
+      Res_.writeError(res, err);
+    })
+    .then(() => session.close())
+};
+
 // Find most recently viewed books
 exports.getRecentlyViewedBooks = (req, res) => {
   const limit = req.query.limit ? req.query.limit : 5;
   const session = dbUtils.getSession(req.body);
   Books.findRecentlyViewed(session, limit, req.userData.userId)
     .then(data => {
-      console.log(data);
+      return Res_.writeResponse(res, data);
+    })
+    .catch((err) => {
+      console.log(err);
+      Res_.writeError(res, err);
+    })
+    .then(() => session.close())
+};
+
+// Find most recently viewed books
+exports.getBestSellingBooks = (req, res) => {
+  const limit = req.query.limit ? req.query.limit : 5;
+  const session = dbUtils.getSession(req.body);
+  Books.findBestSellingBooks(session, limit)
+    .then(data => {
       return Res_.writeResponse(res, data);
     })
     .catch((err) => {

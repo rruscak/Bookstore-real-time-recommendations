@@ -8,7 +8,7 @@ const createOrder = (session, userId) => {
     'WITH user, order',
     'MATCH (user)-[cartRel:HAS_IN_CART]->(b:Book)',
     'CREATE (order)-[containsRel:CONTAINS]->(b)',
-    'SET containsRel = cartRel, containsRel.purchasePrice = b.price',
+    'SET containsRel = cartRel, containsRel.purchasePrice = b.price, b.inStock = b.inStock - 1',
     'MERGE (user)-[boughtRel:BOUGHT]->(b)',
     'DELETE cartRel',
     'WITH order, sum(b.price * containsRel.quantity) AS subtotal',

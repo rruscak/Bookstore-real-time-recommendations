@@ -71,4 +71,12 @@ export class BooksService {
   getRelatedBooks(bookId, limit: number) {
     return this.http.get<Book[]>(BACKEND_URL_REC + 'related/' + bookId + `?limit=${limit}`);
   }
+
+  getRecommendedBooks(limit: number) {
+    return this.http.get<Book[]>(BACKEND_URL_REC + 'recommended/' + `?limit=${limit}`);
+  }
+
+  getBestSellingBooks(limit: number) {
+    return this.http.get<Book[]>(BACKEND_URL_REC + 'sales/' + `?limit=${limit}`);
+  }
 }
