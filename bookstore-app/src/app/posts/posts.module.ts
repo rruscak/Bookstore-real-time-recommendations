@@ -6,6 +6,7 @@ import { AngularMaterialModule } from '../angular-material.module';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PostsRoutingModule } from './posts-routing.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     AngularMaterialModule,
-    RouterModule
+    RouterModule,
+    PostsRoutingModule
   ]
 })
 export class PostsModule {

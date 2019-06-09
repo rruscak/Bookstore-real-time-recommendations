@@ -14,7 +14,6 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { ErrorComponent } from './shared/error/error.component';
 import { AngularMaterialModule } from './angular-material.module';
-import { PostsModule } from './posts/posts.module';
 import { BooksModule } from './books/books.module';
 import { CartModule } from './shopping-cart/cart.module';
 import { HomeModule } from './home/home.module';
@@ -42,7 +41,6 @@ registerLocaleData(localeDe);
     HttpClientModule,
     AngularMaterialModule,
     HomeModule,
-    PostsModule,
     BooksModule,
     CartModule,
     StarRatingModule.forRoot()
