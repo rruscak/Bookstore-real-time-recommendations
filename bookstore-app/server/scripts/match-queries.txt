@@ -8,7 +8,7 @@ LIMIT 5
 
 
 // RECOMMENDATIONS --------------------------------------------------------------------------------------------------------------------------------------------
-// 1 - RETURN Books with most relations to another one -  ONLY THE FROM THE SAME CATEGORY
+// 1 - SIMILAR - RETURN Books with most relations to another one -  ONLY THE FROM THE SAME CATEGORY
 MATCH (b1:Book)-[:HAS_CATEGORY]->(cat1:Category)
 WHERE id(b1) = 42
 MATCH p = (b1)-[:HAS_SEQUEL|WRITER_OF|HAS_KEYWORD|HAS_CATEGORY*..3]-(b2:Book)-[:HAS_CATEGORY]->(cat2:Category)
@@ -69,7 +69,7 @@ RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: ra
 ORDER BY book.relsInCommon DESC, book.title
 LIMIT 10
 
-// 3. RECOMEND books
+// 3. RECOMEND books     *******************************************************************************************************************************
 MATCH (user:User)
 WHERE id(user) = 30
 WITH user
@@ -84,7 +84,16 @@ RETURN {id: id(b2), title: b2.title, writer: w.name, price: b2.price, rating: ra
 ORDER BY book.relsInCommon DESC, book.title
 LIMIT 10
 
-// 4. Best Sel
+// 4. Best Sellers
+MATCH (o:Order)-[rel:CONTAINS]-(b:Book)
+WITH sum(rel.quantity) as sold, b
+OPTIONAL MATCH (b)-[:HAS_IMAGE]->(i:Image)
+OPTIONAL MATCH (b)<-[:WRITER_OF]-(w:Writer)
+OPTIONAL MATCH (:User)-[ratRel:RATED]->(b)
+WITH sold, b, i, w, avg(ratRel.rating) AS rating
+RETURN {id: id(b), title: b.title, writer: w.name, price: b.price, rating: rating, image: collect(DISTINCT i), sold: sold} AS book
+ORDER BY book.sold DESC
+LIMIT 10
 
 // ORDERS -----------------------------------------------------------------------------------------------------------------------------------------------------
 // create Order

@@ -303,7 +303,7 @@ const findRecentlyViewed = (session, limit, userId) => {
 };
 
 /**
- * Find 5 most recently viewed books by user.
+ * Find 5 recommended books for an user.
  * @param session
  * @param limit
  * @param userId

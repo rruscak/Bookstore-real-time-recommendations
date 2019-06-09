@@ -29,7 +29,8 @@
      fxLayout.xs="column">
   <!-- Recommended  -->
   <div fxFlex="1 1 100%" *ngIf="isAuth">
-    <app-carousel [carouselTitle]="'Recommended'" [books]="recommendedBooks"></app-carousel>
+    <app-carousel [carouselTitle]="'Recommended'"
+                  [books]="recommendedBooks?.length > 0 ? recommendedBooks : bestSellingBooks"></app-carousel>
   </div>
 </div>
 <div class="recommendations-div"

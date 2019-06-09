@@ -46,8 +46,7 @@ exports.getRecommendedBooks = (req, res) => {
   const session = dbUtils.getSession(req.body);
   Books.findRecommendedBooks(session, limit, req.userData.userId)
     .then(data => {
-      console.log('AAA');
-      // console.log(data);
+      console.log(data);
       return Res_.writeResponse(res, data);
     })
     .catch((err) => {

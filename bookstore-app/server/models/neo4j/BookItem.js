@@ -10,6 +10,7 @@ function BookItem(_node) {
     writer: _node.writer,
     price: _node.price,
     rating: _node.rating ? _node.rating : 0,
+    relsInCommon: dbUtils.toNumber(_node.relsInCommon),
 
     images: _node.image ? _node.image.map((image => new Image(image))) : null
   });
