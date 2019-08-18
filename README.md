@@ -2,6 +2,8 @@
 
 Bookstore Angular application with Node.js server and graph database Neo4j.
 
+The application includes basic authorization and authentication with JWT token, listing products with detail, rating books, shopping cart up to placing the order. Base on these actions and other interactions user on the page, the page display tailored recommendations in-real time with the use of graph database Neo4j.
+
 ### Author
 Rastislav Ruscak
 
